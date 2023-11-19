@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from datetime import datetime,timedelta
 import pytz
 from django.http import HttpResponse
@@ -7,7 +7,7 @@ from openpyxl import Workbook
 
 from .models import User, Device,BorrowReturn
 from django.contrib.auth import logout
-from .forms import UserForm
+from .forms import UserForm,DeviceForm
 
 def excel(list):
     workbook = Workbook()
@@ -160,11 +160,30 @@ def getThongKe(request):
 
 
 def getAdmin(request):
+    if request.method == 'POST':
+        xoa = request.POST.get('xoa')
+        capnhat = request.POST.get('capnhat')
+        if(xoa!=None):
+            device = get_object_or_404(Device, pk=xoa)
+            device.delete()
+            return redirect('/admins')
+        if capnhat != None:
+            device = Device.objects.get(id =capnhat)
+            return render(request, 'pages/Add.html',{"device":device})
     device = Device.objects.all()
     return render(request, 'pages/Admin.html',{"device":device})
 def getAdd(request):
-    return render(request, 'pages/Add.html')
-
-
-
-
+    if request.method == 'POST':
+        form = DeviceForm(request.POST)
+        update = request.POST.get('capnhat')
+        if(update!=None):
+            device = get_object_or_404(Device, pk=update)
+            form = DeviceForm(request.POST, instance=device)
+            if form.is_valid():
+                form.save()
+                return redirect('/admins')
+        if form.is_valid():
+            form.save()
+            return redirect('/admins')
+    id = request.session.get('id')
+    return render(request, 'pages/Add.html',{"id":id})

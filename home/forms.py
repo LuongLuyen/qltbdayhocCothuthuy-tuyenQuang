@@ -1,12 +1,12 @@
 from django import forms
-from .models import User,BorrowReturn
+from .models import User,Device
 
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['userName', 'password', 'role']
 
-class BorrowReturnForm(forms.ModelForm):
+class DeviceForm(forms.ModelForm):
     class Meta:
-        model = BorrowReturn
-        fields = ['userId', 'deviceId', 'muon','tra','lop','tiet']
+        model = Device
+        fields = ['userId', 'name', 'code','unit','price','quantity','status','date','location']

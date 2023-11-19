@@ -2,4 +2,94 @@
 {% block title %} Add {% endblock %}
 {% block content %}
   <h1>Add</h1>
+  {% if device%}
+  <form method="post" action="{% url 'home:add' %}">
+    {% csrf_token %}
+    <input type="hidden" name="userId" id="userId" value="{{ device.userId_id|safe }}">
+    <div>
+      <span>name</span>
+      <input type="text" name="name" id="name" value="{{ device.name|safe }}">
+    </div>
+    <div>
+      <span>code</span>
+      <input type="text" name="code" id="code" value="{{ device.code|safe }}">
+    </div>
+    <div>
+
+      <span>unit</span>
+      <input type="text" name="unit" id="unit" value="{{ device.unit|safe }}">
+    </div>
+    <div>
+
+      <span>price</span>
+      <input type="text" name="price" id="price" value="{{ device.price|safe }}">
+    </div>
+    <div>
+
+      <span>so luong</span>
+      <input type="text" name="quantity" id="quantity" value="{{ device.quantity|safe }}">
+    </div>
+    <div>
+
+      <span>status</span>
+      <input type="text" name="status" id="status" value="{{ device.status|safe }}">
+    </div>
+    <div>
+
+      <span>date</span>
+      <input type="text" name="date" id="date" value="{{ device.date|safe }}">
+    </div>
+    <div>
+      <span>xuat su</span>
+      <input type="text" name="location" id="location" value="{{ device.location|safe }}">
+    </div>
+    <input type="hidden" name="capnhat" id="capnhat" value="{{ device.id}}">
+    <button type="submit">update</button> 
+  </form>
+
+  {% else %}
+  <form method="post" action="{% url 'home:add' %}">
+    {% csrf_token %}
+    <div>
+      <span>name</span>
+      <input type="text" name="name" id="name">
+    </div>
+    <div>
+      <span>code</span>
+      <input type="text" name="code" id="code">
+    </div>
+    <div>
+
+      <span>unit</span>
+      <input type="text" name="unit" id="unit">
+    </div>
+    <div>
+
+      <span>price</span>
+      <input type="text" name="price" id="price">
+    </div>
+    <div>
+
+      <span>so luong</span>
+      <input type="text" name="quantity" id="quantity">
+    </div>
+    <div>
+
+      <span>status</span>
+      <input type="text" name="status" id="status">
+    </div>
+    <div>
+
+      <span>date</span>
+      <input type="text" name="date" id="date">
+    </div>
+    <div>
+      <span>xuat su</span>
+      <input type="text" name="location" id="location">
+    </div>
+    <input type="hidden" name="userId" id="userId" value="{{id}}">
+    <button type="submit">add</button> 
+  </form>
+{% endif %}
+ 
 {% endblock %}

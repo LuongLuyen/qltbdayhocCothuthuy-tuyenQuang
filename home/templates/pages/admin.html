@@ -38,14 +38,14 @@
         <td>{{device.date}}</td>
         <td>{{device.location}}</td>
         <td>
-          <form method="post" action="{% url 'home:thongke' %}">
+          <form method="post" action="{% url 'home:admins' %}">
             {% csrf_token %}
             <input type="hidden" name="capnhat" id="capnhat" value="{{device.id}}">
             <button type="submit">v</button> 
           </form>
         </td>
         <td>
-          <form method="post" action="{% url 'home:thongke' %}">
+          <form method="post" action="{% url 'home:admins' %}">
             {% csrf_token %}
             <input type="hidden" name="xoa" id="xoa" value="{{device.id}}">
             <button type="submit">x</button> 
