@@ -1,0 +1,112 @@
+{% extends "pages/base.html" %}
+{% block title %} ThongKe {% endblock %}
+{% block content %}
+<a href="/thongke">
+  <h1>Thong ke</h1>
+</a>
+<a href="/home">
+  <h1>home</h1>
+</a>
+<a href="/admins">
+  <h1>admins</h1>
+</a>
+  <div>
+    <span>
+      <form method="post" action="{% url 'home:thongke' %}">
+        {% csrf_token %}
+        <select name="nam" id="nam">
+          <option value="2021-2022">2021-2022</option>
+          <option value="2022-2023">2022-2023</option>
+          <option value="2023-2024">2023-2024</option>
+        </select>
+        <button type="submit">Lọc</button> 
+        <span> test year-1-1 đến   year-12-31</span>
+      </form>
+    </span>
+    <span>
+      <form method="post" action="{% url 'home:thongke' %}">
+        {% csrf_token %}
+        <input type="text" placeholder="year-mm-dd" name="ngays" id="ngays">
+        <input type="text" placeholder="year-mm-dd" name="ngaye" id="ngaye">
+        <button type="submit">Lọc</button> 
+        <span> test S = [year-mm-dd ; year-mm-dd) không lấy ngày cuối cùng, day1 ≤ day2</span>
+      </form>
+    </span>
+    <span>
+      <form method="post" action="{% url 'home:thongke' %}">
+        {% csrf_token %}
+        <select name="mon" id="mon">
+          <option value="QPAN">Quốc Phòng An Ninh</option>
+          <option value="TOAN10">Toán 10</option>
+          <option value="TOAN11">Toán 11</option>
+          <option value="TOAN12">Toán 12</option>
+          <option value="VAN10">Văn 10</option>
+          <option value="VAN11">Văn 11</option>
+          <option value="VAN12">Văn 12</option>
+        </select>
+        <button type="submit">Lọc</button> 
+        <span> test QPAN</span>
+      </form>
+    </span>
+    <span>
+      <form method="post" action="{% url 'home:thongke' %}">
+        {% csrf_token %}
+        <select name="giaovien" id="giaovien">
+          <option value="GV">Giáo viên</option>
+        </select>
+        <button type="submit">Lọc</button> 
+        <span> test GV</span>
+      </form>
+    </span>
+  </div>
+  <form method="post" action="{% url 'home:thongke' %}">
+    {% csrf_token %}
+    <input type="hidden" name="e" id="e">
+    <button type="submit">xuất excel</button> 
+  </form>
+
+
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Trạng thái</th>
+      <th>Còn</th>
+      <th>Đơn vị</th>
+
+      <th>Code</th>
+      <th>Thời gian mượn</th>
+      <th>Tiết</th>
+    </tr>
+    {% for device in device %}
+      <tr>
+        <td>{{device.deviceId.name}}</td>
+        <td>{{device.deviceId.status}}</td>
+        <td>{{device.deviceId.quantity}}</td>
+        <td>{{device.deviceId.unit}}</td>
+
+        <td>{{device.lop}}</td>
+        <td>{{device.muon}}</td>
+        <td>{{device.tiet}}</td>
+      </tr>
+      {% endfor %}
+  </table>
+  <h1> tổng tiết theo thống kê: {{sum}}</h1>
+
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+{% endblock %}

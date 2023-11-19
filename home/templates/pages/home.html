@@ -1,0 +1,97 @@
+{% extends "pages/base.html" %}
+{% block title %} Home {% endblock %}
+{% block content %}
+  <h1>Home</h1>
+  <form method="post" action="{% url 'home:login' %}">
+    {% csrf_token %}
+    <input type="hidden" name="out" id="out">
+    <button type="submit">Logout</button> 
+  </form>
+
+  <h1>Device</h1>
+  
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Trạng thái</th>
+      <th>Còn</th>
+      <th>Đơn vị</th>
+      
+      <th>Lớp hành chính || Giáo viên</th>
+    </tr>
+    {% for device in device %}
+      <tr>
+        <td>{{device.name}}</td>
+        <td>{{device.status}}</td>
+        <td>{{device.quantity}}</td>
+        <td>{{device.unit}}</td>
+        <td>
+          <form method="post" action="{% url 'home:home' %}">
+            {% csrf_token %}
+            <input type="hidden" name="tb" id="tb">
+            <input type="hidden" name="deviceId" id="deviceId" value="{{device.id}}">
+            <select name="lop" id="lop">
+              <option value="Lop10A">Lớp 10 A</option>
+              <option value="Lop10B">Lớp 10 B</option>
+              <option value="Lop10C">Lớp 10 C</option>
+              <option value="Lop11A">Lớp 11 A</option>
+              <option value="Lop11B">Lớp 11 B</option>
+              <option value="Lop11C">Lớp 11 C</option>
+              <option value="Lop12A">Lớp 12 A</option>
+              <option value="Lop12B">Lớp 12 B</option>
+              <option value="Lop12C">Lớp 12 C</option>
+              <option value="GV">Giáo Viên</option>
+            </select>
+            <select name="tiet" id="tiet">
+              <option value="1">1 Tiết</option>
+              <option value="2">2 Tiết</option>
+              <option value="3">3 Tiết</option>
+              <option value="4">4 Tiết</option>
+            </select>
+            <button type="submit">Mượn</button> 
+          </form>
+        </td>
+       
+        <form method="post" action="{% url 'home:home' %}">
+          {% csrf_token %}
+          <input type="hidden" id="myInput" name ="myInput" >
+          <input type="hidden" name="dd" id="dd" value="{{device.id}}">
+          <input type="submit" id="sub" style="display: none;"> 
+        </form>
+      </tr>
+      {% endfor %}
+  </table>
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+  <script>
+    var myTime = "{{ time }}" *1
+    console.log(myTime)
+    var id = "{{ id }}"
+    if(myTime !== 0){
+      console.log('ok')
+      setTimeout(function() {
+        showNotification()
+      }, myTime * 1000)
+      function showNotification() {
+        alert(`Người dùng có ID ${id} đến giờ trả thiết bị`)
+        document.getElementById("myInput").value = 'ok'
+        document.getElementById("sub").click()
+      }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "pages/base.html" %}
+{% block title %} Admin {% endblock %}
+{% block content %}
+<a href="/admins">
+    <h1>admin</h1>
+</a>
+<a href="/home">
+    <h1>home</h1>
+</a>
+<a href="/thongke">
+    <h1>thongke</h1>
+</a>
+<a href="/add">
+    <h1>add</h1>
+</a>
+
+<table>
+    <tr>
+      <th>Name</th>
+      <th>code</th>
+      <th>unit</th>
+      <th>gia</th>
+      <th>soluong</th>
+      <th>trang thai</th>
+      <th>ngay nhap</th>
+      <th>san xuat</th>
+      <th>cap nhat</th>
+      <th>xoa</th>
+    </tr>
+    {% for device in device %}
+      <tr>
+        <td>{{device.name}}</td>
+        <td>{{device.code}}</td>
+        <td>{{device.unit}}</td>
+        <td>{{device.price}}</td>
+        <td>{{device.quantity}}</td>
+        <td>{{device.status}}</td>
+        <td>{{device.date}}</td>
+        <td>{{device.location}}</td>
+        <td>
+          <form method="post" action="{% url 'home:thongke' %}">
+            {% csrf_token %}
+            <input type="hidden" name="capnhat" id="capnhat" value="{{device.id}}">
+            <button type="submit">v</button> 
+          </form>
+        </td>
+        <td>
+          <form method="post" action="{% url 'home:thongke' %}">
+            {% csrf_token %}
+            <input type="hidden" name="xoa" id="xoa" value="{{device.id}}">
+            <button type="submit">x</button> 
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+  </table>
+
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+{% endblock %}

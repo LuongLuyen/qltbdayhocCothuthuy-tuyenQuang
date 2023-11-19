@@ -1,0 +1,30 @@
+install python 3.9.10
+python manage.py runserver (noi bo)
+python manage.py runserver 0.0.0.0:8000  đồng ý tất cả
+
+pip install django
+pip install mysqlclient
+pip install pytz // gio vietnam
+pip install openpyxl // xuat file excel
+
+
+mysqlclient lỗi
+error: Microsoft Visual C++ 14.0 or greater is required. Get it with "Microsoft C++ Build Tools": https://visualstudio.microsoft.com/visual-cpp-build-tools/
+      [end of output]
+
+https://stackoverflow.com/questions/64261546/how-to-solve-error-microsoft-visual-c-14-0-or-greater-is-required-when-inst
+
+create database web(Mysql)
+'NAME': 'web',
+'USER': 'root',
+'PASSWORD': '',
+
+python manage.py makemigrations
+python manage.py migrate
+insert.sql
+
+cmd
+ipconfig
+Wireless LAN adapter Wi-Fi:
+IPv4 Address. . . . . . . . . . . : 192.168.1.8 
+trình duyệt: IPv4:port

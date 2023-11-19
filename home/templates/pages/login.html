@@ -1,0 +1,39 @@
+{% extends "pages/base.html" %}
+{% block title %} Login {% endblock %}
+{% block content %}
+  <!-- signIn -->
+  <div class="header">
+    <div class="header__logo-section">
+      <i class="fa-solid fa-house-laptop header__logo"></i>
+      <span class="header__name">LessonLend Manager</span>
+      <div class="header__signIn">Đăng nhập</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="content-max-width">
+      <div class="slogan">
+        <i class="fa-solid fa-house-laptop slogan__icon"></i>
+        <span class="slogan__name">LessonLend Manager</span>
+        <p class="slogan__text">
+          <span>Phần mềm quản lí & trông coi</span> 
+          <span>thiết bị dạy học trong nhà trường</span>
+        </p>
+      </div>
+      <form action="{% url 'home:login' %}" method="post"  class="signIn">
+        {% csrf_token %}
+        <span class="signIn-header">Đăng nhập</span>
+        <input type="text" name="userName" id="userName" class="signIn-name input-form" placeholder="Tên đăng nhập" required title="Vui lòng nhập tên đăng nhập">
+        <input type="password" name="password" id="password" class="signIn-pass input-form" placeholder="Mật khẩu" required title="Vui lòng nhập mật khẩu">
+        <button type="submit" class="signIn-button btn">Đăng nhập</button>
+        <div class="sprit-line">
+          <div></div>
+          <p>HOẶC CHƯA CÓ TÀI KHOẢN?</p>
+          <div></div>
+        </div>
+        <a href="/register" class="signUp btn">
+          Đăng ký ngay
+        </a>
+      </form>
+    </div>		
+  </div>
+{% endblock %}

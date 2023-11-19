@@ -1,0 +1,44 @@
+{% extends "pages/base.html" %}
+{% block title %} Register {% endblock %}
+{% block content %}
+<div class="header">
+  <div class="header__logo-section">
+    <i class="fa-solid fa-house-laptop header__logo"></i>
+    <span class="header__name">LessonLend Manager</span>
+    <div class="header__signIn">Đăng ký</div>
+  </div>
+</div>
+<div class="content">
+  <div class="content-max-width">
+    <div class="slogan">
+      <i class="fa-solid fa-house-laptop slogan__icon"></i>
+      <span class="slogan__name">LessonLend Manager</span>
+      <p class="slogan__text">
+        <span>Phần mềm quản lí & trông coi</span> 
+        <span>thiết bị dạy học trong nhà trường</span>
+      </p>
+    </div>
+    <form action="{% url 'home:register' %}" method="post"  class="signIn">
+      {% csrf_token %}
+      <span class="signIn-header">Đăng ký</span>
+      <input type="text" name="userName" id="userName" class="signIn-name input-form" placeholder="Số điện thoại/Email" required title="Vui lòng nhập tên đăng nhập">
+      <input type="password" name="password" id="password" class="signIn-pass input-form" placeholder="Chọn mật khẩu" required title="Vui lòng nhập mật khẩu">
+      <input type="password" name="password" id="password" class="signIn-pass input-form" placeholder="Điền lại mật khẩu" required title="Vui lòng nhập mật khẩu">
+      <select name="role" id="role" class="signIn-select input-form">
+        <option value="">--- Bạn là? ---</option>
+        <option value="ADMIN">Quản trị viên</option>
+        <option value="USER">Người dùng cơ bản</option>
+      </select>
+      <button type="submit" class="signIn-button btn">Đăng ký</button>
+      <div class="sprit-line">
+        <div></div>
+        <p>BẠN ĐÃ CÓ TÀI KHOẢN?</p>
+        <div></div>
+      </div>
+      <a href="/" class="signUp btn">
+        Đăng nhập
+      </a>
+    </form>
+  </div>		
+</div>
+{% endblock %}

@@ -1,0 +1,146 @@
+/* signIn signUp */
+
+.app{
+	width: 100%;
+	height: 100vh;
+	background-color: var(--gray-color);
+}
+
+.header{
+	padding: 20px 52px;
+}
+
+.header__logo-section{
+	display: flex;
+	font-size: 40px;
+	font-weight: 400;
+}
+
+.header__logo{
+	font-size: 50px;
+	color: var(--blue-color);
+	padding-right: 16px;
+}
+
+
+.header__name{
+	color:var(--blue-color);
+	align-self: end;
+	padding: 0 20px 0 0;
+}
+
+.header__signin{
+	align-self: end;
+	padding: 0 20px 0 0;
+	font-size: 40px;
+	font-weight: 500;
+	color: var(--text-color);
+}
+
+.content{
+	background-color: #0f8bc1;
+	display: flex;
+	justify-content: center;
+	height: 454px;
+}
+
+.content-max-width{
+	display: flex;
+	justify-content: space-between;
+	padding: 20px;
+	max-width: 1200px;
+	flex: 1;
+}
+
+.slogan{
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	text-align: center;
+	padding: 20px; 
+	color: #fff;
+	max-width: 500px;
+}
+
+.slogan__icon{
+	font-size: 100px;
+	padding: 8px;
+}
+
+.slogan__name{
+	font-size: 30px;
+	padding: 16px;
+}
+
+.slogan__text{
+	display:flex;
+	flex-direction: column;
+	font-size: 25px;
+	padding: 16px;
+}
+
+.signIn{
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	padding: 20px; 
+	background-color: #fff;
+	max-width: 500px;
+}
+
+.signIn-header{
+	font-size: 30px;
+}
+
+.signIn-button{
+	background-color: #efce1a;
+	color: #fff;
+}
+
+.signIn-button:hover{
+	cursor: pointer;
+	opacity: 0.8;
+}
+
+.sprit-line{
+	display: flex;
+	padding: 8px 0px 0 0px;
+	opacity: 0.5;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+.sprit-line p{
+	padding-right: 8px;
+	padding-left: 8px;
+	color: #666;
+	min-width: fit-content;
+}
+
+.sprit-line div{
+	background-color: #666;
+	height: 1px;
+	width: 100%;
+	align-self: center;
+}
+
+.signUp{
+	text-decoration: none;
+	color: #333;
+	text-align: center;
+	line-height: 100%;
+	background-color: #ff5f01;
+}
+
+.signIn-select{
+	border-radius: none;
+}
+
+/* home */
+
+.header__logo-section--home{
+	display: flex;
+	font-size: 20px;
+	font-weight: 400;
+	color: #000;
+}
