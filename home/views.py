@@ -53,15 +53,24 @@ def getLogin(request):
             user = User.objects.get(userName=userName,password=password)
             request.session['id'] = str(user.id)
             request.session['role'] = str(user.role)
+            request.session['name'] = str(user.userName)
         except:
             return render(request, 'pages/Login.html')
         if(out=="out"):
             if 'id' in request.session:
                 del request.session['id']
+                del request.session['name']
                 request.session.pop('role', None)
             logout(request)
             return render(request, 'pages/Login.html')
-        return render(request, 'pages/Home.html',{'device':device})
+        rl = bool
+        role = request.session.get('role')
+        name = request.session.get('name')
+        if role == "ADMIN":
+            rl = True
+        else:
+            rl =False
+        return render(request, 'pages/Home.html',{'device':device,"role":rl,"name":name})
     return render(request, 'pages/Login.html')
 
 def getRegister(request):
@@ -75,6 +84,7 @@ def getRegister(request):
     return render(request, 'pages/Register.html', {'form': form})
 
 def getHome(request):
+    name = request.session.get('name')
     if request.method == 'POST':
         tb = request.POST.get('tb')
         myInput = request.POST.get('myInput')
@@ -82,6 +92,12 @@ def getHome(request):
         lop = request.POST.get('lop')
         deviceId = request.POST.get('deviceId')
         id = request.session.get('id')
+        rl = bool
+        role = request.session.get('role')
+        if role == "ADMIN":
+            rl = True
+        else:
+            rl =False
         if myInput != None:
             ID = request.session.get('deviceId')
             try:
@@ -103,9 +119,9 @@ def getHome(request):
             device.quantity =str(quantityInt)
             device.save()
             device = Device.objects.all()
-            return render(request, 'pages/Home.html',{"time":int(tiet)*5, "id":id, "device":device})
+            return render(request, 'pages/Home.html',{"time":int(tiet)*5, "id":id,"role":rl, "device":device,"name":name})
     device = Device.objects.all()
-    return render(request, 'pages/Home.html',{"device":device})
+    return render(request, 'pages/Home.html',{"device":device,"role":rl,"name":name})
 def getThongKe(request):
     device = BorrowReturn.objects.select_related('deviceId','userId').all()
     sum =0
@@ -154,6 +170,7 @@ def getThongKe(request):
                 sum += int(x.tiet)
             return render(request, 'pages/Thongke.html',{"device":r,"sum":sum})
         if e != None:
+            device = BorrowReturn.objects.select_related('deviceId','userId').all().order_by('id')
             file = excel(device)
             return file
     return render(request, 'pages/Thongke.html',{"device":device, "sum":sum})

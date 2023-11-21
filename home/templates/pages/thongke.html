@@ -37,25 +37,35 @@
         {% csrf_token %}
         <select name="mon" id="mon">
           <option value="QPAN">Quốc Phòng An Ninh</option>
-          <option value="TOAN10">Toán 10</option>
-          <option value="TOAN11">Toán 11</option>
-          <option value="TOAN12">Toán 12</option>
-          <option value="VAN10">Văn 10</option>
-          <option value="VAN11">Văn 11</option>
-          <option value="VAN12">Văn 12</option>
+          <option value="TH">Toán</option>
+          <option value="LS">Lịch sử</option>
+          <option value="NV">Ngữ Văn</option>
+          <option value="ĐL">Địa Lý</option>
+          <option value="GIATT">Giá treo tranh</option>
+          <option value="VL">Vật Lý</option>
+          <option value="SH">Sinh Học</option>
+          <option value="HH">Hóa Học</option>
+          <option value="TD">Thể Dục</option>
         </select>
         <button type="submit">Lọc</button> 
-        <span> test QPAN</span>
       </form>
     </span>
     <span>
       <form method="post" action="{% url 'home:thongke' %}">
         {% csrf_token %}
         <select name="giaovien" id="giaovien">
-          <option value="GV">Giáo viên</option>
+          <option value="Lop10A">Lớp 10 A</option>
+          <option value="Lop10B">Lớp 10 B</option>
+          <option value="Lop10C">Lớp 10 C</option>
+          <option value="Lop11A">Lớp 11 A</option>
+          <option value="Lop11B">Lớp 11 B</option>
+          <option value="Lop11C">Lớp 11 C</option>
+          <option value="Lop12A">Lớp 12 A</option>
+          <option value="Lop12B">Lớp 12 B</option>
+          <option value="Lop12C">Lớp 12 C</option>
+          <option value="GV">Giáo Viên</option>
         </select>
         <button type="submit">Lọc</button> 
-        <span> test GV</span>
       </form>
     </span>
   </div>
