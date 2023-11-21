@@ -18,6 +18,7 @@
   <table>
     <tr>
       <th>Name</th>
+      <th>Code</th>
       <th>Trạng thái</th>
       <th>Còn</th>
       <th>Đơn vị</th>
@@ -27,6 +28,7 @@
     {% for device in device %}
       <tr>
         <td>{{device.name}}</td>
+        <td>{{device.code}}</td>
         <td>{{device.status}}</td>
         <td>{{device.quantity}}</td>
         <td>{{device.unit}}</td>

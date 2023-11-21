@@ -36,15 +36,15 @@
       <form method="post" action="{% url 'home:thongke' %}">
         {% csrf_token %}
         <select name="mon" id="mon">
-          <option value="QPAN">Quốc Phòng An Ninh</option>
-          <option value="TH">Toán</option>
-          <option value="LS">Lịch sử</option>
-          <option value="NV">Ngữ Văn</option>
-          <option value="ĐL">Địa Lý</option>
+          <option value=".QPAN.">Quốc Phòng An Ninh</option>
+          <option value=".TH.">Toán</option>
+          <option value=".LS.">Lịch sử</option>
+          <option value=".NV.">Ngữ Văn</option>
+          <option value=".ĐL">Địa Lý</option>
           <option value="GIATT">Giá treo tranh</option>
-          <option value="VL">Vật Lý</option>
-          <option value="SH">Sinh Học</option>
-          <option value="HH">Hóa Học</option>
+          <option value="VL.">Vật Lý</option>
+          <option value=".SH.">Sinh Học</option>
+          <option value=".HH">Hóa Học</option>
           <option value="TD">Thể Dục</option>
         </select>
         <button type="submit">Lọc</button> 
