@@ -77,7 +77,7 @@ def getLogin(request):
                 listDevice.append(x)
             if x.unit !="phòng" and x.quantity == "0":
                 listDevice0.append(x)
-        return render(request, 'pages/Home.html',{'device':listDevice,"role":rl,"name":name, "device0":listDevice0})
+        return render(request, 'pages/Home.html',{'device':listDevice,"role":rl,"name":name, "device0":listDevice0,"tb":True})
     return render(request, 'pages/Login.html')
 
 def getRegister(request):
@@ -123,7 +123,7 @@ def getHome(request):
                         listDevice.append(x)
                     if x.unit !="phòng" and x.quantity == "0":
                         listDevice0.append(x)
-                return render(request, 'pages/Home.html',{"device":listDevice,"device0":listDevice0,"role":rl, "name":name})
+                return render(request, 'pages/Home.html',{"device":listDevice,"device0":listDevice0,"role":rl, "name":name,"tb":True})
         if tb!=None:
             request.session['deviceId'] = str(deviceId)
             ID = request.session.get('deviceId')
@@ -141,7 +141,7 @@ def getHome(request):
                     listDevice.append(x)
                 if x.unit !="phòng" and x.quantity == "0":
                     listDevice0.append(x)
-            return render(request, 'pages/Home.html',{"time":int(tiet)*5, "id":id,"role":rl, "device":listDevice,"name":name,"device0":listDevice0})
+            return render(request, 'pages/Home.html',{"time":int(tiet)*5, "id":id,"role":rl, "device":listDevice,"name":name,"device0":listDevice0,"tb":False})
     rl = bool
     role = request.session.get('role')
     if role == "ADMIN":
@@ -156,7 +156,7 @@ def getHome(request):
             listDevice.append(x)
         if x.unit !="phòng" and x.quantity == "0":
             listDevice0.append(x)
-    return render(request, 'pages/Home.html',{"device":listDevice,"role":rl,"name":name,"device0":listDevice0})
+    return render(request, 'pages/Home.html',{"device":listDevice,"role":rl,"name":name,"device0":listDevice0,"tb":True})
 def getThongKe(request):
     name = request.session.get('name')
     rl = bool
@@ -287,7 +287,7 @@ def getLab(request):
                         listDevice.append(x)
                     if x.unit =="phòng" and x.quantity == "0":
                         listDevice0.append(x)
-                return render(request, 'pages/Lab.html',{"device":listDevice,"device0":listDevice0,"role":rl,"name":name})
+                return render(request, 'pages/Lab.html',{"device":listDevice,"device0":listDevice0,"role":rl,"name":name,"tb":True})
         if tb!=None:
             request.session['deviceId'] = str(deviceId)
             ID = request.session.get('deviceId')
@@ -305,7 +305,7 @@ def getLab(request):
                     listDevice.append(x)
                 if x.unit =="phòng" and x.quantity == "0":
                     listDevice0.append(x)
-            return render(request, 'pages/Lab.html',{"time":int(tiet)*5, "id":id,"role":rl, "device":listDevice,"name":name,"device0":listDevice0})
+            return render(request, 'pages/Lab.html',{"time":int(tiet)*5, "id":id,"role":rl, "device":listDevice,"name":name,"device0":listDevice0,"tb":False})
     rl = bool
     role = request.session.get('role')
     if role == "ADMIN":
@@ -320,4 +320,4 @@ def getLab(request):
             listDevice.append(x)
         if x.unit =="phòng" and x.quantity == "0":
             listDevice0.append(x)
-    return render(request, 'pages/Lab.html',{"device":listDevice,"role":rl,"name":name,"device0":listDevice0})
+    return render(request, 'pages/Lab.html',{"device":listDevice,"role":rl,"name":name,"device0":listDevice0,"tb":True})

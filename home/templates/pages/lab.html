@@ -159,7 +159,11 @@
                                 </select>
                             </div>
                         </div>
+                        {% if tb %}
                         <button type="submit" class="hidden-box2">Đăng ký</button> 
+                        {% else %}
+                        <div type="submit" style="color: #333;">Bạn chưa trả phòng</div> 
+                       {% endif %}
                         </form>
                         <form method="post" action="{% url 'home:lab' %}">
                             {% csrf_token %}

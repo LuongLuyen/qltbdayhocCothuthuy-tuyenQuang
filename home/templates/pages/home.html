@@ -152,7 +152,11 @@
                   <option value="3">3 Tiết</option>
                   <option value="4">4 Tiết</option>
                   </select>
+                  {% if tb %}
                   <button type="submit">Đăng ký</button> 
+                  {% else %}
+                  <div type="submit" style="color: #333;">Trả thiết bị để mượn tiếp</div> 
+                 {% endif %}
               </form>
             </td>
           </tr>
@@ -170,10 +174,8 @@
 </div>
   <script>
     var myTime = "{{ time }}" *1
-    console.log(myTime)
     var name = "{{ name }}"
     if(myTime !== 0){
-      console.log('ok')
       setTimeout(function() {
         showNotification()
       }, myTime * 1000)

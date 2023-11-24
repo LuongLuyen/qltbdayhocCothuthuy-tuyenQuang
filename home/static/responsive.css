@@ -5,7 +5,7 @@
 
 /* ipad */
 
-@media (min-width: 740px) and (max-width: 1025px){
+@media (min-width: 741px) and (max-width: 1025px){
 
 .header__signIn{
 	display: none;
@@ -77,7 +77,7 @@
 }
 
 .slogan{
-	display: none;
+	display: none !important;
 }
 
 .sidebar{
@@ -118,7 +118,7 @@
 }
 
 .content--home{
-	width: 600px;
+	width: fit-content;
 }
 
 .user__role{
@@ -127,10 +127,6 @@
 
 .content__device--admin{
 	width: fit-content;
-}
-
-.app{
-	width: 250%;
 }
 
 .content__header{
@@ -167,4 +163,7 @@
 	width: unset;
 }
 
+.content--edit{
+	min-width: none;
+}
 }
