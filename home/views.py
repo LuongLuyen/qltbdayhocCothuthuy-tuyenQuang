@@ -70,7 +70,14 @@ def getLogin(request):
             rl = True
         else:
             rl =False
-        return render(request, 'pages/Home.html',{'device':device,"role":rl,"name":name})
+        listDevice =[]
+        listDevice0 =[]
+        for x in device:
+            if x.unit !="phòng" and x.quantity != "0":
+                listDevice.append(x)
+            if x.unit !="phòng" and x.quantity == "0":
+                listDevice0.append(x)
+        return render(request, 'pages/Home.html',{'device':listDevice,"role":rl,"name":name, "device0":listDevice0})
     return render(request, 'pages/Login.html')
 
 def getRegister(request):
@@ -99,6 +106,7 @@ def getHome(request):
         else:
             rl =False
         if myInput != None:
+
             ID = request.session.get('deviceId')
             try:
                 device = Device.objects.get(id=int(ID))
@@ -108,7 +116,14 @@ def getHome(request):
                 del request.session['deviceId']
             except:
                 device = Device.objects.all()
-                return render(request, 'pages/Home.html',{"device":device})
+                listDevice =[]
+                listDevice0 =[]
+                for x in device:
+                    if x.unit !="phòng" and x.quantity != "0":
+                        listDevice.append(x)
+                    if x.unit !="phòng" and x.quantity == "0":
+                        listDevice0.append(x)
+                return render(request, 'pages/Home.html',{"device":listDevice,"device0":listDevice0,"role":rl})
         if tb!=None:
             request.session['deviceId'] = str(deviceId)
             ID = request.session.get('deviceId')
@@ -119,9 +134,29 @@ def getHome(request):
             device.quantity =str(quantityInt)
             device.save()
             device = Device.objects.all()
-            return render(request, 'pages/Home.html',{"time":int(tiet)*5, "id":id,"role":rl, "device":device,"name":name})
+            listDevice =[]
+            listDevice0 =[]
+            for x in device:
+                if x.unit !="phòng" and x.quantity != "0":
+                    listDevice.append(x)
+                if x.unit !="phòng" and x.quantity == "0":
+                    listDevice0.append(x)
+            return render(request, 'pages/Home.html',{"time":int(tiet)*5, "id":id,"role":rl, "device":listDevice,"name":name,"device0":listDevice0})
+    rl = bool
+    role = request.session.get('role')
+    if role == "ADMIN":
+        rl = True
+    else:
+        rl =False
     device = Device.objects.all()
-    return render(request, 'pages/Home.html',{"device":device,"role":rl,"name":name})
+    listDevice =[]
+    listDevice0 =[]
+    for x in device:
+        if x.unit !="phòng" and x.quantity != "0":
+            listDevice.append(x)
+        if x.unit !="phòng" and x.quantity == "0":
+            listDevice0.append(x)
+    return render(request, 'pages/Home.html',{"device":listDevice,"role":rl,"name":name,"device0":listDevice0})
 def getThongKe(request):
     device = BorrowReturn.objects.select_related('deviceId','userId').all()
     sum =0

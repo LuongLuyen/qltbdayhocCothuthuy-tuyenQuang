@@ -1,0 +1,74 @@
+.grade{
+	margin: 10px;
+}
+
+.grade__head{
+	display: inline-block;
+	padding: 8px;
+	width: 100px;
+	background-color: #d5e9fe;
+	border: 2px solid #d5e9fe;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	font-size: 20px;
+}
+
+.grade__content{
+	background-color: #d5e9fe;
+	border: 2px solid #d5e9fe;
+	border-bottom-right-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+
+.grade__room{
+	display: flex;
+}
+
+.grade__room__item{
+	display: inline-flex;
+	flex-direction: column;
+	padding: 10px;
+	margin: 10px;
+	background-color: #3ad43a;
+	border-radius: 10px;
+	font-size: 20px;
+}
+
+
+.grade__room__item--runout{
+	background-color: #ff3232;
+}
+
+.room__item-info select, button, .select-box{
+	padding: 4px;
+	margin: 4px;
+	background-color: #d5e9fe;
+	border: none;
+	border-radius: 5px;
+}
+
+.room__item-name{
+	margin-bottom: 8px;
+}
+
+.grade__room__item button:hover{
+	cursor: pointer;
+}
+
+
+.select-box{
+	display: inline-block;
+	font-size: 14px;
+	text-align: center;
+	white-space: nowrap;
+}
+
+
+.grade__room__item--instock .hidden-box1{
+	display: none;
+}
+
+.grade__room__item--runout .hidden-box2{
+	display: none;
+}

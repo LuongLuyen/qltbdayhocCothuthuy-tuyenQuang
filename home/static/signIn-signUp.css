@@ -37,7 +37,7 @@
 	color: var(--text-color);
 }
 
-.content{
+.contentL{
 	background-color: #0f8bc1;
 	display: flex;
 	justify-content: center;
@@ -136,11 +136,3 @@
 	border-radius: none;
 }
 
-/* home */
-
-.header__logo-section--home{
-	display: flex;
-	font-size: 20px;
-	font-weight: 400;
-	color: #000;
-}
