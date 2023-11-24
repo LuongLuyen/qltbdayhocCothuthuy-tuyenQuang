@@ -1,3 +1,11 @@
+.content__device--room{
+	margin-top: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background-color: #fff;
+	border-radius: 10px;
+}
+
 .grade{
 	margin: 10px;
 }
@@ -5,7 +13,6 @@
 .grade__head{
 	display: inline-block;
 	padding: 8px;
-	width: 100px;
 	background-color: #d5e9fe;
 	border: 2px solid #d5e9fe;
 	border-top-left-radius: 10px;
@@ -19,11 +26,14 @@
 	border-bottom-right-radius: 10px;
 	border-top-right-radius: 10px;
 	border-bottom-left-radius: 10px;
+	display: flex;
+	flex-wrap: wrap;
 }
 
-.grade__room{
+/* .grade__room{
 	display: flex;
-}
+	flex-wrap: wrap;
+} */
 
 .grade__room__item{
 	display: inline-flex;

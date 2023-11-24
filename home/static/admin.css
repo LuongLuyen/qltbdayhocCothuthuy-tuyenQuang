@@ -1,0 +1,78 @@
+/* add button */
+.add-btn{
+	background-color: #3ad43a;
+	border-radius: 10px;
+	color: #333;
+	text-decoration: none;
+}
+
+.add-btn:hover{
+	opacity: 0.9;
+}
+
+/* device__table */
+
+.content__device--admin{
+	margin-top: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background-color: #fff;
+	border-radius: 10px;
+}
+
+
+.device__table--admin{
+	border-collapse: collapse;
+	width: 100%;
+}
+
+
+.device__table--admin thead tr th{
+	text-align: left;
+	border: 1px solid #333;
+	border-bottom: 0px;
+	background-color: #d5e9fe;
+}
+
+.device__table--admin th, td{
+	padding: 8px;
+	border: 1px solid #333;
+	overflow-x: hidden;
+}
+
+
+
+.device__table-admin button{
+	padding: 8px;
+	background-color: #cff5b7;
+	border: none;
+	color: #1d8b36;
+}
+
+.device__table--admin button:hover{
+	cursor: pointer;
+	opacity: 0.9;
+}
+
+.btn--edit{
+	padding: 8px;
+	background-color: #ffcf0b;
+	border: none;
+	color: #1d8b36;
+	font-size: 16px;
+	color: #fff;
+	border-radius: 5px;
+}
+
+.btn--edit:hover {
+	cursor: pointer;
+	opacity: 0.9;
+}
+
+.btn--delete{
+	padding: 8px;
+	background-color: #ff3232;
+	border: none;
+	font-size: 16px;
+	color: #fff;
+}

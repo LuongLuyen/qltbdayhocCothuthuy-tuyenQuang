@@ -1,75 +1,151 @@
 {% extends "pages/base.html" %}
 {% block title %} Admin {% endblock %}
 {% block content %}
-<a href="/admins">
-    <h1>admin</h1>
-</a>
-<a href="/home">
-    <h1>home</h1>
-</a>
-<a href="/thongke">
-    <h1>thongke</h1>
-</a>
-<a href="/add">
-    <h1>add</h1>
-</a>
-
-<table>
-    <tr>
-      <th>Name</th>
-      <th>code</th>
-      <th>unit</th>
-      <th>gia</th>
-      <th>soluong</th>
-      <th>trang thai</th>
-      <th>ngay nhap</th>
-      <th>san xuat</th>
-      <th>cap nhat</th>
-      <th>xoa</th>
-    </tr>
-    {% for device in device %}
-      <tr>
-        <td>{{device.name}}</td>
-        <td>{{device.code}}</td>
-        <td>{{device.unit}}</td>
-        <td>{{device.price}}</td>
-        <td>{{device.quantity}}</td>
-        <td>{{device.status}}</td>
-        <td>{{device.date}}</td>
-        <td>{{device.location}}</td>
-        <td>
-          <form method="post" action="{% url 'home:admins' %}">
+{% load static %}
+<div class="header--home">
+  <div class="header__logo-section">
+    <i class="fa-solid fa-house-laptop header__logo--home"></i>
+    <span class="header__name--home">Teaching Equipment Management</span>
+  </div>
+  <div class="user">
+    <div class="user__role">
+      {% if role %}
+      <i class="fa-solid fa-users-gear"></i>
+      <span>quản trị viên</span>
+      {% else %}
+      <i class="fa-solid fa-users"></i> 
+      <span>người dùng cơ bản</span> 
+     {% endif %}
+    </div>
+    <div class="user__avatar">
+      <img src="{% static 'user-avatar-img.png' %}" alt="avatar">
+      <i class="fa-solid fa-angle-down"></i>
+      <ul class="user__avatar__option">
+        <li>
+          <form method="post" action="{% url 'home:login' %}">
             {% csrf_token %}
-            <input type="hidden" name="capnhat" id="capnhat" value="{{device.id}}">
-            <button type="submit">v</button> 
+            <input type="hidden" name="out" id="out">
+            <button type="submit">Đăng xuất</button> 
           </form>
-        </td>
-        <td>
-          <form method="post" action="{% url 'home:admins' %}">
-            {% csrf_token %}
-            <input type="hidden" name="xoa" id="xoa" value="{{device.id}}">
-            <button type="submit">x</button> 
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-  </table>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="contain">
+  <ul class="sidebar">
+    <li class="user">
+      <div class="user__avatar">
+        <img src="{% static 'user-avatar-img.png' %}" alt="avatar">
+      </div>
+      <div class="user__info">
+        <span>{{name}}</span>
+        <div class="user__role--sidebar">
+          {% if role %}
+          <i class="fa-solid fa-users-gear"></i>
+          <span>quản trị viên</span>
+          {% else %}
+          <i class="fa-solid fa-users"></i> 
+          <span>người dùng cơ bản</span> 
+         {% endif %}
+        </div>
+      </div>
+    </li>
 
-  <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-    
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
-    
-    tr:nth-child(even) {
-      background-color: #dddddd;
-    }
-    </style>
+    <li class="sidebar__item">
+      <a href="/home" class="sidebar__link">
+        <i class="fa-solid fa-business-time"></i>
+        <span class="">Mượn thiết bị</span>
+      </a>
+    </li>
+    <li class="sidebar__item">
+      <a href="/lab" class="sidebar__link">
+        <i class="fa-solid fa-house-chimney-user"></i>
+        <span class="">Phòng bộ môn</span>
+      </a>
+    </li>
+    {% if role %}
+    <li class="sidebar__item">
+      <a href="/admins" class="sidebar__link sidebar__link--selected">
+        <i class="fa-solid fa-pen-to-square"></i>
+        <span class="">Quản lý chung (QTV)</span>
+      </a>
+    </li>
+    <li class="sidebar__item">
+      <a href="/thongke" class="sidebar__link">
+        <i class="fa-solid fa-table-list"></i>
+        <span class="">Thống kê & báo cáo</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+
+  <div class="content--home">
+    <div class="content__header">
+      <p class="content__header__note">
+        Quản lý thiết bị & phòng học
+      </p>
+      <div class="content-color-box">
+        <a href="/add" class="btn add-btn">
+          <i class="fa-solid fa-plus"></i>
+          Nhập mới thiết bị
+      </a>
+      </div>
+
+    </div>
+
+    <div class="content__device--admin">
+      <table class="device__table--admin">
+        <thead>
+          <tr>
+            <th>Tên thiết bị</th>
+            <th>Mã Thiết bị</th>
+            <th>Đơn vị</th>
+            <th>Giá (vnd)</th>
+            <th>Số lượng</th>
+            <th>Trạng thái</th>
+            <th>Ngày nhập</th>
+            <th>Nơi sản xuất</th>
+            <th>Cập nhật</th>
+            <th>Xóa</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for device in device %}
+          <tr>
+            <td>{{device.name}}</td>
+            <td>{{device.code}}</td>
+            <td>{{device.unit}}</td>
+            <td>{{device.price}}</td>
+            <td>{{device.quantity}}</td>
+            <td>{{device.status}}</td>
+            <td>{{device.date}}</td>
+            <td>{{device.location}}</td>
+            <td>
+              <form method="post" action="{% url 'home:admins' %}">
+                {% csrf_token %}
+                <input type="hidden" name="capnhat" id="capnhat" value="{{device.id}}">
+                <button type="submit" class= "btn--edit">
+                  <i class="fa-solid fa-wrench"></i>
+                </button> 
+              </form>
+            </td>
+            <td>
+              <form method="post" action="{% url 'home:admins' %}">
+                {% csrf_token %}
+                <input type="hidden" name="xoa" id="xoa" value="{{device.id}}">
+                <button type="submit" class="btn--delete">
+                  <i class="fa-solid fa-x"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

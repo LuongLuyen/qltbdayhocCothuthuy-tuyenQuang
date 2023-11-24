@@ -1,0 +1,194 @@
+{% extends "pages/base.html" %}
+{% block title %} Home {% endblock %}
+{% block content %}
+{% load static %}
+<div class="header--home">
+  <div class="header__logo-section">
+    <i class="fa-solid fa-house-laptop header__logo--home"></i>
+    <span class="header__name--home">Teaching Equipment Management</span>
+  </div>
+  <div class="user">
+    <div class="user__role">
+      {% if role %}
+      <i class="fa-solid fa-users-gear"></i>
+      <span>quản trị viên</span>
+      {% else %}
+      <i class="fa-solid fa-users"></i> 
+      <span>người dùng cơ bản</span> 
+     {% endif %}
+    </div>
+    <div class="user__avatar">
+      <img src="{% static 'user-avatar-img.png' %}" alt="avatar">
+      <i class="fa-solid fa-angle-down"></i>
+      <ul class="user__avatar__option">
+        <li>
+          <form method="post" action="{% url 'home:login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="out" id="out">
+            <button type="submit">Đăng xuất</button> 
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="contain">
+  <ul class="sidebar">
+    <li class="user">
+      <div class="user__avatar">
+        <img src="{% static 'user-avatar-img.png' %}" alt="avatar">
+      </div>
+      <div class="user__info">
+        <span>{{name}}</span>
+        <div class="user__role--sidebar">
+          {% if role %}
+          <i class="fa-solid fa-users-gear"></i>
+          <span>quản trị viên</span>
+          {% else %}
+          <i class="fa-solid fa-users"></i> 
+          <span>người dùng cơ bản</span> 
+         {% endif %}
+        </div>
+      </div>
+    </li>
+
+    <li class="sidebar__item">
+      <a href="/home" class="sidebar__link">
+        <i class="fa-solid fa-business-time"></i>
+        <span class="">Mượn thiết bị</span>
+      </a>
+    </li>
+    <li class="sidebar__item">
+      <a href="/lab" class="sidebar__link">
+        <i class="fa-solid fa-house-chimney-user sidebar__link--selected"></i>
+        <span class="">Phòng bộ môn</span>
+      </a>
+    </li>
+    {% if role %}
+    <li class="sidebar__item">
+      <a href="/admins" class="sidebar__link">
+        <i class="fa-solid fa-pen-to-square"></i>
+        <span class="">Quản lý chung (QTV)</span>
+      </a>
+    </li>
+    <li class="sidebar__item">
+      <a href="/thongke" class="sidebar__link">
+        <i class="fa-solid fa-table-list"></i>
+        <span class="">Thống kê & báo cáo</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+
+  <div class="content--home">
+    <div class="content__header">
+        <p class="content__header__note">
+            Mượn phòng học bộ môn
+        </p>
+        <div class="content-color-box">
+            <div class="content-color-box--green"></div>
+            <p>Phòng còn trống</p>
+        </div>
+        <div class="content-color-box">
+            <div class="content-color-box--red"></div>
+            <p>Hiện tại đang có lớp</p>
+        </div>
+    </div>
+
+    <div class="content__device--room">
+        <div class="grade">
+            <div class="grade__head">Các phòng đang được sử dụng</div>
+            <div class="grade__content">
+                <div class="grade__room">
+                    {% for device in device0 %}
+                    
+                    <div class="grade__room__item grade__room__item--runout">
+                        <div class="room__item-name">{{device.name}}</div>
+                        <div class="room__item-info">
+                            <div class="hidden-box1">
+                                <div class="select-box">
+                                    <span>Còn: {{device.quantity}}</span>
+                                </div>
+                                <div class="select-box">
+                                    <span>Đang sử dụng</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hidden-box1 select-box">{{name}}</div> 
+                        <button type="submit" class="hidden-box2">Đăng ký</button> 
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="grade">
+            <div class="grade__head">Phòng bộ môn còn trống tiết</div>
+            <div class="grade__content">
+                {% for device in device %}
+                <div class="grade__room">
+                    <div  class="grade__room__item grade__room__item--instock">
+                        <div class="room__item-name">{{device.name}}</div>
+                        <form method="post" action="{% url 'home:lab' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="tb" id="tb">
+                            <input type="hidden" name="deviceId" id="deviceId" value="{{device.id}}">
+                        <div class="room__item-info">
+                            <div class="hidden-box2">
+                                <select name="lop" id="lop">
+                                    <option value="Lop10A">Lớp mượn</option>
+                                    <option value="Lop10A">Lớp 10 A</option>
+                                    <option value="Lop10B">Lớp 10 B</option>
+                                    <option value="Lop10C">Lớp 10 C</option>
+                                    <option value="Lop11A">Lớp 11 A</option>
+                                    <option value="Lop11B">Lớp 11 B</option>
+                                    <option value="Lop11C">Lớp 11 C</option>
+                                    <option value="Lop12A">Lớp 12 A</option>
+                                    <option value="Lop12B">Lớp 12 B</option>
+                                    <option value="Lop12C">Lớp 12 C</option>
+                                    {% if role %}
+                                    <option value="GV">Giáo Viên</option>
+                                   {% endif %}
+                                </select>
+                                <select name="tiet" id="tiet">
+                                    <option value="1">Số tiết</option>
+                                    <option value="1">1 Tiết</option>
+                                    <option value="2">2 Tiết</option>
+                                    <option value="3">3 Tiết</option>
+                                    <option value="4">4 Tiết</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="hidden-box2">Đăng ký</button> 
+                        </form>
+                        <form method="post" action="{% url 'home:lab' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="myInput" name ="myInput" >
+                            <input type="hidden" name="dd" id="dd" value="{{device.id}}">
+                            <input type="submit" id="sub" style="display: none;"> 
+                          </form>
+                        </div>  
+                    </div>
+                    {% endfor %} 
+                </div>
+        </div>
+    </div>
+  </div>
+</div>
+  <script>
+    var myTime = "{{ time }}" *1
+    console.log(myTime)
+    var name = "{{ name }}"
+    if(myTime !== 0){
+      console.log('ok')
+      setTimeout(function() {
+        showNotification()
+      }, myTime * 1000)
+      function showNotification() {
+        alert(`Người dùng: [${name}] đến giờ trả thiết bị`)
+        document.getElementById("myInput").value = 'ok'
+        document.getElementById("sub").click()
+      }
+    }
+</script>
+{% endblock %}

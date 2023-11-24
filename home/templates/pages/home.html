@@ -17,7 +17,6 @@
       <span>người dùng cơ bản</span> 
      {% endif %}
     </div>
-    <i class="fa-solid fa-bell user__noti"></i>
     <div class="user__avatar">
       <img src="{% static 'user-avatar-img.png' %}" alt="avatar">
       <i class="fa-solid fa-angle-down"></i>
@@ -52,32 +51,33 @@
         </div>
       </div>
     </li>
+
     <li class="sidebar__item">
-      <a href="#" class="sidebar__link sidebar__link--selected">
-        <i class="fa-solid fa-house"></i>
+      <a href="/home" class="sidebar__link sidebar__link--selected">
+        <i class="fa-solid fa-business-time"></i>
         <span class="">Mượn thiết bị</span>
       </a>
     </li>
     <li class="sidebar__item">
-      <a href="#" class="sidebar__link">
-        <i class="fa-solid fa-house"></i>
+      <a href="/lab" class="sidebar__link">
+        <i class="fa-solid fa-house-chimney-user"></i>
         <span class="">Phòng bộ môn</span>
       </a>
     </li>
     {% if role %}
     <li class="sidebar__item">
       <a href="/admins" class="sidebar__link">
-        <i class="fa-solid fa-house"></i>
-        <span class="">Admin</span>
+        <i class="fa-solid fa-pen-to-square"></i>
+        <span class="">Quản lý chung (QTV)</span>
       </a>
     </li>
     <li class="sidebar__item">
       <a href="/thongke" class="sidebar__link">
-        <i class="fa-solid fa-house"></i>
-        <span class="">Thống kê</span>
+        <i class="fa-solid fa-table-list"></i>
+        <span class="">Thống kê & báo cáo</span>
       </a>
     </li>
-   {% endif %}
+    {% endif %}
   </ul>
 
   <div class="content--home">
@@ -168,11 +168,6 @@
     </div>
   </div>
 </div>
-  {% if role %}
-  <a href="/admins">
-    <h1>admin</h1>
-  </a>
- {% endif %}
   <script>
     var myTime = "{{ time }}" *1
     console.log(myTime)

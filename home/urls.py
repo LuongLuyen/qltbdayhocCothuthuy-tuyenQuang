@@ -8,4 +8,5 @@ urlpatterns = [
     path('thongke/', views.getThongKe, name='thongke'),
     path('admins/', views.getAdmin, name='admins'),
     path('add/', views.getAdd, name='add'),
+    path('lab/', views.getLab, name='lab'),
 ]

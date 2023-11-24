@@ -1,122 +1,191 @@
 {% extends "pages/base.html" %}
 {% block title %} ThongKe {% endblock %}
 {% block content %}
-<a href="/thongke">
-  <h1>Thong ke</h1>
-</a>
-<a href="/home">
-  <h1>home</h1>
-</a>
-<a href="/admins">
-  <h1>admins</h1>
-</a>
-  <div>
-    <span>
-      <form method="post" action="{% url 'home:thongke' %}">
-        {% csrf_token %}
-        <select name="nam" id="nam">
-          <option value="2021-2022">2021-2022</option>
-          <option value="2022-2023">2022-2023</option>
-          <option value="2023-2024">2023-2024</option>
-        </select>
-        <button type="submit">Lọc</button> 
-        <span> test year-1-1 đến   year-12-31</span>
-      </form>
-    </span>
-    <span>
-      <form method="post" action="{% url 'home:thongke' %}">
-        {% csrf_token %}
-        <input type="text" placeholder="year-mm-dd" name="ngays" id="ngays">
-        <input type="text" placeholder="year-mm-dd" name="ngaye" id="ngaye">
-        <button type="submit">Lọc</button> 
-        <span> test S = [year-mm-dd ; year-mm-dd) không lấy ngày cuối cùng, day1 ≤ day2</span>
-      </form>
-    </span>
-    <span>
-      <form method="post" action="{% url 'home:thongke' %}">
-        {% csrf_token %}
-        <select name="mon" id="mon">
-          <option value=".QPAN.">Quốc Phòng An Ninh</option>
-          <option value=".TH.">Toán</option>
-          <option value=".LS.">Lịch sử</option>
-          <option value=".NV.">Ngữ Văn</option>
-          <option value=".ĐL">Địa Lý</option>
-          <option value="GIATT">Giá treo tranh</option>
-          <option value="VL.">Vật Lý</option>
-          <option value=".SH.">Sinh Học</option>
-          <option value=".HH">Hóa Học</option>
-          <option value="TD">Thể Dục</option>
-        </select>
-        <button type="submit">Lọc</button> 
-      </form>
-    </span>
-    <span>
-      <form method="post" action="{% url 'home:thongke' %}">
-        {% csrf_token %}
-        <select name="giaovien" id="giaovien">
-          <option value="Lop10A">Lớp 10 A</option>
-          <option value="Lop10B">Lớp 10 B</option>
-          <option value="Lop10C">Lớp 10 C</option>
-          <option value="Lop11A">Lớp 11 A</option>
-          <option value="Lop11B">Lớp 11 B</option>
-          <option value="Lop11C">Lớp 11 C</option>
-          <option value="Lop12A">Lớp 12 A</option>
-          <option value="Lop12B">Lớp 12 B</option>
-          <option value="Lop12C">Lớp 12 C</option>
-          <option value="GV">Giáo Viên</option>
-        </select>
-        <button type="submit">Lọc</button> 
-      </form>
-    </span>
+{% load static %}
+<div class="header--home">
+  <div class="header__logo-section">
+    <i class="fa-solid fa-house-laptop header__logo--home"></i>
+    <span class="header__name--home">Teaching Equipment Management</span>
   </div>
-  <form method="post" action="{% url 'home:thongke' %}">
-    {% csrf_token %}
-    <input type="hidden" name="e" id="e">
-    <button type="submit">xuất excel</button> 
-  </form>
+  <div class="user">
+    <div class="user__role">
+      {% if role %}
+      <i class="fa-solid fa-users-gear"></i>
+      <span>quản trị viên</span>
+      {% else %}
+      <i class="fa-solid fa-users"></i> 
+      <span>người dùng cơ bản</span> 
+     {% endif %}
+    </div>
+    <div class="user__avatar">
+      <img src="{% static 'user-avatar-img.png' %}" alt="avatar">
+      <i class="fa-solid fa-angle-down"></i>
+      <ul class="user__avatar__option">
+        <li>
+          <form method="post" action="{% url 'home:login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="out" id="out">
+            <button type="submit">Đăng xuất</button> 
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="contain">
+  <ul class="sidebar">
+    <li class="user">
+      <div class="user__avatar">
+        <img src="{% static 'user-avatar-img.png' %}" alt="avatar">
+      </div>
+      <div class="user__info">
+        <span>{{name}}</span>
+        <div class="user__role--sidebar">
+          {% if role %}
+          <i class="fa-solid fa-users-gear"></i>
+          <span>quản trị viên</span>
+          {% else %}
+          <i class="fa-solid fa-users"></i> 
+          <span>người dùng cơ bản</span> 
+         {% endif %}
+        </div>
+      </div>
+    </li>
 
+    <li class="sidebar__item">
+      <a href="/home" class="sidebar__link">
+        <i class="fa-solid fa-business-time"></i>
+        <span class="">Mượn thiết bị</span>
+      </a>
+    </li>
+    <li class="sidebar__item">
+      <a href="/lab" class="sidebar__link">
+        <i class="fa-solid fa-house-chimney-user"></i>
+        <span class="">Phòng bộ môn</span>
+      </a>
+    </li>
+    {% if role %}
+    <li class="sidebar__item">
+      <a href="/admins" class="sidebar__link">
+        <i class="fa-solid fa-pen-to-square"></i>
+        <span class="">Quản lý chung (QTV)</span>
+      </a>
+    </li>
+    <li class="sidebar__item">
+      <a href="/thongke" class="sidebar__link sidebar__link--selected">
+        <i class="fa-solid fa-table-list"></i>
+        <span class="">Thống kê & báo cáo</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
 
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Trạng thái</th>
-      <th>Còn</th>
-      <th>Đơn vị</th>
+  <div class="content--home">
+    <div class="content__header">
+      <p class="content__header__note">
+        Lịch sử mượn thiết bị/phòng học
+      </p>
+      <div class="content-color-box">
+        <form method="post" action="{% url 'home:thongke' %}">
+          {% csrf_token %}
+          <input type="hidden" name="e" id="e">
+          <button class="btn add-btn" type="submit">
+            <i class="fa-solid fa-file-export"></i>
+            Xuất excel</button> 
+        </form>
+      </div>
+    </div>
 
-      <th>Code</th>
-      <th>Thời gian mượn</th>
-      <th>Tiết</th>
-    </tr>
-    {% for device in device %}
-      <tr>
-        <td>{{device.deviceId.name}}</td>
-        <td>{{device.deviceId.status}}</td>
-        <td>{{device.deviceId.quantity}}</td>
-        <td>{{device.deviceId.unit}}</td>
+    <div class="content__soft">
+      <form method="post" action="{% url 'home:thongke' %}" class="contetn__soft__option">
+        {% csrf_token %}
+        <span>Lọc theo năm:</span>
+          <select name="nam" id="nam">
+            <option value="2021-2022">2021-2022</option>
+            <option value="2022-2023">2022-2023</option>
+            <option value="2023-2024">2023-2024</option>
+          </select>
+          <button type="submit">Lọc</button> 
+      </form>
 
-        <td>{{device.lop}}</td>
-        <td>{{device.muon}}</td>
-        <td>{{device.tiet}}</td>
-      </tr>
-      {% endfor %}
-  </table>
-  <h1> tổng tiết theo thống kê: {{sum}}</h1>
+      <form class="contetn__soft__option" method="post" action="{% url 'home:thongke' %}">
+        {% csrf_token %}
+        <span>Lọc theo bộ môn:</span>
+          <select name="mon" id="mon">
+            <option value="QPAN">Quốc Phòng An Ninh</option>
+            <option value="TH">Toán</option>
+            <option value="LS">Lịch sử</option>
+            <option value="NV">Ngữ Văn</option>
+            <option value="ĐL">Địa Lý</option>
+            <option value="GIATT">Giá treo tranh</option>
+            <option value="VL">Vật Lý</option>
+            <option value="SH">Sinh Học</option>
+            <option value="HH">Hóa Học</option>
+            <option value="TD">Thể Dục</option>
+          </select>
+          <button type="submit">Lọc</button> 
+      </form>
 
-  <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-    
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
-    
-    tr:nth-child(even) {
-      background-color: #dddddd;
-    }
-    </style>
+      <form class="contetn__soft__option" method="post" action="{% url 'home:thongke' %}">
+        {% csrf_token %}
+        <span>Lọc theo người mượn:</span>
+          <select name="giaovien" id="giaovien">
+            <option value="Lop10A">Lớp 10 A</option>
+            <option value="Lop10B">Lớp 10 B</option>
+            <option value="Lop10C">Lớp 10 C</option>
+            <option value="Lop11A">Lớp 11 A</option>
+            <option value="Lop11B">Lớp 11 B</option>
+            <option value="Lop11C">Lớp 11 C</option>
+            <option value="Lop12A">Lớp 12 A</option>
+            <option value="Lop12B">Lớp 12 B</option>
+            <option value="Lop12C">Lớp 12 C</option>
+            <option value="GV">Giáo Viên</option>
+          </select>
+          <button type="submit">Lọc</button> 
+      </form>
+      <form method="post" action="{% url 'home:thongke' %}" class="contetn__soft__option contetn__soft__option--date">
+        {% csrf_token %}
+        <span>Lọc từ ngày:</span>
+        <input type="date" name="ngays" id="ngays" placeholder="">
+        đến:<input type="date" name="ngaye" id="ngaye" placeholder="">
+        <button type="submit">Lọc</button>
+      </form>
+    </div>
+
+    <div class="content__device--admin">
+      <table class="device__table--admin">
+        <thead>
+          <tr>
+            <th>Tên thiết bị</th>
+            <th>Mã Thiết bị</th>
+            <th>Trạng thái</th>
+            <th>Đơn vị</th>
+            <th>Người mượn</th>
+            <th>Thời gian mượn</th>
+            <th>Thời gian trả</th>
+            <th>Số tiết</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for device in device %}
+          <tr>
+            <td>{{device.deviceId.name}}</td>
+            <td>{{device.deviceId.status}}</td>
+            <td>{{device.deviceId.quantity}}</td>
+            <td>{{device.deviceId.unit}}</td>
+            <td>{{device.lop}}</td>
+            <td>{{device.muon}}</td>
+            <td>{{device.tra}}</td>
+            <td>{{device.tiet}}</td>
+          </tr>
+          {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+    <br/>
+    <h3> Tổng tiết theo thống kê: {{sum}}</h3>
+    </div>
+  </div>
+</div>
 {% endblock %}

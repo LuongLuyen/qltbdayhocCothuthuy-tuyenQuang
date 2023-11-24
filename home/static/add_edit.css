@@ -1,0 +1,58 @@
+.header__name--home span{
+	font-size: 18px;
+	font-weight: 400;
+	color: 	#37a0f0;
+}
+
+.content--edit{
+	display: flex;
+	flex-direction: column;
+	background-color: #fff;
+	width: 50%;
+	min-width: 550px;
+	margin: auto;
+	border-radius: 10px;
+	box-shadow: var(--black-shadow);
+}
+
+.content--edit__header{
+	font-size: 24px;
+	padding: 20px;
+	font-weight: 600;
+}
+
+.content--edit__info{
+	padding: 0 20px 20px 20px;
+}
+
+.info__item{
+	font-size: 18px;
+	padding: 8px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.info__item span{
+	align-self: center;
+}
+
+.info__item input{
+	padding: 8px;
+	width: 80%;
+	border: 2px solid #ccc;
+}
+.info__item select{
+	padding: 8px;
+	width: 80%;
+	border: 2px solid #ccc;
+}
+.content--edit__info button{
+	margin-left: 78%;
+	width: 20%;
+	text-wrap: nowrap;
+}
+
+.content--edit__info button:hover{
+	cursor: pointer;
+	opacity: 0.9;
+}

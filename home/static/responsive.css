@@ -1,0 +1,170 @@
+/* PC */
+@media (min-width: 1025px){
+
+}
+
+/* ipad */
+
+@media (min-width: 740px) and (max-width: 1025px){
+
+.header__signIn{
+	display: none;
+}
+
+.sidebar{
+	width: fit-content;
+}
+
+.sidebar .user__info{
+	display: none;
+}
+
+.sidebar__link span{
+	display: none;
+}
+
+.sidebar__link i{
+	padding-left: 10px;
+}
+
+.content--home{
+	left: 88px;
+}
+
+.sidebar:hover{
+	width: 300px;
+}
+
+.sidebar:hover .user__info{
+	display: block;
+}
+
+.sidebar:hover span{
+	display: inline-block;
+}
+
+.sidebar:hover i{
+	padding-right: 10px;
+	padding-left: 0px;
+}
+
+.content__device--admin{
+	width: fit-content;
+}
+
+.app{
+	width: 120%;
+}
+
+.content--edit{
+	width: 95%;
+}
+
+
+
+}
+
+/* phone */
+
+@media (max-width: 740px){
+
+.header__signIn{
+	display: none;
+}
+
+.header__logo-section{
+	font-size: 18px;
+}
+
+.slogan{
+	display: none;
+}
+
+.sidebar{
+	width: fit-content;
+}
+
+.sidebar .user__info{
+	display: none;
+}
+
+.sidebar__link span{
+	display: none;
+}
+
+.sidebar__link i{
+	padding-left: 10px;
+}
+
+.content--home{
+	left: 88px;
+}
+
+.sidebar:hover{
+	width: 300px;
+}
+
+.sidebar:hover .user__info{
+	display: block;
+}
+
+.sidebar:hover span{
+	display: inline-block;
+}
+
+.sidebar:hover i{
+	padding-right: 10px;
+	padding-left: 0px;
+}
+
+.content--home{
+	width: 600px;
+}
+
+.user__role{
+	display: none;
+}
+
+.content__device--admin{
+	width: fit-content;
+}
+
+.app{
+	width: 250%;
+}
+
+.content__header{
+	flex-direction: column;
+	align-items: left;
+}
+
+.content__header__note{
+	margin-top: 20px;
+}
+
+.content__header__note{
+	align-self: unset;
+}
+
+.content-color-box{
+	margin-left: 0;
+}
+
+.content--edit__header{
+	margin-top: 40px;
+}
+
+.content--edit__info{
+	width: 420px;
+}
+
+.info__item input, select{
+	width: 235px;
+}
+
+.content--edit__info button {
+	margin-left: 265px;
+	width: unset;
+}
+
+}
