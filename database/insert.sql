@@ -5,17 +5,28 @@ Insert into home_user(userName,password,role) values('nguoidung','nguoidung','US
 
 -- lab
 Insert into home_device(userId_id,name,code,unit,price,quantity,status,date,location) 
-values(1,'Phòng Tin 1','LABTH1','phòng','#','1','#','#','#');
+values(1,'Hóa Học 1','LABHH1T1','phòng','#','1','#','#','#');
+
 Insert into home_device(userId_id,name,code,unit,price,quantity,status,date,location) 
-values(1,'Phòng Tin 2','LABTH2','phòng','#','1','#','#','#');
+values(1,'Vật Lí - CN 1','LABVLCN1T2','phòng','#','1','#','#','#');
+
 Insert into home_device(userId_id,name,code,unit,price,quantity,status,date,location) 
-values(1,'Phòng Tin 3','LABTH3','phòng','#','1','#','#','#');
+values(1,'Tin Học 2','LABTH2T3','phòng','#','1','#','#','#');
 Insert into home_device(userId_id,name,code,unit,price,quantity,status,date,location) 
-values(1,'Sinh học','LABSH','phòng','#','1','#','#','#');
+values(1,'Sinh Học 1','LABSH1T3','phòng','#','1','#','#','#');
+
 Insert into home_device(userId_id,name,code,unit,price,quantity,status,date,location) 
-values(1,'Âm nhạc','LABAN','phòng','#','1','#','#','#');
+values(1,'Tin Học 1','LABTH1T4','phòng','#','1','#','#','#');
 Insert into home_device(userId_id,name,code,unit,price,quantity,status,date,location) 
-values(1,'Hóa học','LABHH','phòng','#','1','#','#','#');
+values(1,'Tin Học 3','LABTH3T4','phòng','#','1','#','#','#');
+Insert into home_device(userId_id,name,code,unit,price,quantity,status,date,location) 
+values(1,'Sinh Học 2','LABSH2T4','phòng','#','1','#','#','#');
+Insert into home_device(userId_id,name,code,unit,price,quantity,status,date,location) 
+values(1,'Vật Lí - CN 2','LABVLCN2T4','phòng','#','1','#','#','#');
+Insert into home_device(userId_id,name,code,unit,price,quantity,status,date,location) 
+values(1,'Trực tuyến','LABTTT4','phòng','#','1','#','#','#');
+Insert into home_device(userId_id,name,code,unit,price,quantity,status,date,location) 
+values(1,'Hóa Học 2','LABHH2KT','phòng','#','1','#','#','#');
 -- device
 Insert into home_device(userId_id,name,code,unit,price,quantity,status,date,location) 
 values(1,'Video/clip/ Phim tư liệu về truyện cổ dân gian Việt Nam','NVH.NV.Vid.2023/01-01/04','Bộ','202.500','5','mới','21-11-2023','việt nam');

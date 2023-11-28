@@ -158,7 +158,7 @@ def getHome(request):
             listDevice0.append(x)
     return render(request, 'pages/Home.html',{"device":listDevice,"role":rl,"name":name,"device0":listDevice0,"tb":True})
 def getThongKe(request):
-    name = request.session.get('name')
+    nameUser = request.session.get('name')
     rl = bool
     role = request.session.get('role')
     if role == "ADMIN":
@@ -189,7 +189,7 @@ def getThongKe(request):
             sum =0
             for x in list:
                 sum += int(x.tiet)
-            return render(request, 'pages/Thongke.html',{"device":list, "sum":sum,"name":name,"role":rl})
+            return render(request, 'pages/Thongke.html',{"device":list, "sum":sum,"name":nameUser,"role":rl})
         if giaovien != None:
             list = []
             for x in device:
@@ -198,24 +198,24 @@ def getThongKe(request):
             sum =0
             for x in list:
                 sum += int(x.tiet)
-            return render(request, 'pages/Thongke.html',{"device":list, "sum":sum,"name":name,"role":rl})
+            return render(request, 'pages/Thongke.html',{"device":list, "sum":sum,"name":nameUser,"role":rl})
         if nams != "" and name != "":
             r = BorrowReturn.objects.filter(muon__gte=f"{nams}-1-1", muon__lte=f"{name}-12-31")
             sum =0
             for x in r:
                 sum += int(x.tiet)
-            return render(request, 'pages/Thongke.html',{"device":r, "sum":sum,"name":name,"role":rl})
+            return render(request, 'pages/Thongke.html',{"device":r, "sum":sum,"name":nameUser,"role":rl})
         if ngays != None and ngaye != None:
             r = BorrowReturn.objects.filter(muon__gte=f"{ngays}", muon__lte=f"{ngaye}")
             sum =0
             for x in r:
                 sum += int(x.tiet)
-            return render(request, 'pages/Thongke.html',{"device":r,"sum":sum,"name":name,"role":rl})
+            return render(request, 'pages/Thongke.html',{"device":r,"sum":sum,"name":nameUser,"role":rl})
         if e != None:
             device = BorrowReturn.objects.select_related('deviceId','userId').all().order_by('id')
             file = excel(device)
             return file
-    return render(request, 'pages/Thongke.html',{"device":device, "sum":sum,"name":name,"role":rl})
+    return render(request, 'pages/Thongke.html',{"device":device, "sum":sum,"name":nameUser ,"role":rl})
 
 
 def getAdmin(request):
@@ -280,14 +280,27 @@ def getLab(request):
                 del request.session['deviceId']
             except:
                 device = Device.objects.all()
-                listDevice =[]
+                listDevice1 =[]
+                listDevice2 =[]
+                listDevice3 =[]
+                listDevice4 =[]
+                listDeviceKt =[]
                 listDevice0 =[]
                 for x in device:
                     if x.unit =="phòng" and x.quantity != "0":
-                        listDevice.append(x)
+                        if "T1" in x.code :
+                            listDevice1.append(x)
+                        if "T2" in x.code :
+                            listDevice2.append(x)
+                        if "T3" in x.code :
+                            listDevice3.append(x)
+                        if "T4" in x.code :
+                            listDevice4.append(x)
+                        if "KT" in x.code :
+                            listDeviceKt.append(x)
                     if x.unit =="phòng" and x.quantity == "0":
                         listDevice0.append(x)
-                return render(request, 'pages/Lab.html',{"device":listDevice,"device0":listDevice0,"role":rl,"name":name,"tb":True})
+                return render(request, 'pages/Lab.html',{"device0":listDevice0,"device1":listDevice1,"device2":listDevice2,"device3":listDevice3,"device4":listDevice4,"deviceKt":listDeviceKt,"role":rl,"name":name,"tb":True})
         if tb!=None:
             request.session['deviceId'] = str(deviceId)
             ID = request.session.get('deviceId')
@@ -298,14 +311,27 @@ def getLab(request):
             device.quantity =str(quantityInt)
             device.save()
             device = Device.objects.all()
-            listDevice =[]
+            listDevice1 =[]
+            listDevice2 =[]
+            listDevice3 =[]
+            listDevice4 =[]
+            listDeviceKt =[]
             listDevice0 =[]
             for x in device:
                 if x.unit =="phòng" and x.quantity != "0":
-                    listDevice.append(x)
+                    if "T1" in x.code :
+                        listDevice1.append(x)
+                    if "T2" in x.code :
+                        listDevice2.append(x)
+                    if "T3" in x.code :
+                        listDevice3.append(x)
+                    if "T4" in x.code :
+                        listDevice4.append(x)
+                    if "KT" in x.code :
+                        listDeviceKt.append(x)
                 if x.unit =="phòng" and x.quantity == "0":
                     listDevice0.append(x)
-            return render(request, 'pages/Lab.html',{"time":int(tiet)*5, "id":id,"role":rl, "device":listDevice,"name":name,"device0":listDevice0,"tb":False})
+            return render(request, 'pages/Lab.html',{"time":int(tiet)*5,"device0":listDevice0,"device1":listDevice1,"device2":listDevice2,"device3":listDevice3,"device4":listDevice4,"deviceKt":listDeviceKt, "id":id,"role":rl,"name":name,"tb":False})
     rl = bool
     role = request.session.get('role')
     if role == "ADMIN":
@@ -313,11 +339,24 @@ def getLab(request):
     else:
         rl =False
     device = Device.objects.all()
-    listDevice =[]
+    listDevice1 =[]
+    listDevice2 =[]
+    listDevice3 =[]
+    listDevice4 =[]
+    listDeviceKt =[]
     listDevice0 =[]
     for x in device:
         if x.unit =="phòng" and x.quantity != "0":
-            listDevice.append(x)
+            if "T1" in x.code :
+                listDevice1.append(x)
+            if "T2" in x.code :
+                listDevice2.append(x)
+            if "T3" in x.code :
+                listDevice3.append(x)
+            if "T4" in x.code :
+                listDevice4.append(x)
+            if "KT" in x.code :
+                listDeviceKt.append(x)
         if x.unit =="phòng" and x.quantity == "0":
             listDevice0.append(x)
-    return render(request, 'pages/Lab.html',{"device":listDevice,"role":rl,"name":name,"device0":listDevice0,"tb":True})
+    return render(request, 'pages/Lab.html',{"device0":listDevice0,"device1":listDevice1,"device2":listDevice2,"device3":listDevice3,"device4":listDevice4,"deviceKt":listDeviceKt,"role":rl,"name":name,"tb":True})
