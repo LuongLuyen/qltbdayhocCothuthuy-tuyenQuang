@@ -20,6 +20,7 @@
     <div class="user__noti">
       <i class="fa-solid fa-bell"></i>  
       <ul class="user__noti__history">
+<<<<<<< HEAD
         <li>
           <p class="noti__history__device">
             Trả thiết bị: 
@@ -87,6 +88,25 @@
         </li>
         <li>
           <a href="/thongke" class="user__noti__link">
+=======
+        {% for tb in thongbao %}
+        <li>
+          <p class="noti__history__device">
+            Trả thiết bị/phòng: 
+            <span>
+              {{tb.deviceId.name}}
+            </span>
+          </p>
+          <p class="noti__history__info">
+            người dùng<span> {{tb.userId.name}}</span> đã trả thiết bị vào 
+            <span> {{tb.tiet}}</span>
+            <span> Ngày: {{tb.tra}}</span>
+          </p>
+        </li>
+        {% endfor %}
+        <li>
+          <a href="/thietbidangduocmuon" class="user__noti__link">
+>>>>>>> 6d982c18df265d5880947e6c9641496549b78005
             xem chi tiết
           </a>
         </li>
@@ -99,7 +119,7 @@
         <li>
           <form method="post" action="{% url 'home:login' %}">
             {% csrf_token %}
-            <input type="hidden" name="out" id="out">
+            <input type="hidden" name="out" id="out" value="out">
             <button type="submit">Đăng xuất</button> 
           </form>
         </li>
@@ -139,7 +159,12 @@
         <span class="">Phòng bộ môn</span>
       </a>
     </li>
-    {% if role %}
+    <li class="sidebar__item">
+      <a href="/thietbidangduocmuon" class="sidebar__link">
+        <i class="fa-solid fa-house-chimney-user"></i>
+        <span class="">Thiết bị đang được mượn</span>
+      </a>
+    </li>
     <li class="sidebar__item">
       <a href="/admins" class="sidebar__link">
         <i class="fa-solid fa-pen-to-square"></i>
@@ -152,8 +177,8 @@
         <span class="">Thống kê & báo cáo</span>
       </a>
     </li>
-    {% endif %}
   </ul>
+
 
   <div class="content--home">
     <div class="content__header">
@@ -214,6 +239,39 @@
       </a>
     </div>
 
+    <div class="search">
+      <form class="search_section" method="post" action="{% url 'home:home' %}">
+        {% csrf_token %}
+        <input class="search_input" type="search" name="search" value="" placeholder="Tìm kiếm thiết bị theo tên hoặc mã thiết bị">
+        <button class="search_icon" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </div>
+    <form class="contetn__soft__option--home" method="post" action="{% url 'home:home' %}">
+      {% csrf_token %}
+      <span>hiển thị theo môn:</span>
+      <select name="mon" id="mon">
+        <option value="quocphonganninh">Quốc Phòng An Ninh</option>
+        <option value="toanhoc">Toán</option>
+        <option value="lichsu">Lịch sử</option>
+        <option value="nguvan">Ngữ Văn</option>
+        <option value="dialy">Địa Lý</option>
+        <option value="vatly">Vật Lý</option>
+        <option value="sinhhoc">Sinh Học</option>
+        <option value="hoahoc">Hóa Học</option>
+        <option value="theduc">Thể Dục</option>
+      </select>
+        <button type="submit">Lọc</button> 
+    </form>
+
+    <div class="refresh">
+      <a href="/home" class="">  
+        <i class="fa-solid fa-rotate-right"></i>
+        <span>Làm mới</span>
+      </a>
+    </div>
+
     <div class="content__device">
       <!-- <table class="device__table">
         <thead>
@@ -247,8 +305,8 @@
             <td>
               <form method="post" action="{% url 'home:home' %}">
                 {% csrf_token %}
-                <input type="hidden" name="tb" id="tb">
                 <input type="hidden" name="deviceId" id="deviceId" value="{{device.id}}">
+<<<<<<< HEAD
                   {% if tb %}
                   <button type="submit">Đăng ký</button> 
                   {% else %}
@@ -305,6 +363,9 @@
                   <button type="submit">Trả</button> 
                   {% else %}
                  {% endif %}
+=======
+                  <button type="submit">Đăng ký</button> 
+>>>>>>> 6d982c18df265d5880947e6c9641496549b78005
               </form>
             </td>
           </tr>
@@ -320,7 +381,7 @@
     </div>
   </div>
 </div>
-  <script>
+  <!-- <script>
     var myTime = "{{ time }}" *1
     var name = "{{ name }}"
     if(myTime !== 0){
@@ -333,5 +394,5 @@
         document.getElementById("sub").click()
       }
     }
-</script>
+</script> -->
 {% endblock %}

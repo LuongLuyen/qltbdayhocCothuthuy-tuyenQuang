@@ -1,9 +1,9 @@
 {% extends "pages/base.html" %}
-{% block title %} Admin {% endblock %}
+{% block title %} ThongKe {% endblock %}
 {% block content %}
 {% load static %}
 <div class="header--home">
-  < class="header__logo-section">
+  <div class="header__logo-section">
     <i class="fa-solid fa-house-laptop header__logo--home"></i>
     <span class="header__name--home">Teaching Equipment Management</span>
   </div>
@@ -90,13 +90,13 @@
       </a>
     </li>
     <li class="sidebar__item">
-      <a href="/thietbidangduocmuon" class="sidebar__link">
+      <a href="/thietbidangduocmuon" class="sidebar__link sidebar__link--selected">
         <i class="fa-solid fa-house-chimney-user"></i>
         <span class="">Thiết bị đang được mượn</span>
       </a>
     </li>
     <li class="sidebar__item">
-      <a href="/admins" class="sidebar__link sidebar__link--selected">
+      <a href="/admins" class="sidebar__link">
         <i class="fa-solid fa-pen-to-square"></i>
         <span class="">Quản lý chung (QTV)</span>
       </a>
@@ -110,71 +110,59 @@
   </ul>
 
   <div class="content--home">
-    <div class="content__header">
-      <p class="content__header__note">
-        Quản lý thiết bị & phòng học
-      </p>
-      <div class="content-color-box">
-        <a href="/add" class="btn add-btn">
-          <i class="fa-solid fa-plus"></i>
-          Nhập mới thiết bị
-      </a>
-      </div>
-
-    </div>
+    
 
     <div class="content__device--admin">
       <table class="device__table--admin">
         <thead>
           <tr>
             <th>Tên thiết bị</th>
-            <th>Mã Thiết bị</th>
-            <th>Đơn vị</th>
-            <th>Giá (vnd)</th>
-            <th>Số lượng</th>
-            <th>Trạng thái</th>
-            <th>Ngày nhập</th>
-            <th>Nơi sản xuất</th>
-            <th>Cập nhật</th>
-            <th>Xóa</th>
+            <th>Người mượn</th>
+            <th>Lớp mượn mượn</th>
+            <th>Môn</th>
+            <th>Tiết mượn</th>
+            <th>Trả thiết bị</th>
           </tr>
         </thead>
 
         <tbody>
-          {% for device in device %}
-          <tr>
-            <td>{{device.name}}</td>
-            <td>{{device.code}}</td>
-            <td>{{device.unit}}</td>
-            <td>{{device.price}}</td>
-            <td>{{device.quantity}}</td>
-            <td>{{device.status}}</td>
-            <td>{{device.date}}</td>
-            <td>{{device.location}}</td>
+          {% for device in device1 %}
+          <tr style="background-color: red;">
+            <td>{{device.deviceId.name}}</td>
+            <td>{{device.giaovien}}</td>
+            <td>{{device.lop}}</td>
+            <td>{{device.deviceId.mon}}</td>
+            <td>Tiết: {{device.tiet}} Ngày: {{device.muon}}</td>
             <td>
-              <form method="post" action="{% url 'home:admins' %}">
+              <form method="post" action="{% url 'home:thietbidangduocmuon' %}">
                 {% csrf_token %}
-                <input type="hidden" name="capnhat" id="capnhat" value="{{device.id}}">
+                <input type="hidden" name="xoa" id="xoa" value="{{device.deviceId.id}}">
+                <input type="hidden" name="idtra" id="idtra" value="{{device.id}}">
                 <button type="submit" class= "btn--edit">
                   <i class="fa-solid fa-wrench"></i>
                 </button> 
               </form>
             </td>
+          </tr>
+          {% endfor %}
+          {% for device in device2 %}
+          <tr>
+            <td>{{device.deviceId.name}}</td>
+            <td>{{device.giaovien}}</td>
+            <td>{{device.lop}}</td>
+            <td>{{device.deviceId.mon}}</td>
+            <td>Tiết: {{device.tiet}} Ngày: {{device.muon}}</td>
             <td>
-              <form method="post" action="{% url 'home:admins' %}">
-                {% csrf_token %}
-                <input type="hidden" name="xoa" id="xoa" value="{{device.id}}">
-                <button type="submit" class="btn--delete">
-                  <i class="fa-solid fa-x"></i>
-                </button>
-              </form>
+                <div class= "btn--edit">
+                  Đã trả 
+                </div> 
             </td>
           </tr>
           {% endfor %}
-        </tbody>
-      </table>
+        </tr>
+      </tbody>
+    </table>
     </div>
   </div>
 </div>
-
 {% endblock %}

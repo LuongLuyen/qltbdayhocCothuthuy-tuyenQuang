@@ -322,6 +322,7 @@
 .search{
 	margin-left: 16px;
 	width: 55%;
+<<<<<<< HEAD
 	align-self: center;
 }
 
@@ -332,6 +333,15 @@
     border-radius: 35px;
     font-size: 16px;
     align-self: center;
+=======
+}
+
+.search_input{
+	padding: 16px;
+	width: 100%;
+	border-radius: 35px;
+	font-size: 16px;
+>>>>>>> 6d982c18df265d5880947e6c9641496549b78005
 }
 .search_section{
 	display: flex;
@@ -339,9 +349,14 @@
 }
 
 .search_section button{
+<<<<<<< HEAD
     padding: 14px;
     border-radius: 50%;
     align-self: center;
+=======
+	padding: 20px;
+    border-radius: 50%;
+>>>>>>> 6d982c18df265d5880947e6c9641496549b78005
 }
 
 .search_section button:hover{

@@ -17,6 +17,31 @@
       <span>người dùng cơ bản</span> 
      {% endif %}
     </div>
+    <div class="user__noti">
+      <i class="fa-solid fa-bell"></i>  
+      <ul class="user__noti__history">
+        {% for tb in thongbao %}
+        <li>
+          <p class="noti__history__device">
+            Trả thiết bị/phòng: 
+            <span>
+              {{tb.deviceId.name}}
+            </span>
+          </p>
+          <p class="noti__history__info">
+            người dùng<span> {{tb.userId.name}}</span> đã trả thiết bị vào 
+            <span> {{tb.tiet}}</span>
+            <span> Ngày: {{tb.tra}}</span>
+          </p>
+        </li>
+        {% endfor %}
+        <li>
+          <a href="/thietbidangduocmuon" class="user__noti__link">
+            xem chi tiết
+          </a>
+        </li>
+      </ul>
+    </div>
     <div class="user__avatar">
       <img src="{% static 'user-avatar-img.png' %}" alt="avatar">
       <i class="fa-solid fa-angle-down"></i>
@@ -64,7 +89,12 @@
         <span class="">Phòng bộ môn</span>
       </a>
     </li>
-    {% if role %}
+    <li class="sidebar__item">
+      <a href="/thietbidangduocmuon" class="sidebar__link">
+        <i class="fa-solid fa-house-chimney-user"></i>
+        <span class="">Thiết bị đang được mượn</span>
+      </a>
+    </li>
     <li class="sidebar__item">
       <a href="/admins" class="sidebar__link">
         <i class="fa-solid fa-pen-to-square"></i>
@@ -77,7 +107,6 @@
         <span class="">Thống kê & báo cáo</span>
       </a>
     </li>
-    {% endif %}
   </ul>
 
   <div class="content--home">
@@ -91,7 +120,25 @@
           <input type="hidden" name="e" id="e">
           <button class="btn add-btn" type="submit">
             <i class="fa-solid fa-file-export"></i>
-            Xuất excel</button> 
+            Xuất excel tất cả</button> 
+        </form>
+      </div>
+      <div class="content-color-box">
+        <form method="post" action="{% url 'home:thongke' %}">
+          {% csrf_token %}
+          <input type="hidden" name="end" id="end">
+          <button class="btn add-btn" type="submit">
+            <i class="fa-solid fa-file-export"></i>
+            Xuất excel người dùng</button> 
+        </form>
+      </div>
+      <div class="content-color-box">
+        <form method="post" action="{% url 'home:thongke' %}">
+          {% csrf_token %}
+          <input type="hidden" name="ehsd" id="ehsd">
+          <button class="btn add-btn" type="submit">
+            <i class="fa-solid fa-file-export"></i>
+            Xuất excel hóa chất hết hạn</button> 
         </form>
       </div>
     </div>
@@ -112,16 +159,15 @@
         {% csrf_token %}
         <span>Lọc theo bộ môn:</span>
           <select name="mon" id="mon">
-            <option value="QPAN">Quốc Phòng An Ninh</option>
-            <option value="TH">Toán</option>
-            <option value="LS">Lịch sử</option>
-            <option value="NV">Ngữ Văn</option>
-            <option value="ĐL">Địa Lý</option>
-            <option value="GIATT">Giá treo tranh</option>
-            <option value="VL">Vật Lý</option>
-            <option value="SH">Sinh Học</option>
-            <option value="HH">Hóa Học</option>
-            <option value="TD">Thể Dục</option>
+            <option value="quocphonganninh">Quốc Phòng An Ninh</option>
+            <option value="toanhoc">Toán</option>
+            <option value="lichsu">Lịch sử</option>
+            <option value="nguvan">Ngữ Văn</option>
+            <option value="dialy">Địa Lý</option>
+            <option value="vatly">Vật Lý</option>
+            <option value="sinhhoc">Sinh Học</option>
+            <option value="hoahoc">Hóa Học</option>
+            <option value="theduc">Thể Dục</option>
           </select>
           <button type="submit">Lọc</button> 
       </form>
@@ -129,18 +175,7 @@
       <form class="contetn__soft__option" method="post" action="{% url 'home:thongke' %}">
         {% csrf_token %}
         <span>Lọc theo người mượn:</span>
-          <select name="giaovien" id="giaovien">
-            <option value="Lop10A">Lớp 10 A</option>
-            <option value="Lop10B">Lớp 10 B</option>
-            <option value="Lop10C">Lớp 10 C</option>
-            <option value="Lop11A">Lớp 11 A</option>
-            <option value="Lop11B">Lớp 11 B</option>
-            <option value="Lop11C">Lớp 11 C</option>
-            <option value="Lop12A">Lớp 12 A</option>
-            <option value="Lop12B">Lớp 12 B</option>
-            <option value="Lop12C">Lớp 12 C</option>
-            <option value="GV">Giáo Viên</option>
-          </select>
+        <input name="giaovien" id="giaovien" placeholder="Nhập tên giáo viên" type="text" style="width: 200px; height: 30px;"/>
           <button type="submit">Lọc</button> 
       </form>
       <form method="post" action="{% url 'home:thongke' %}" class="contetn__soft__option contetn__soft__option--date">
@@ -157,13 +192,13 @@
         <thead>
           <tr>
             <th>Tên thiết bị</th>
-            <th>Mã Thiết bị</th>
             <th>Trạng thái</th>
+            <th>Số lượng (mượn)</th>
             <th>Đơn vị</th>
-            <th>Người mượn</th>
+            <th>Người mượn (-T là đã trả)</th>
             <th>Thời gian mượn</th>
             <th>Thời gian trả</th>
-            <th>Số tiết</th>
+            <th>Giờ trả thết bị</th>
           </tr>
         </thead>
 
@@ -174,7 +209,7 @@
             <td>{{device.deviceId.status}}</td>
             <td>{{device.deviceId.quantity}}</td>
             <td>{{device.deviceId.unit}}</td>
-            <td>{{device.lop}}</td>
+            <td>{{device.giaovien}} mượn cho: {{device.lop}}</td>
             <td>{{device.muon}}</td>
             <td>{{device.tra}}</td>
             <td>{{device.tiet}}</td>
