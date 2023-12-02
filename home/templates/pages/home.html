@@ -20,75 +20,6 @@
     <div class="user__noti">
       <i class="fa-solid fa-bell"></i>  
       <ul class="user__noti__history">
-<<<<<<< HEAD
-        <li>
-          <p class="noti__history__device">
-            Trả thiết bị: 
-            <span>
-              Sơ đồ quy trình tiến hành sân khấu hóa một tác phẩm văn học
-            </span>
-          </p>
-          <p class="noti__history__info">
-            người dùng<span> Hoàng Sơn Hải</span> đã trả thiết bị vào 
-            <span> Tiết 1</span>
-            <span> Ngày: 13/12/2023</span>
-          </p>
-        </li>
-        <li>
-          <p class="noti__history__device">
-            Trả thiết bị: 
-            <span>
-              Sơ đồ quy trình tiến hành sân khấu hóa một tác phẩm văn học
-            </span>
-          </p>
-          <p class="noti__history__info">
-            người dùng<span> Hoàng Sơn Hải</span> đã trả thiết bị vào 
-            <span> Tiết 1</span>
-            <span> Ngày: 13/12/2023</span>
-          </p>
-        </li>
-        <li>
-          <p class="noti__history__device">
-            Trả thiết bị: 
-            <span>
-              Sơ đồ quy trình tiến hành sân khấu hóa một tác phẩm văn học
-            </span>
-          </p>
-          <p class="noti__history__info">
-            người dùng<span> Hoàng Sơn Hải</span> đã trả thiết bị vào 
-            <span> Tiết 1</span>
-            <span> Ngày: 13/12/2023</span>
-          </p>
-        </li>
-        <li>
-          <p class="noti__history__device">
-            Trả thiết bị: 
-            <span>
-              Sơ đồ quy trình tiến hành sân khấu hóa một tác phẩm văn học
-            </span>
-          </p>
-          <p class="noti__history__info">
-            người dùng<span> Hoàng Sơn Hải</span> đã trả thiết bị vào 
-            <span> Tiết 1</span>
-            <span> Ngày: 13/12/2023</span>
-          </p>
-        </li>
-        <li>
-          <p class="noti__history__device">
-            Trả thiết bị: 
-            <span>
-              Sơ đồ quy trình tiến hành sân khấu hóa một tác phẩm văn học
-            </span>
-          </p>
-          <p class="noti__history__info">
-            người dùng<span> Hoàng Sơn Hải</span> đã trả thiết bị vào 
-            <span> Tiết 1</span>
-            <span> Ngày: 13/12/2023</span>
-          </p>
-        </li>
-        <li>
-          <a href="/thongke" class="user__noti__link">
-=======
         {% for tb in thongbao %}
         <li>
           <p class="noti__history__device">
@@ -106,7 +37,6 @@
         {% endfor %}
         <li>
           <a href="/thietbidangduocmuon" class="user__noti__link">
->>>>>>> 6d982c18df265d5880947e6c9641496549b78005
             xem chi tiết
           </a>
         </li>
@@ -323,49 +253,9 @@
           {% endfor %}
         </tbody>
       </table> -->
-      <table class="device__table">
-        <thead>
-          <tr>
-            <th>Tên thiết bị</th>
-            <th>Bộ Môn</th>
-            <th>Người mượn</th>
-            <th>Lớp mượn</th>
-            <th>TIết</th>
-            <th>Xác nhận trả</th>
-          </tr>
-        </thead>
 
-        <tbody>
-          {% for device in device0 %}
-          <tr class="invalid">
-            <td>{{device.name}}</td>
-            <td>{{device.mon}}</td>
-            <td>{{device.quantity}}</td>
-            <td>{{device.unit}}</td>
-            <td>
-                <button type="text">Hết</button> 
-            </td>
-          </tr>
-          {% endfor %}
-          {% for device in device %}
-          <tr class="invalid">
-            <td>{{device.name}}</td>
-            <td>{{device.mon}}</td>
-            <td>{{device.quantity}}</td>
-            <td>{{device.unit}}</td>
-            <td>{{device.unit}}</td>
-            <td>
-              <form method="post" action="{% url 'home:home' %}">
-                {% csrf_token %}
-                <input type="hidden" name="tb" id="tb">
-                <input type="hidden" name="deviceId" id="deviceId" value="{{device.id}}">
-                  {% if tb %}
-                  <button type="submit">Trả</button> 
-                  {% else %}
-                 {% endif %}
-=======
                   <button type="submit">Đăng ký</button> 
->>>>>>> 6d982c18df265d5880947e6c9641496549b78005
+
               </form>
             </td>
           </tr>
