@@ -208,18 +208,13 @@
     </div>
   </div>
 </div>
-  <!-- <script>
-    var myTime = "{{ time }}" *1
-    var name = "{{ name }}"
-    if(myTime !== 0){
-      setTimeout(function() {
-        showNotification()
-      }, myTime * 1000)
-      function showNotification() {
-        alert(`Người dùng: [${name}] đến giờ trả thiết bị`)
-        document.getElementById("myInput").value = 'ok'
-        document.getElementById("sub").click()
-      }
-    }
+<!-- <script>
+  var idS = "{{id}}"
+  document.getElementById("idUser").value = `${idS}`
+  if(ids === null){
+    sessionStorage.setItem('id', idS)
+  }
+  var id = localStorage.getItem('id')
+  console.log(id) 
 </script> -->
 {% endblock %}
