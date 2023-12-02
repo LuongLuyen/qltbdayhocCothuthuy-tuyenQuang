@@ -320,13 +320,16 @@
 .search{
 	margin-left: 16px;
 	width: 55%;
+	align-self: center;
 }
 
 .search_input{
-	padding: 16px;
-	width: 100%;
-	border-radius: 35px;
-	font-size: 16px;
+    height: 40px;
+    padding: 16px;
+    width: 100%;
+    border-radius: 35px;
+    font-size: 16px;
+    align-self: center;
 }
 .search_section{
 	display: flex;
@@ -334,8 +337,9 @@
 }
 
 .search_section button{
-	padding: 20px;
+    padding: 14px;
     border-radius: 50%;
+    align-self: center;
 }
 
 .search_section button:hover{
