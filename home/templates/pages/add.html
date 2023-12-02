@@ -3,7 +3,7 @@
 {% block content %}
 {% if device%}
 <div class="header--home">
-  <div class="header__logo-section">
+  <a href="" class="header__logo-section">
     <i class="fa-solid fa-house-laptop header__logo--home"></i>
     <span class="header__name--home">
       Teaching Equipment Management
@@ -12,7 +12,7 @@
         Đăng ký mượn thiết bị
       </span>
     </span>
-  </div>
+  </a>
 </div>
 <div class="contain">
   <form method="post" action="{% url 'home:add' %}" class="content--edit">
