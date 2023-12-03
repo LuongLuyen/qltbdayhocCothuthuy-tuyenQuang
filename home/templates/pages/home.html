@@ -80,19 +80,13 @@
     <li class="sidebar__item">
       <a href="/home" class="sidebar__link sidebar__link--selected">
         <i class="fa-solid fa-business-time"></i>
-        <span class="">Mượn thiết bị</span>
+        <span class="">Mượn/Trả thiết bị</span>
       </a>
     </li>
     <li class="sidebar__item">
       <a href="/lab" class="sidebar__link">
         <i class="fa-solid fa-house-chimney-user"></i>
         <span class="">Phòng bộ môn</span>
-      </a>
-    </li>
-    <li class="sidebar__item">
-      <a href="/thietbidangduocmuon" class="sidebar__link">
-        <i class="fa-solid fa-house-chimney-user"></i>
-        <span class="">Thiết bị đang được mượn</span>
       </a>
     </li>
     <li class="sidebar__item">
@@ -124,11 +118,13 @@
         </button>
       </form>
     </div>
-    <!-- <div class="switch__page">
-      <a href="" class="">
-        Trang đang mượn
-      </a>
-    </div> -->
+            <div class="switch__page">
+          <a href="/thietbidangduocmuon" class="">
+            Xem trang trả
+          </a>
+        </div>
+  </div>
+
     <form class="contetn__soft__option--home" method="post" action="{% url 'home:home' %}">
       {% csrf_token %}
       <span>hiển thị theo môn:</span>
@@ -145,14 +141,13 @@
       </select>
         <button type="submit">Lọc</button> 
     </form>
-
     <div class="refresh">
       <a href="/home" class="">  
         <i class="fa-solid fa-rotate-right"></i>
         <span>Làm mới</span>
       </a>
     </div>
-  </div>
+
   <div class="content__device">
     <table class="device__table">
       <thead>
@@ -180,7 +175,7 @@
         {% for device in device %}
         <tr class="valid">
           <td>{{device.name}}</td>
-          <td>{{device.status}}</td>
+          <td>{{device.mon}}</td>
           <td>{{device.quantity}}</td>
           <td>{{device.unit}}</td>
           <td>

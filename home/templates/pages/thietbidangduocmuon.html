@@ -78,21 +78,15 @@
     </li>
 
     <li class="sidebar__item">
-      <a href="/home" class="sidebar__link">
+      <a href="/home" class="sidebar__link sidebar__link--selected">
         <i class="fa-solid fa-business-time"></i>
-        <span class="">Mượn thiết bị</span>
+        <span class="">Mượn/Trả thiết bị</span>
       </a>
     </li>
     <li class="sidebar__item">
       <a href="/lab" class="sidebar__link">
         <i class="fa-solid fa-house-chimney-user"></i>
         <span class="">Phòng bộ môn</span>
-      </a>
-    </li>
-    <li class="sidebar__item">
-      <a href="/thietbidangduocmuon" class="sidebar__link sidebar__link--selected">
-        <i class="fa-solid fa-house-chimney-user"></i>
-        <span class="">Thiết bị đang được mượn</span>
       </a>
     </li>
     <li class="sidebar__item">
@@ -110,7 +104,48 @@
   </ul>
 
   <div class="content--home">
-    
+    <div class="content__header">
+      <p class="content__header__note">
+        Các thiết bị có thể mượn 
+      </p>
+    <div class="search">
+      <form class="search_section" method="post" action="{% url 'home:thietbidangduocmuon' %}">
+        {% csrf_token %}
+        <input class="search_input" type="search" name="search" value="" placeholder="Tìm kiếm thiết bị theo tên hoặc mã thiết bị">
+        <button class="search_icon" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </div>
+            <div class="switch__page--green">
+          <a href="/home" class="">
+            Về trang mượn
+          </a>
+        </div>
+  </div>
+
+    <form class="contetn__soft__option--home" method="post" action="{% url 'home:home' %}">
+      {% csrf_token %}
+      <span>hiển thị theo môn:</span>
+      <select name="mon" id="mon">
+        <option value="quocphonganninh">Quốc Phòng An Ninh</option>
+        <option value="toanhoc">Toán</option>
+        <option value="lichsu">Lịch sử</option>
+        <option value="nguvan">Ngữ Văn</option>
+        <option value="dialy">Địa Lý</option>
+        <option value="vatly">Vật Lý</option>
+        <option value="sinhhoc">Sinh Học</option>
+        <option value="hoahoc">Hóa Học</option>
+        <option value="theduc">Thể Dục</option>
+      </select>
+        <button type="submit">Lọc</button> 
+    </form>
+    <div class="refresh">
+      <a href="/thietbidangduocmuon" class="">  
+        <i class="fa-solid fa-rotate-right"></i>
+        <span>Làm mới</span>
+      </a>
+    </div>
 
     <div class="content__device--admin">
       <table class="device__table--admin">
@@ -121,13 +156,13 @@
             <th>Lớp mượn mượn</th>
             <th>Môn</th>
             <th>Tiết mượn</th>
-            <th>Trả thiết bị</th>
+            <th>Xác nhận trả</th>
           </tr>
         </thead>
 
         <tbody>
           {% for device in device1 %}
-          <tr style="background-color: red;">
+          <tr style="background-color: #f14848;">
             <td>{{device.deviceId.name}}</td>
             <td>{{device.giaovien}}</td>
             <td>{{device.lop}}</td>
@@ -138,8 +173,8 @@
                 {% csrf_token %}
                 <input type="hidden" name="xoa" id="xoa" value="{{device.deviceId.id}}">
                 <input type="hidden" name="idtra" id="idtra" value="{{device.id}}">
-                <button type="submit" class= "btn--edit">
-                  <i class="fa-solid fa-wrench"></i>
+                <button type="submit" class= "btn--edit--red">
+                  Trả
                 </button> 
               </form>
             </td>
@@ -153,7 +188,7 @@
             <td>{{device.deviceId.mon}}</td>
             <td>Tiết: {{device.tiet}} Ngày: {{device.muon}}</td>
             <td>
-                <div class= "btn--edit">
+                <div class= "btn--edit--green">
                   Đã trả 
                 </div> 
             </td>
