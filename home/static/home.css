@@ -164,6 +164,10 @@
 	cursor: pointer;
 }
 
+.user__avatar:hover button{
+	cursor: pointer;
+}
+
 .user__avatar:hover .user__avatar__option{
 	display: block;
 }
@@ -350,7 +354,7 @@
 /* switch__page */
 
 .switch__page a{
-    margin-left: 50px;
+    margin-left: 16px;
     padding: 16px;
     color: #fff;
     background-color: red;
@@ -370,20 +374,10 @@
 }
 
 .switch__page--green a{
-	margin-left: 50px;
+	margin-left: 16px;
     padding: 16px;
     color: #fff;
     background-color: #3ad43a;
-    line-height: 64px;
-    border-radius: 24px;
-    text-decoration: none;
-}
-
-.switch__page--green:hover a{
-	margin-left: 50px;
-    padding: 16px;
-    color: #fff;
-    background-color: red;
     line-height: 64px;
     border-radius: 24px;
     text-decoration: none;
@@ -436,6 +430,10 @@
     border-radius: 5px;
 	border-radius: 24px;
     text-decoration: none;
+}
+
+.refresh:hover{
+	opacity: 0.9;
 }
 
 .refresh:hover span{
