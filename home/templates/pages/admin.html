@@ -3,7 +3,7 @@
 {% block content %}
 {% load static %}
 <div class="header--home">
-  <div class="header__logo-section">
+  < class="header__logo-section">
     <i class="fa-solid fa-house-laptop header__logo--home"></i>
     <span class="header__name--home">Teaching Equipment Management</span>
   </div>
@@ -16,6 +16,31 @@
       <i class="fa-solid fa-users"></i> 
       <span>người dùng cơ bản</span> 
      {% endif %}
+    </div>
+    <div class="user__noti">
+      <i class="fa-solid fa-bell"></i>  
+      <ul class="user__noti__history">
+        {% for tb in thongbao %}
+        <li>
+          <p class="noti__history__device">
+            Trả thiết bị/phòng: 
+            <span>
+              {{tb.deviceId.name}}
+            </span>
+          </p>
+          <p class="noti__history__info">
+            người dùng<span> {{tb.userId.name}}</span> đã trả thiết bị vào 
+            <span> {{tb.tiet}}</span>
+            <span> Ngày: {{tb.tra}}</span>
+          </p>
+        </li>
+        {% endfor %}
+        <li>
+          <a href="/thietbidangduocmuon" class="user__noti__link">
+            xem chi tiết
+          </a>
+        </li>
+      </ul>
     </div>
     <div class="user__avatar">
       <img src="{% static 'user-avatar-img.png' %}" alt="avatar">
@@ -55,7 +80,7 @@
     <li class="sidebar__item">
       <a href="/home" class="sidebar__link">
         <i class="fa-solid fa-business-time"></i>
-        <span class="">Mượn thiết bị</span>
+        <span class="">Mượn/Trả thiết bị</span>
       </a>
     </li>
     <li class="sidebar__item">
@@ -64,7 +89,6 @@
         <span class="">Phòng bộ môn</span>
       </a>
     </li>
-    {% if role %}
     <li class="sidebar__item">
       <a href="/admins" class="sidebar__link sidebar__link--selected">
         <i class="fa-solid fa-pen-to-square"></i>
@@ -77,7 +101,6 @@
         <span class="">Thống kê & báo cáo</span>
       </a>
     </li>
-    {% endif %}
   </ul>
 
   <div class="content--home">

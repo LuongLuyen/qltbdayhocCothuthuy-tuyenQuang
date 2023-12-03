@@ -9,4 +9,7 @@ urlpatterns = [
     path('admins/', views.getAdmin, name='admins'),
     path('add/', views.getAdd, name='add'),
     path('lab/', views.getLab, name='lab'),
+    path('borrowlab/', views.getBorrowLab, name='borrowlab'),
+    path('borrowdevice/', views.getBorrowDevice, name='borrowdevice'),
+    path('thietbidangduocmuon/', views.getThietBiDangDuocMuon, name='thietbidangduocmuon'),
 ]

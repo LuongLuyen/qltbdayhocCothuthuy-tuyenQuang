@@ -1,5 +1,5 @@
 {% extends "pages/base.html" %}
-{% block title %} Home {% endblock %}
+{% block title %} ThongKe {% endblock %}
 {% block content %}
 {% load static %}
 <div class="header--home">
@@ -49,7 +49,7 @@
         <li>
           <form method="post" action="{% url 'home:login' %}">
             {% csrf_token %}
-            <input type="hidden" name="out" id="out" value="out">
+            <input type="hidden" name="out" id="out">
             <button type="submit">Đăng xuất</button> 
           </form>
         </li>
@@ -103,14 +103,13 @@
     </li>
   </ul>
 
-
   <div class="content--home">
     <div class="content__header">
       <p class="content__header__note">
         Các thiết bị có thể mượn 
       </p>
     <div class="search">
-      <form class="search_section" method="post" action="{% url 'home:home' %}">
+      <form class="search_section" method="post" action="{% url 'home:thietbidangduocmuon' %}">
         {% csrf_token %}
         <input class="search_input" type="search" name="search" value="" placeholder="Tìm kiếm thiết bị theo tên hoặc mã thiết bị">
         <button class="search_icon" type="submit">
@@ -118,9 +117,9 @@
         </button>
       </form>
     </div>
-            <div class="switch__page--green">
-          <a href="/thietbidangduocmuon" class="">
-            Xem trang trả
+            <div class="switch__page">
+          <a href="/home" class="">
+            Về trang mượn
           </a>
         </div>
   </div>
@@ -142,68 +141,63 @@
         <button type="submit">Lọc</button> 
     </form>
     <div class="refresh">
-      <a href="/home" class="">  
+      <a href="/thietbidangduocmuon" class="">  
         <i class="fa-solid fa-rotate-right"></i>
         <span>Làm mới</span>
       </a>
     </div>
 
-  <div class="content__device">
-    <table class="device__table">
-      <thead>
-        <tr>
-          <th>Tên thiết bị</th>
-          <th>Bộ môn</th>
-          <th>Còn</th>
-          <th>Đơn vị</th>
-          <th>Đăng ký mượn thiết bị</th>
-        </tr>
-      </thead>
+    <div class="content__device--admin">
+      <table class="device__table--admin">
+        <thead>
+          <tr>
+            <th>Tên thiết bị</th>
+            <th>Người mượn</th>
+            <th>Lớp mượn mượn</th>
+            <th>Môn</th>
+            <th>Tiết mượn</th>
+            <th>Xác nhận trả</th>
+          </tr>
+        </thead>
 
-      <tbody>
-        {% for device in device0 %}
-        <tr class="invalid">
-          <td>{{device.name}}</td>
-          <td>{{device.mon}}</td>
-          <td>{{device.quantity}}</td>
-          <td>{{device.unit}}</td>
-          <td>
-              <button type="text">Hết</button> 
-          </td>
+        <tbody>
+          {% for device in device1 %}
+          <tr style="background-color: #f14848;">
+            <td>{{device.deviceId.name}}</td>
+            <td>{{device.giaovien}}</td>
+            <td>{{device.lop}}</td>
+            <td>{{device.deviceId.mon}}</td>
+            <td>Tiết: {{device.tiet}} Ngày: {{device.muon}}</td>
+            <td>
+              <form method="post" action="{% url 'home:thietbidangduocmuon' %}">
+                {% csrf_token %}
+                <input type="hidden" name="xoa" id="xoa" value="{{device.deviceId.id}}">
+                <input type="hidden" name="idtra" id="idtra" value="{{device.id}}">
+                <button type="submit" class= "btn--edit--red">
+                  Trả
+                </button> 
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+          {% for device in device2 %}
+          <tr>
+            <td>{{device.deviceId.name}}</td>
+            <td>{{device.giaovien}}</td>
+            <td>{{device.lop}}</td>
+            <td>{{device.deviceId.mon}}</td>
+            <td>Tiết: {{device.tiet}} Ngày: {{device.muon}}</td>
+            <td>
+                <div class= "btn--edit--green">
+                  Đã trả 
+                </div> 
+            </td>
+          </tr>
+          {% endfor %}
         </tr>
-        {% endfor %}
-        {% for device in device %}
-        <tr class="valid">
-          <td>{{device.name}}</td>
-          <td>{{device.mon}}</td>
-          <td>{{device.quantity}}</td>
-          <td>{{device.unit}}</td>
-          <td>
-            <form method="post" action="{% url 'home:home' %}">
-              {% csrf_token %}
-              <input type="hidden" name="deviceId" id="deviceId" value="{{device.id}}">
-                <button type="submit">Đăng ký</button> 
-            </form>
-          </td>
-        </tr>
-        <form method="post" action="{% url 'home:home' %}">
-          {% csrf_token %}
-          <input type="hidden" id="myInput" name ="myInput" >
-          <input type="hidden" name="dd" id="dd" value="{{device.id}}">
-          <input type="submit" id="sub" style="display: none;"> 
-        </form>
-        {% endfor %}
       </tbody>
     </table>
+    </div>
   </div>
 </div>
-<!-- <script>
-  var idS = "{{id}}"
-  document.getElementById("idUser").value = `${idS}`
-  if(ids === null){
-    sessionStorage.setItem('id', idS)
-  }
-  var id = localStorage.getItem('id')
-  console.log(id) 
-</script> -->
 {% endblock %}
