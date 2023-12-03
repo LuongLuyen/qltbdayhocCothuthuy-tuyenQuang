@@ -3,10 +3,10 @@
 {% block content %}
 {% load static %}
 <div class="header--home">
-  <a href="#" class="header__logo-section">
+  <div class="header__logo-section">
     <i class="fa-solid fa-house-laptop header__logo--home"></i>
     <span class="header__name--home">Teaching Equipment Management</span>
-  </a>
+  </div>
   <div class="user">
     <div class="user__role">
       {% if role %}
@@ -113,62 +113,8 @@
   <div class="content--home">
     <div class="content__header">
       <p class="content__header__note">
-        Các thiết bị có thể mượn
+        Các thiết bị có thể mượn 
       </p>
-      <!-- <div class="content-color-box">
-        <div class="content-color-box--green"></div>
-        <p>Có thể mượn</p>
-      </div>
-      <div class="content-color-box">
-        <div class="content-color-box--red"></div>
-        <p>Hiện tại không thể mượn</p>
-      </div> -->
-      <div class="search">
-        <form class="search_section" method="" action="">
-          <input class="search_input" type="search" name="search" placeholder="Tìm kiếm thiết bị theo tên hoặc mã thiết bị">
-          <button class="search_icon" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </form>
-      </div>
-        <!-- <div class="switch__page">
-          <a href="" class="">
-            Trang đang mượn
-          </a>
-        </div> -->
-        <div class="switch__page--green">
-          <a href="" class="">
-            Về trang mượn
-          </a>
-        </div>
-    </div>
-
-    <form class="contetn__soft__option--home" method="post" action="{% url 'home:home' %}">
-      {% csrf_token %}
-      <span>hiển thị theo môn:</span>
-        <select name="mon" id="mon">
-          <option value="QPAN">Tất cả</option>
-          <option value="QPAN">Quốc Phòng An Ninh</option>
-          <option value="TH">Toán</option>
-          <option value="LS">Lịch sử</option>
-          <option value="NV">Ngữ Văn</option>
-          <option value="ĐL">Địa Lý</option>
-          <option value="GIATT">Giá treo tranh</option>
-          <option value="VL">Vật Lý</option>
-          <option value="SH">Sinh Học</option>
-          <option value="HH">Hóa Học</option>
-          <option value="TD">Thể Dục</option>
-        </select>
-        <button type="submit">Lọc</button> 
-    </form>
-
-    <div class="refresh">
-      <a href="" class="">  
-        <i class="fa-solid fa-rotate-right"></i>
-        <span>Làm mới</span>
-      </a>
-    </div>
-
     <div class="search">
       <form class="search_section" method="post" action="{% url 'home:home' %}">
         {% csrf_token %}
@@ -178,6 +124,11 @@
         </button>
       </form>
     </div>
+    <!-- <div class="switch__page">
+      <a href="" class="">
+        Trang đang mượn
+      </a>
+    </div> -->
     <form class="contetn__soft__option--home" method="post" action="{% url 'home:home' %}">
       {% csrf_token %}
       <span>hiển thị theo môn:</span>
@@ -201,88 +152,63 @@
         <span>Làm mới</span>
       </a>
     </div>
+  </div>
+  <div class="content__device">
+    <table class="device__table">
+      <thead>
+        <tr>
+          <th>Tên thiết bị</th>
+          <th>Bộ môn</th>
+          <th>Còn</th>
+          <th>Đơn vị</th>
+          <th>Đăng ký mượn thiết bị</th>
+        </tr>
+      </thead>
 
-    <div class="content__device">
-      <!-- <table class="device__table">
-        <thead>
-          <tr>
-            <th>Tên thiết bị</th>
-            <th>Bộ Môn</th>
-            <th>Còn</th>
-            <th>Đơn vị</th>
-            <th>Đăng ký mượn thiết bị</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {% for device in device0 %}
-          <tr class="invalid">
-            <td>{{device.name}}</td>
-            <td>{{device.mon}}</td>
-            <td>{{device.quantity}}</td>
-            <td>{{device.unit}}</td>
-            <td>
-                <button type="text">Hết</button> 
-            </td>
-          </tr>
-          {% endfor %}
-          {% for device in device %}
-          <tr class="valid">
-            <td>{{device.name}}</td>
-            <td>{{device.mon}}</td>
-            <td>{{device.quantity}}</td>
-            <td>{{device.unit}}</td>
-            <td>
-              <form method="post" action="{% url 'home:home' %}">
-                {% csrf_token %}
-                <input type="hidden" name="deviceId" id="deviceId" value="{{device.id}}">
-<<<<<<< HEAD
-                  {% if tb %}
-                  <button type="submit">Đăng ký</button> 
-                  {% else %}
-                 {% endif %}
-              </form>
-            </td>
-          </tr>
-          <form method="post" action="{% url 'home:home' %}">
-            {% csrf_token %}
-            <input type="hidden" id="myInput" name ="myInput" >
-            <input type="hidden" name="dd" id="dd" value="{{device.id}}">
-            <input type="submit" id="sub" style="display: none;"> 
-          </form>
-          {% endfor %}
-        </tbody>
-      </table> -->
-
-                  <button type="submit">Đăng ký</button> 
-
-              </form>
-            </td>
-          </tr>
-          <form method="post" action="{% url 'home:home' %}">
-            {% csrf_token %}
-            <input type="hidden" id="myInput" name ="myInput" >
-            <input type="hidden" name="dd" id="dd" value="{{device.id}}">
-            <input type="submit" id="sub" style="display: none;"> 
-          </form>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+      <tbody>
+        {% for device in device0 %}
+        <tr class="invalid">
+          <td>{{device.name}}</td>
+          <td>{{device.mon}}</td>
+          <td>{{device.quantity}}</td>
+          <td>{{device.unit}}</td>
+          <td>
+              <button type="text">Hết</button> 
+          </td>
+        </tr>
+        {% endfor %}
+        {% for device in device %}
+        <tr class="valid">
+          <td>{{device.name}}</td>
+          <td>{{device.status}}</td>
+          <td>{{device.quantity}}</td>
+          <td>{{device.unit}}</td>
+          <td>
+            <form method="post" action="{% url 'home:home' %}">
+              {% csrf_token %}
+              <input type="hidden" name="deviceId" id="deviceId" value="{{device.id}}">
+                <button type="submit">Đăng ký</button> 
+            </form>
+          </td>
+        </tr>
+        <form method="post" action="{% url 'home:home' %}">
+          {% csrf_token %}
+          <input type="hidden" id="myInput" name ="myInput" >
+          <input type="hidden" name="dd" id="dd" value="{{device.id}}">
+          <input type="submit" id="sub" style="display: none;"> 
+        </form>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
-  <!-- <script>
-    var myTime = "{{ time }}" *1
-    var name = "{{ name }}"
-    if(myTime !== 0){
-      setTimeout(function() {
-        showNotification()
-      }, myTime * 1000)
-      function showNotification() {
-        alert(`Người dùng: [${name}] đến giờ trả thiết bị`)
-        document.getElementById("myInput").value = 'ok'
-        document.getElementById("sub").click()
-      }
-    }
+<!-- <script>
+  var idS = "{{id}}"
+  document.getElementById("idUser").value = `${idS}`
+  if(ids === null){
+    sessionStorage.setItem('id', idS)
+  }
+  var id = localStorage.getItem('id')
+  console.log(id) 
 </script> -->
 {% endblock %}
