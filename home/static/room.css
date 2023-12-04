@@ -82,3 +82,13 @@
 .grade__room__item--runout .hidden-box2{
 	display: none;
 }
+
+.hidden-box2{
+	width: 100%;
+	margin: 0px;
+	padding: 10px 0;
+}
+
+.hidden-box2:hover{
+	opacity: 0.9;
+}
