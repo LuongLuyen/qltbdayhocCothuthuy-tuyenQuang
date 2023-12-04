@@ -125,6 +125,14 @@ def checkLab():
                     borrowReturn.save()
 
 def getLogin(request):
+    rl = bool
+    name = request.session.get('name') #eeeeeeeeee
+    role = request.session.get('role') #eeeeeeeeee
+    id = request.session.get('id') #eeeeeeeeee
+    if role == "ADMIN":
+        rl = True
+    else:
+        rl =False
     if request.method == 'POST':
         userName = request.POST.get('userName')
         password = request.POST.get('password')
@@ -146,14 +154,6 @@ def getLogin(request):
             checkLab()
         except:
             return render(request, 'pages/Login.html')
-        rl = bool
-        role = request.session.get('role') #eeeeeeeeee
-        id = request.session.get('id') #eeeeeeeeee
-        name = request.session.get('name') #eeeeeeeeee
-        if role == "ADMIN":
-            rl = True
-        else:
-            rl =False
         listDevice =[]
         listDevice0 =[]
         for x in device:
@@ -183,12 +183,16 @@ def getRegister(request):
 def getHome(request):
     name = request.session.get('name') #eeeeeeeeee
     id = request.session.get('id') #eeeeeeeeee
+    rl = bool
+    role = request.session.get('role') #eeeeeeeeee
+    if role == "ADMIN":
+        rl = True
+    else:
+        rl =False
     if request.method == 'POST':
         deviceId = request.POST.get('deviceId')
         mon = request.POST.get('mon')
         search = request.POST.get('search')
-        idUserClient = request.POST.get('idUser')
-        print(idUserClient)
         if search != None and search != '':
             device = Device.objects.all()
             list = []
@@ -196,28 +200,15 @@ def getHome(request):
                 if search in x.name:
                     list.append(x)
                 listT =thongBao(request)
-            return render(request, 'pages/Home.html',{"device": list,"thongbao":listT,"id":id})
-        rl = bool
-        role = request.session.get('role') #eeeeeeeeee
-        if role == "ADMIN":
-            rl = True
-        else:
-            rl =False
+            return render(request, 'pages/Home.html',{"device": list,"thongbao":listT,"id":id,"name":name,"role":rl})
         if deviceId!=None:
             device = Device.objects.get(id = deviceId)
             listT = thongBao(request)
-            return render(request, 'pages/Borrowdevice.html',{"device": device,"thongbao":listT})
+            return render(request, 'pages/Borrowdevice.html',{"device": device,"thongbao":listT,"name":name,"role":rl})
         if mon!="":
             device = Device.objects.filter(code = mon)
             listT = thongBao(request)
-            return render(request, 'pages/Home.html',{"device": device,"thongbao":listT})
-        
-    rl = bool
-    role = request.session.get('role') #eeeeeeeeee
-    if role == "ADMIN":
-        rl = True
-    else:
-        rl =False
+            return render(request, 'pages/Home.html',{"device": device,"thongbao":listT,"name":name,"role":rl})
     device = Device.objects.all()
     listDevice =[]
     listDevice0 =[]
@@ -348,25 +339,18 @@ def getAdd(request):
 
 def getLab(request):
     name = request.session.get('name') #eeeeeeeeee
-    if request.method == 'POST':
-        deviceId = request.POST.get('deviceId')
-        rl = bool
-        role = request.session.get('role') #eeeeeeeeee
-        if role == "ADMIN":
-            rl = True
-        else:
-            rl =False
-        if deviceId != None:
-            device = Device.objects.get(id=deviceId)
-            listT = thongBao(request)
-            return render(request,'pages/Borrowlab.html',{"device": device})
-       
     rl = bool
     role = request.session.get('role') #eeeeeeeeee
     if role == "ADMIN":
         rl = True
     else:
         rl =False
+    if request.method == 'POST':
+        deviceId = request.POST.get('deviceId')
+        if deviceId != None:
+            device = Device.objects.get(id=deviceId)
+            listT = thongBao(request)
+            return render(request,'pages/Borrowlab.html',{"device": device,"name":name,"role":rl})
     device = Device.objects.all()
     listDevice1 =[]
     listDevice2 =[]
@@ -406,7 +390,7 @@ def getBorrowLab(request):
             device.quantity = int(device.quantity)-1
             device.save()
             borrowReturn.save()
-            return redirect('/thietbidangduocmuon')
+            return redirect('/lab')
         device = Device.objects.get(id = deviceId)
         listT = thongBao(request)
         return render(request, 'pages/BorrowLab.html',{"device": device,"thongbao":listT})
@@ -436,7 +420,14 @@ def getBorrowDevice(request):
     return render(request, 'pages/BorrowDevice.html',{"thongbao":listT})
 def getThietBiDangDuocMuon(request):
     name = request.session.get('name') #eeeeeeeeee
+    rl = bool
+    role = request.session.get('role') #eeeeeeeeee
+    if role == "ADMIN":
+        rl = True
+    else:
+        rl =False
     if request.method == 'POST':
+        mon = request.POST.get('mon')
         xoa = request.POST.get('xoa')
         idtra = request.POST.get('idtra')
         search = request.POST.get('search')
@@ -452,12 +443,6 @@ def getThietBiDangDuocMuon(request):
                 else:
                     if search in x.deviceId.name:
                         listm.append(x)
-            rl = bool
-            role = request.session.get('role') #eeeeeeeeee
-            if role == "ADMIN":
-                rl = True
-            else:
-                rl =False
             listT =thongBao(request)
             return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listm,"device2":listt,"role":rl,"name":name,"thongbao":listT})
         if xoa != None and idtra != None:
@@ -467,6 +452,21 @@ def getThietBiDangDuocMuon(request):
             borrowReturn = BorrowReturn.objects.get(id=idtra)
             borrowReturn.giaovien = str(borrowReturn.giaovien)+"-T"
             borrowReturn.save()
+            return redirect('/thietbidangduocmuon')
+        if mon!="":
+            idUser = request.session.get('id') #eeeeeeeeee
+            device = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=idUser)
+            listm=[]
+            listt=[]
+            for x in device:
+                if "-T" in x.giaovien:
+                    if mon == x.deviceId.code:
+                        listt.append(x)  
+                else:
+                    if mon == x.deviceId.code:
+                        listm.append(x)
+            listT =thongBao(request)
+            return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listm,"device2":listt,"role":rl,"name":name,"thongbao":listT})
     idUser = request.session.get('id') #eeeeeeeeee
     device = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=idUser)
     listm=[]
@@ -476,13 +476,6 @@ def getThietBiDangDuocMuon(request):
             listt.append(x)
         else:
             listm.append(x)
-    
-    rl = bool
-    role = request.session.get('role') #eeeeeeeeee
-    if role == "ADMIN":
-        rl = True
-    else:
-        rl =False
     listT = thongBao(request)
     return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listm,"device2":listt,"role":rl,"name":name,"thongbao":listT})
 def getBase(request):
