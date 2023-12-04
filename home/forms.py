@@ -4,7 +4,7 @@ from .models import User,Device
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['userName', 'password', 'role']
+        fields = ['userName', 'password','name', 'role']
 
 class DeviceForm(forms.ModelForm):
     class Meta:

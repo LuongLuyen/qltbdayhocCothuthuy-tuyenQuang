@@ -41,7 +41,7 @@
 	background-color: #0f8bc1;
 	display: flex;
 	justify-content: center;
-	height: 454px;
+	min-height: 454px;
 }
 
 .content-max-width{

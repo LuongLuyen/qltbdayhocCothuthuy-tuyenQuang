@@ -58,15 +58,43 @@
 	padding: 8px;
 	background-color: #ffcf0b;
 	border: none;
-	color: #1d8b36;
-	font-size: 16px;
 	color: #fff;
+	font-size: 16px;
 	border-radius: 5px;
 }
 
 .btn--edit:hover {
 	cursor: pointer;
 	opacity: 0.9;
+}
+
+.btn--edit--red{
+	padding: 8px;
+	background-color: red;
+	border: none;
+	font-size: 16px;
+	color: #fff;
+	border-radius: 5px;
+	width: 100%;
+	margin: 0px;
+	text-align: center;
+}
+
+.btn--edit--red:hover {
+	cursor: pointer;
+	background-color: #3ad43a;
+	color: #fff;
+}
+
+.btn--edit--green {
+	padding: 8px;
+	background-color: #3ad43a;
+	border: none;
+	font-size: 16px;
+	color: #fff;
+	border-radius: 5px;
+	width: 100%;
+	text-align: center;
 }
 
 .btn--delete{

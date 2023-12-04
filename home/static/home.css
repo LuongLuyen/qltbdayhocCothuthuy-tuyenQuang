@@ -37,9 +37,13 @@
 	align-self: center;
 }
 
+/* user  */
+
 .user{
 	display: flex;
 }
+
+/* user role  */
 
 .user__role{
 	background-color: #cff5b7;
@@ -55,6 +59,8 @@
 	margin-right: 8px;
 }
 
+/* user noti  */
+
 .user__noti{
 	color: #4c5966;
 	align-self: center;
@@ -62,6 +68,77 @@
 	margin-right: 16px;
 	position: relative;
 }
+
+.user__noti:hover .user__noti__history{
+	display: flex;
+}
+
+.user__noti__history{
+	display: none;
+	flex-direction: column;
+	position: absolute;
+	top: 120%;
+	right: 0;
+	background-color: #fff;
+	padding: 8px;
+	border-radius: 5px;
+	box-shadow: var(--black-shadow);
+	width: max-content;
+	font-size: 16px;
+	max-width: 525px;
+}
+
+.user__noti__history::before{
+	content: "";
+    display: block;
+    height: 50px;
+    width: 525px;
+    background-color: transparent;
+    position: absolute;
+    right: 0;
+    top: -45px;
+}
+
+.user__noti__history li{
+	padding: 8px 0 8px 0;
+}
+
+.user__noti__history li:hover{
+	background-color: #f6f7fb;
+}
+
+.user__noti__history li p{
+	margin-bottom: 4px;
+}
+
+.user__noti__history li span{
+	font-weight: 600;
+}
+
+.noti__history__info{
+	color: #333;
+	opacity: 0.7;
+}
+
+.user__noti__link{
+	font-size: 20px;
+    text-align: center;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    padding: 8px;
+    background-color: #cff5b7;
+    border: none;
+    color: #1d8b36;
+}
+
+.user__noti__link:hover{
+	cursor: pointer;
+    background-color: #478e1b;
+    color: #fff;
+}
+
+/* user avatar */
 
 .user__avatar{
 	display: flex;
@@ -84,6 +161,10 @@
 }
 
 .user__avatar:hover{
+	cursor: pointer;
+}
+
+.user__avatar:hover button{
 	cursor: pointer;
 }
 
@@ -223,6 +304,10 @@
 	background-color: #3ad43a;
 }
 
+.refresh span{
+	display: none;
+}
+
 .content-color-box--red{
 	background-color: #ff3232;
 }
@@ -233,17 +318,121 @@
 	line-height: 20px;
 }
 
+/* search section */
+
+.search{
+	margin-left: 16px;
+	width: 55%;
+	align-self: center;
+}
+
+.search_input{
+    height: 40px;
+    padding: 16px;
+    width: 100%;
+    border-radius: 35px;
+    font-size: 16px;
+    align-self: center;
+}
+.search_section{
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+.search_section button{
+    padding: 14px;
+    border-radius: 50%;
+    align-self: center;
+}
+
+.search_section button:hover{
+	cursor: pointer;
+	background-color: #8cb8e8;
+	color: #fff;
+}
+
+/* switch__page */
+
+.switch__page a{
+    margin-left: 16px;
+    padding: 16px;
+    color: #fff;
+    background-color: red;
+    line-height: 64px;
+    border-radius: 24px;
+    text-decoration: none;
+}
+
+.switch__page--green a{
+	margin-left: 16px;
+    padding: 16px;
+    color: #fff;
+    background-color: #3ad43a;
+    line-height: 64px;
+    border-radius: 24px;
+    text-decoration: none;
+}
+
+.switch__page--green:hover a{
+	opacity: 0.9;
+}
+
+/* contetn__soft__option  */
+
+.contetn__soft__option--home{
+	display: inline-flex;
+	align-items: center;
+}
+
+.contetn__soft__option--home span{
+	width: 170px;
+}
+
+.contetn__soft__option--home select{
+	width: 200px;
+	padding: 4px;
+}
+
+.contetn__soft__option--home button{
+	width: 50px;
+	padding: 4px;
+}
+
+.contetn__soft__option--home button:hover{
+	cursor: pointer;
+	opacity: 0.8;
+}
 
 /* content__device */
 
 .content__device{
-	margin-top: 20px;
 	padding-top: 20px;
 	padding-bottom: 20px;
 	background-color: #fff;
 	border-radius: 10px;
 }
 
+.refresh{
+	display: inline-block;
+}
+
+.refresh a{
+    padding: 4px;
+    color: #fff;
+    background-color: #3ad43a;
+    line-height: 64px;
+    border-radius: 5px;
+	border-radius: 24px;
+    text-decoration: none;
+}
+
+.refresh:hover{
+	opacity: 0.9;
+}
+
+.refresh:hover span{
+	display: inline-block;
+}
 
 .device__table{
 	border-collapse: collapse;
@@ -260,13 +449,14 @@
 	padding: 8px;
 	border: 1px solid #fff;
 	overflow-x: hidden;
-	max-width: 420px;
+	max-width: 470px;
 }
 
 
 
 .device__table button{
 	padding: 8px;
+	width: 100%;
 	background-color: #cff5b7;
 	border: none;
 	color: #1d8b36;
@@ -286,18 +476,13 @@
 	background-color: #3ad43a;
 }
  
-/* .invalid{
-	background-color: #3ad43a;
-} */
 
 .invalid{
-	background-color: #ff3232;
-	color: #fff
+	background-color: #ed4f4f;
+	color: #fff;
 }
 
-
-.invalid button:hover{
-	cursor: not-allowed;
-	background-color: #cff5b7;
-	color: #1d8201;
+.invalid button{
+	background-color: #ed2635;
+	color: #fff;
 }

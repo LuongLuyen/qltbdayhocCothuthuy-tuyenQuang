@@ -1,6 +1,7 @@
 install python 3.9.10
 python manage.py runserver (noi bo)
-python manage.py runserver 0.0.0.0:8000  đồng ý tất cả
+python manage.py runserver 0.0.0.0:8000  đồng ý tất cả 
+"lưu ý: không đăng nhập 2 tài khoản trên cùng một trình duyệt đối với máy chủ, (máy chủ chỉ chạy không đăng nhập web)"
 
 pip install django
 pip install mysqlclient

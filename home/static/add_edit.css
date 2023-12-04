@@ -34,6 +34,7 @@
 
 .info__item span{
 	align-self: center;
+	min-width: 130px;
 }
 
 .info__item input{
