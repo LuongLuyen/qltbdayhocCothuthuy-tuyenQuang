@@ -292,6 +292,7 @@
 .content-color-box{
 	display: flex;
 	margin-left: 40px;
+	align-self: center;
 }
 
 .content-color-box div{
@@ -302,6 +303,10 @@
 
 .content-color-box--green{
 	background-color: #3ad43a;
+}
+
+.refresh--lab{
+	margin-left: 40px;
 }
 
 .refresh span{
