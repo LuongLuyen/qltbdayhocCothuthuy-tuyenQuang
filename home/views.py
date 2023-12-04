@@ -439,6 +439,27 @@ def getThietBiDangDuocMuon(request):
     if request.method == 'POST':
         xoa = request.POST.get('xoa')
         idtra = request.POST.get('idtra')
+        search = request.POST.get('search')
+        if search != None and search != '':
+            idUser = request.session.get('id') #eeeeeeeeee
+            device = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=idUser)
+            listm=[]
+            listt=[]
+            for x in device:
+                if "-T" in x.giaovien:
+                    if search in x.deviceId.name:
+                        listt.append(x)  
+                else:
+                    if search in x.deviceId.name:
+                        listm.append(x)
+            rl = bool
+            role = request.session.get('role') #eeeeeeeeee
+            if role == "ADMIN":
+                rl = True
+            else:
+                rl =False
+            listT =thongBao(request)
+            return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listm,"device2":listt,"role":rl,"name":name,"thongbao":listT})
         if xoa != None and idtra != None:
             device = Device.objects.get(id=xoa)
             device.quantity = int(device.quantity)+1

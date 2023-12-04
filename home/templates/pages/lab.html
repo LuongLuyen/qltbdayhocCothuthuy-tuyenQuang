@@ -117,6 +117,12 @@
             <div class="content-color-box--red"></div>
             <p>Hiện tại đang có lớp</p>
         </div>
+        <div class="refresh refresh--lab">
+          <a href="/lab" class="">  
+            <i class="fa-solid fa-rotate-right"></i>
+            <span>Làm mới</span>
+          </a>
+        </div>
     </div>
 
     <div class="content__device--room">
@@ -131,14 +137,14 @@
                         <div class="room__item-info">
                             <div class="hidden-box1">
                                 <div class="select-box">
-                                    <span>Còn: {{device.quantity}}</span>
+                                    <span>Tiết: 1</span>
                                 </div>
                                 <div class="select-box">
-                                    <span>Đang sử dụng</span>
+                                    <span>Lớp: 11a</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="hidden-box1 select-box">{{name}}</div> 
+                        <div class="hidden-box1 select-box">GV: {{name}}</div> 
                         <button type="submit" class="hidden-box2">Đăng ký</button> 
                     </div>
                     {% endfor %}
