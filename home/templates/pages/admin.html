@@ -115,7 +115,7 @@
       </a>
       </div>
       <div class="content-color-box">
-        <a href="/add" class="btn add-btn">
+        <a href="/admins" class="btn add-btn">
           <i class="fa-solid fa-rotate-right"></i>
           <span>làm mới</span>
       </a>
@@ -123,7 +123,7 @@
     </div>
 
     <div class="search" style="margin-left: 0px; width: 75%;">
-      <form class="search_section" method="post" action="{% url 'home:home' %}">
+      <form class="search_section" method="post" action="{% url 'home:admins' %}">
         {% csrf_token %}
         <span style="min-width:fit-content; align-self: center; margin-right: 42px">Tìm kiếm thiết bị:</span>
         <input class="search_input" type="search" name="search" value="" placeholder="Tìm kiếm thiết bị theo tên hoặc mã thiết bị">
@@ -132,7 +132,7 @@
         </button>
       </form>
     </div>
-    <form class="contetn__soft__option--home" method="post" action="{% url 'home:home' %}">
+    <form class="contetn__soft__option--home" method="post" action="{% url 'home:admins' %}">
       {% csrf_token %}
       <span>hiển thị theo môn:</span>
       <select name="mon" id="mon">
@@ -142,8 +142,8 @@
         <option value="toanhoc">Toán</option>
         <option value="lichsu">Lịch sử</option>
         <option value="nguvan">Ngữ Văn</option>
-        <option value="dialy">Địa Lý</option>
-        <option value="vatly">Vật Lý</option>
+        <option value="diali">Địa Lý</option>
+        <option value="vatli">Vật Lý</option>
         <option value="sinhhoc">Sinh Học</option>
         <option value="hoahoc">Hóa Học</option>
         <option value="theduc">Thể Dục</option>

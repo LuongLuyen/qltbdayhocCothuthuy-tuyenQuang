@@ -9,4 +9,4 @@ class UserForm(forms.ModelForm):
 class DeviceForm(forms.ModelForm):
     class Meta:
         model = Device
-        fields = ['userId', 'name', 'code','unit','price','quantity','status','date','location']
+        fields = ['userId', 'name','mon','code','unit','price','quantity','status','date','location','hansudung']

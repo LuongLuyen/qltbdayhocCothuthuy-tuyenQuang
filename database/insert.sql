@@ -4,31 +4,31 @@ Insert into home_user(userName,password,name,role) values('admin','admin','Quan 
 Insert into home_user(userName,password,name,role) values('nguoidung','nguoidung','anh a','USER');
 
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
-values(1,'Hóa Học 1','LABHH1T1','#','phòng','#','1','#','#','#','#');
+values(1,'HOÁ HỌC 1','LABhoahoc1T1','Hóa Học','phòng','#','1','#','#','#','#');
 
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
-values(1,'Vật Lí - CN 1','LABVLCN1T2','#','phòng','#','1','#','#','#','#');
+values(1,'VẬT LÍ - CN 1','LABvatli1T2','Vật Lí','phòng','#','1','#','#','#','#');
 
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
-values(1,'Tin Học 2','LABTH2T3','#','phòng','#','1','#','#','#','#');
+values(1,'TIN HỌC 2','LABtinhoc2T3','Tin Học','phòng','#','1','#','#','#','#');
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
-values(1,'Sinh Học 1','LABSH1T3','#','phòng','#','1','#','#','#','#');
+values(1,'SINH HỌC 1','LABsinhhoc1T3','Sinh Học','phòng','#','1','#','#','#','#');
 
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
-values(1,'Tin Học 1','LABTH1T4','#','phòng','#','1','#','#','#','#');
+values(1,'TIN HỌC 1','LABtinhoc1T4','Tin Học','phòng','#','1','#','#','#','#');
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
-values(1,'Tin Học 3','LABTH1T4','#','phòng','#','1','#','#','#','#');
+values(1,'TIN HỌC 3','LABtinhoc3T4','Tin Học','phòng','#','1','#','#','#','#');
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
-values(1,'Vật Lí - CN 2','LABVLCN2T4','#','phòng','#','1','#','#','#','#');
+values(1,'VẬT LÍ - CN 2','LABvatli2T4','Vật Lí','phòng','#','1','#','#','#','#');
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
-values(1,'Sinh Học 2','LABSH2T4','#','phòng','#','1','#','#','#','#');
+values(1,'SINH HỌC 2','LABsinhhoc2T4','Sinh Học','phòng','#','1','#','#','#','#');
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
-values(1,'Trực tuyến','LABTTT4','#','phòng','#','1','#','#','#','#');
+values(1,'TRỰC TUYẾN','LABtructuyenT4','Trực Tuyến','phòng','#','1','#','#','#','#');
 
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
-values(1,'Hóa Học 2','LABHH2KT','#','phòng','#','1','#','#','#','#');
+values(1,'HÓA HỌC 2','LABhoahoc2KT','Hóa Học','phòng','#','1','#','#','#','#');
 
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
-values(1,'Video/clip/ Phim tư liệu về truyện cổ dân gian Việt Nam','nguvan','Ngữ văn','Bộ','202.500','5','mới','21-11-2023','việt nam','#');
+values(1,'VIDEO/CLIP/ PHIM TƯ LIỆU VỀ TRUYỆN CỔ DÂN GIAN VIỆT NAM','nguvan','Ngữ văn','Bộ','202.500','5','mới','21-11-2023','việt nam','#');
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
-values(1,'Barium chloride (BaCl2)','hoahoc','Hóa học','g','202.500','5','mới','2023-11-21','việt nam','2023-12-30');
+values(1,'BARIUM CHLORIDE (BACL2)','hoahoc','Hóa học','g','202.500','5','mới','2023-11-21','việt nam','2023-12-30');

@@ -20,25 +20,24 @@ def thongBao(request):
 def excel(list):
     workbook = Workbook()
     worksheet = workbook.active
-    headers = ["ID","Tên thiết bị","Ngày mượn", "Ngày trả", "Giáo viên mượn cho lớp (-T là Đã trả  )", "Tiết(giờ hết tiết)","code","Đơn vị","Giá","Số lượng(mỗi lần)","Ngày nhập","Xuất sứ","Tên người dùng","role","Hạn sử dụng"] 
+    headers = ["ID","Tên thiết bị","Ngày mượn", "Giáo viên mượn cho lớp (-T là Đã trả  )", "Tiết(giờ hết tiết)","code","Đơn vị","Giá","Số lượng(mỗi lần)","Ngày nhập","Xuất sứ","Tên người dùng","role","Hạn sử dụng"] 
     for col_num, header in enumerate(headers, start=1):
         worksheet.cell(row=1, column=col_num, value=header)
     for row_num, device in enumerate(list, start=2):
         worksheet.cell(row=row_num, column=1, value=device.id)
         worksheet.cell(row=row_num, column=2, value=device.deviceId.name)
         worksheet.cell(row=row_num, column=3, value=device.muon)
-        worksheet.cell(row=row_num, column=4, value=device.tra)
-        worksheet.cell(row=row_num, column=5, value=device.giaovien +" mượn cho: " +device.lop)
-        worksheet.cell(row=row_num, column=6, value=device.tiet)
-        worksheet.cell(row=row_num, column=7, value=device.deviceId.code)
-        worksheet.cell(row=row_num, column=8, value=device.deviceId.unit)
-        worksheet.cell(row=row_num, column=9, value=device.deviceId.price)
-        worksheet.cell(row=row_num, column=10, value=1)
-        worksheet.cell(row=row_num, column=11, value=device.deviceId.date)
-        worksheet.cell(row=row_num, column=12, value=device.deviceId.location)
-        worksheet.cell(row=row_num, column=13, value=device.userId.name)
-        worksheet.cell(row=row_num, column=14, value=device.userId.role)
-        worksheet.cell(row=row_num, column=15, value=device.deviceId.hansudung)
+        worksheet.cell(row=row_num, column=4, value=device.giaovien +" mượn cho: " +device.lop)
+        worksheet.cell(row=row_num, column=5, value=device.tiet)
+        worksheet.cell(row=row_num, column=6, value=device.deviceId.code)
+        worksheet.cell(row=row_num, column=7, value=device.deviceId.unit)
+        worksheet.cell(row=row_num, column=8, value=device.deviceId.price)
+        worksheet.cell(row=row_num, column=9, value=1)
+        worksheet.cell(row=row_num, column=10, value=device.deviceId.date)
+        worksheet.cell(row=row_num, column=11, value=device.deviceId.location)
+        worksheet.cell(row=row_num, column=12, value=device.userId.name)
+        worksheet.cell(row=row_num, column=13, value=device.userId.role)
+        worksheet.cell(row=row_num, column=14, value=device.deviceId.hansudung)
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename=device_data.xlsx'
@@ -150,6 +149,7 @@ def getLogin(request):
             request.session['id'] = str(user.id)
             request.session['role'] = str(user.role)
             request.session['name'] = str(user.name)
+            request.session['userName'] = str(user.userName)
             checkHSD()
             checkLab()
         except:
@@ -167,6 +167,14 @@ def getLogin(request):
         for x in thongbao:
             if "-T" in x.giaovien:
                 listT.append(x)
+        rl = bool
+        name = request.session.get('name') #eeeeeeeeee
+        role = request.session.get('role') #eeeeeeeeee
+        id = request.session.get('id') #eeeeeeeeee
+        if role == "ADMIN":
+            rl = True
+        else:
+            rl =False
         return render(request, 'pages/Home.html',{'device':listDevice,"role":rl,"name":name,"id":id, "device0":listDevice0,"thongbao":listT})
     return render(request, 'pages/Login.html')
 
@@ -182,6 +190,7 @@ def getRegister(request):
 
 def getHome(request):
     name = request.session.get('name') #eeeeeeeeee
+    userName = request.session.get('userName') #eeeeeeeeee
     id = request.session.get('id') #eeeeeeeeee
     rl = bool
     role = request.session.get('role') #eeeeeeeeee
@@ -194,17 +203,18 @@ def getHome(request):
         mon = request.POST.get('mon')
         search = request.POST.get('search')
         if search != None and search != '':
+            search = search.upper()
             device = Device.objects.all()
             list = []
             for x in device:
-                if search in x.name:
+                if search in x.name and x.unit != 'phòng':
                     list.append(x)
                 listT =thongBao(request)
             return render(request, 'pages/Home.html',{"device": list,"thongbao":listT,"id":id,"name":name,"role":rl})
         if deviceId!=None:
             device = Device.objects.get(id = deviceId)
             listT = thongBao(request)
-            return render(request, 'pages/Borrowdevice.html',{"device": device,"thongbao":listT,"name":name,"role":rl})
+            return render(request, 'pages/Borrowdevice.html',{"device": device,"thongbao":listT,"name":name,"role":rl,"userName":userName})
         if mon!="":
             device = Device.objects.filter(code = mon)
             listT = thongBao(request)
@@ -310,6 +320,25 @@ def getAdmin(request):
     if request.method == 'POST':
         xoa = request.POST.get('xoa')
         capnhat = request.POST.get('capnhat')
+        mon = request.POST.get('mon')
+        search = request.POST.get('search')
+        if search != None and search != '':
+            search=search.upper()
+            device = Device.objects.all()
+            list = []
+            for x in device:
+                if search in x.name:
+                    list.append(x)
+            listT =thongBao(request)
+            return render(request, 'pages/Admin.html',{"device": list,"thongbao":listT,"name":name,"role":rl})
+        if mon!="":
+            device = Device.objects.all()
+            listmon =[]
+            for x in device:
+                if mon in x.code:
+                    listmon.append(x)
+            listT = thongBao(request)
+            return render(request, 'pages/Admin.html',{"device": listmon,"thongbao":listT,"name":name,"role":rl})
         if(xoa!=None):
             device = get_object_or_404(Device, pk=xoa)
             device.delete()
@@ -398,6 +427,7 @@ def getBorrowLab(request):
     return render(request, 'pages/BorrowLab.html',{"thongbao":listT})
 
 def getBorrowDevice(request):
+    userName = request.session.get('userName') #eeeeeeeeee
     if request.method == 'POST':
         giaovien = request.POST.get('giaovien')
         lop = request.POST.get('lop')
@@ -415,9 +445,9 @@ def getBorrowDevice(request):
             return redirect('/thietbidangduocmuon')
         device = Device.objects.get(id = deviceId)
         listT = thongBao(request)
-        return render(request, 'pages/Borrowdevice.html',{"device": device,"thongbao":listT})
+        return render(request, 'pages/Borrowdevice.html',{"device": device,"thongbao":listT,"userName":userName})
     listT = thongBao(request)
-    return render(request, 'pages/BorrowDevice.html',{"thongbao":listT})
+    return render(request, 'pages/BorrowDevice.html',{"thongbao":listT,"userName":userName})
 def getThietBiDangDuocMuon(request):
     name = request.session.get('name') #eeeeeeeeee
     rl = bool
@@ -432,6 +462,7 @@ def getThietBiDangDuocMuon(request):
         idtra = request.POST.get('idtra')
         search = request.POST.get('search')
         if search != None and search != '':
+            search=search.upper()
             idUser = request.session.get('id') #eeeeeeeeee
             device = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=idUser)
             listm=[]

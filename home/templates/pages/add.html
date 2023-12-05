@@ -26,10 +26,14 @@
         <span>Tên thiết bị: </span>
         <input type="text" name="name" id="name" value="{{ device.name|safe }}" placeholder="Nhập tên thiết bị/phòng học">
       </div>
+      <div class="info__item">
+        <span>Môn: </span>
+        <input type="text" name="mon" id="mon" value="{{ device.mon|safe }}" placeholder="Nhập tên môn VD: (Ngữ Văn)">
+      </div>
 
       <div class="info__item">
         <span>Mã hiệu: </span>
-        <input type="text" name="code" id="code" value="{{ device.code|safe }}" placeholder="Nhập mã hiệu của thiết bị/phòng học">
+        <input type="text" name="code" id="code" value="{{ device.code|safe }}" placeholder="Nhập mã hiệu VD: (Thiết bị: nguvan,Phòng học: LABtinhoc1T4 (phòng tin 1 tầng 4))">
       </div>
 
       <div class="info__item">
@@ -39,27 +43,31 @@
 
       <div class="info__item">
         <span>Giá nhập: </span>
-        <input type="text" name="price" id="price" value="{{ device.price|safe }}" placeholder="Giá thiết bị">
+        <input type="text" name="price" id="price" value="{{ device.price|safe }}" placeholder="Giá thiết bị,Phòng để #">
       </div>
 
       <div class="info__item">
         <span>Số lượng: </span>
-        <input type="text" name="quantity" id="quantity" value="{{ device.quantity|safe }}" placeholder="Số lượng nhập">
+        <input type="text" name="quantity" id="quantity" value="{{ device.quantity|safe }}" placeholder="Số lượng nhập, Phòng để #">
       </div>
 
       <div class="info__item">
         <span>Trạng thái: </span>
-        <input type="text" name="status" id="status" value="{{ device.status|safe }}" placeholder="Trạng thái">
+        <input type="text" name="status" id="status" value="{{ device.status|safe }}" placeholder="Trạng thái, Phòng để #">
       </div>
 
       <div class="info__item">
         <span>Ngày nhập: </span>
-        <input type="text" name="date" id="date" value="{{ device.date|safe }}" placeholder="Ngày nhập thiết bị">
+        <input type="text" name="date" id="date" value="{{ device.date|safe }}" placeholder="Ngày nhập thiết bị,Phòng để #">
       </div>
 
       <div class="info__item">
         <span>Xuất xứ: </span>
-        <input type="text" name="location" id="location" value="{{ device.location|safe }}" placeholder="Xuất xứ thiết bị">
+        <input type="text" name="location" id="location" value="{{ device.location|safe }}" placeholder="Xuất xứ thiết bị, Phòng để #">
+      </div>
+      <div class="info__item">
+        <span>Hạn sử dụng: </span>
+        <input type="text" name="hansudung" id="hansudung" value="{{ device.hansudung|safe }}" placeholder="Hạn sử dụng VD: (2023-01-01),Phòng để #">
       </div>
       <input type="hidden" name="capnhat" id="capnhat" value="{{ device.id}}">
       <button class="btn" type="submit">Cập nhật</button>
@@ -88,12 +96,16 @@
       <div class="content--edit__info">
         <div class="info__item">
           <span>Tên thiết bị: </span>
-          <input type="text" name="name" id="name" placeholder="Nhập tên thiết bị/phòng học">
+          <input type="text" name="name" id="name" oninput="convertToUpperCase()" placeholder="Nhập tên thiết bị/phòng học">
+        </div>
+        <div class="info__item">
+          <span>Môn: </span>
+          <input type="text" name="mon" id="mon" placeholder="Nhập tên môn VD: (Ngữ Văn)">
         </div>
 
         <div class="info__item">
           <span>Mã hiệu: </span>
-          <input type="text" name="code" id="code" placeholder="Nhập mã hiệu của thiết bị/phòng học">
+          <input type="text" name="code" id="code" placeholder="Nhập mã hiệu VD: (Thiết bị: nguvan,Phòng học: LABtinhoc1T4 (phòng tin 1 tầng 4))">
         </div>
 
         <div class="info__item">
@@ -103,33 +115,46 @@
 
         <div class="info__item">
           <span>Giá nhập: </span>
-          <input type="text" name="price" id="price" placeholder="Giá thiết bị">
+          <input type="text" name="price" id="price" placeholder="Giá thiết bị,Phòng để #">
         </div>
 
         <div class="info__item">
           <span>Số lượng: </span>
-          <input type="text" name="quantity" id="quantity" placeholder="Số lượng nhập">
+          <input type="text" name="quantity" id="quantity" placeholder="Số lượng nhập, Phòng để #">
         </div>
         
         <div class="info__item">
           <span>Trạng thái: </span>
-          <input type="text" name="status" id="status" placeholder="Trạng thái">
+          <input type="text" name="status" id="status" placeholder="Trạng thái, Phòng để #">
         </div>
 
         <div class="info__item">
           <span>Ngày nhập: </span>
-          <input type="text" name="date" id="date" placeholder="Ngày nhập thiết bị">
+          <input type="text" name="date" id="date" placeholder="Ngày nhập thiết bị, Phòng để #">
         </div>
 
         <div class="info__item">
           <span>Xuất xứ: </span>
-          <input type="text" name="location" id="location" placeholder="Xuất xứ thiết bị">
+          <input type="text" name="location" id="location" placeholder="Xuất xứ thiết bị, Phòng để #">
+        </div>
+        <div class="info__item">
+          <span>Hạn sử dụng: </span>
+          <input type="text" name="hansudung" id="hansudung"  placeholder="Hạn sử dụng VD: (2023-01-01),Phòng để #">
         </div>
         <input type="hidden" name="userId" id="userId" value="{{id}}">
         <button class="btn" type="submit">Thêm mới</button>
       </div>
     </form>
   </div>
+
   {% endif %}
+  <script>
+    function convertToUpperCase() {
+        var inputElement = document.getElementById('name')
+        var inputValue = inputElement.value
+        var upperCaseValue = inputValue.toUpperCase()
+        inputElement.value = upperCaseValue
+    }
+</script>
  
 {% endblock %}
