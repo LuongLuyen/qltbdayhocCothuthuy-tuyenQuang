@@ -31,9 +31,7 @@
             </span>
           </p>
           <p class="noti__history__info">
-            người dùng<span> {{tb.userId.name}}</span> đã trả thiết bị vào 
-            <span> {{tb.tiet}}</span>
-            <span> Ngày: {{tb.tra}}</span>
+            người dùng<span> {{tb.userId.name}}</span> đã trả thiết bị
           </p>
         </li>
         {% endfor %}
@@ -155,7 +153,7 @@
       <table class="device__table--admin">
         <thead>
           <tr>
-            <th>Tên thiết bị</th>
+            <th class="table__name">Tên thiết bị</th>
             <th>Người mượn</th>
             <th>Lớp mượn mượn</th>
             <th>Môn</th>
@@ -167,7 +165,7 @@
         <tbody>
           {% for device in device1 %}
           <tr style="background-color: #f14848;">
-            <td>{{device.deviceId.name}}</td>
+            <td class="table__name">{{device.deviceId.name}}</td>
             <td>{{device.giaovien}}</td>
             <td>{{device.lop}}</td>
             <td>{{device.deviceId.mon}}</td>
@@ -186,7 +184,7 @@
           {% endfor %}
           {% for device in device2 %}
           <tr>
-            <td>{{device.deviceId.name}}</td>
+            <td class="table__name">{{device.deviceId.name}}</td>
             <td>{{device.giaovien}}</td>
             <td>{{device.lop}}</td>
             <td>{{device.deviceId.mon}}</td>

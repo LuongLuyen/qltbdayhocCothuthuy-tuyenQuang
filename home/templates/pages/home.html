@@ -31,9 +31,7 @@
             </span>
           </p>
           <p class="noti__history__info">
-            người dùng<span> {{tb.userId.name}}</span> đã trả thiết bị vào 
-            <span> {{tb.tiet}}</span>
-            <span> Ngày: {{tb.tra}}</span>
+            người dùng<span> {{tb.userId.name}}</span> đã trả thiết bị
           </p>
         </li>
         {% endfor %}
@@ -167,18 +165,18 @@
       <tbody>
         {% for device in device0 %}
         <tr class="invalid">
-          <td>{{device.name}}</td>
+          <td class="table__name">{{device.name}}</td>
           <td>{{device.mon}}</td>
           <td>{{device.quantity}}</td>
           <td>{{device.unit}}</td>
           <td>
-              <button type="text">Hết</button> 
+              <button type="text" class="invalid__btn">Hết</button> 
           </td>
         </tr>
         {% endfor %}
         {% for device in device %}
         <tr class="valid">
-          <td>{{device.name}}</td>
+          <td class="table__name">{{device.name}}</td>
           <td>{{device.mon}}</td>
           <td>{{device.quantity}}</td>
           <td>{{device.unit}}</td>

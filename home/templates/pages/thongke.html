@@ -31,9 +31,7 @@
             </span>
           </p>
           <p class="noti__history__info">
-            người dùng<span> {{tb.userId.name}}</span> đã trả thiết bị vào 
-            <span> {{tb.tiet}}</span>
-            <span> Ngày: {{tb.tra}}</span>
+            người dùng<span> {{tb.userId.name}}</span> đã trả thiết bị
           </p>
         </li>
         {% endfor %}
@@ -144,6 +142,8 @@
         {% csrf_token %}
         <span>Lọc theo năm:</span>
           <select name="nam" id="nam">
+            <option value="">Chọn năm</option>
+            <option value="">Tất cả các năm</option>
             <option value="2021-2022">2021-2022</option>
             <option value="2022-2023">2022-2023</option>
             <option value="2023-2024">2023-2024</option>
@@ -155,6 +155,8 @@
         {% csrf_token %}
         <span>Lọc theo bộ môn:</span>
           <select name="mon" id="mon">
+            <option value="">Chọn môn</option>
+            <option value="">Tất cả các môn</option>
             <option value="quocphonganninh">Quốc Phòng An Ninh</option>
             <option value="toanhoc">Toán</option>
             <option value="lichsu">Lịch sử</option>
@@ -192,22 +194,20 @@
             <th>Số lượng (mượn)</th>
             <th>Đơn vị</th>
             <th>Người mượn (-T là đã trả)</th>
-            <th>Thời gian mượn</th>
-            <th>Thời gian trả</th>
-            <th>Giờ trả thết bị</th>
+            <th>Ngày mượn</th>
+            <th>Tiết mượn</th>
           </tr>
         </thead>
 
         <tbody>
           {% for device in device %}
           <tr>
-            <td>{{device.deviceId.name}}</td>
+            <td class="table__name">{{device.deviceId.name}}</td>
             <td>{{device.deviceId.status}}</td>
             <td>{{device.deviceId.quantity}}</td>
             <td>{{device.deviceId.unit}}</td>
             <td>{{device.giaovien}} mượn cho: {{device.lop}}</td>
             <td>{{device.muon}}</td>
-            <td>{{device.tra}}</td>
             <td>{{device.tiet}}</td>
           </tr>
           {% endfor %}

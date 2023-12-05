@@ -27,7 +27,7 @@
         </div>
         <div class="info__item">
           <span>Giáo viên: </span>
-          <input type="text" name="giaovien" id="giaovien" placeholder="Tên giáo viên mượn">
+          <span>{{ device.name|safe }}</span>
         </div>
         <div class="info__item">
           <span>Nhập lớp học: </span>
@@ -39,10 +39,10 @@
           <input type="text" name="ngaym" id="ngaym" placeholder="YYYY-mm-dd (điền cả số 0 trước ngày tháng nếu có) VD: 2023-01-01">
         </div>
 
-        <div class="info__item">
+        <!-- <div class="info__item">
           <span>Ngày trả: </span>
           <input type="text" name="ngayt" id="ngayt" placeholder="YYYY-mm-dd (điền cả số 0 trước ngày tháng nếu có) VD: 2023-01-01">
-        </div>
+        </div> -->
 
         <div class="info__item">
           <span>Tiết sẽ mượn : </span>
@@ -59,5 +59,10 @@
       </div>
     </form>
   </div>
-
+  <script>
+    var button = document.querySelector(".btn");
+    button.addEventListener("click", function() {
+        alert("Không còn thiết bị trống vào tiết này, xin hãy đăng ký mượn vào tiết khác");
+    });
+  </script> 
 {% endblock %}

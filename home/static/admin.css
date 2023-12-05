@@ -1,14 +1,23 @@
 /* add button */
 .add-btn{
 	background-color: #3ad43a;
-	border-radius: 10px;
+	border-radius: 30px;
 	color: #333;
 	text-decoration: none;
+	height: fit-content;
 }
 
 .add-btn:hover{
 	opacity: 0.9;
 }
+
+/* .add-btn:hover span{
+	display: inline-block;
+}
+
+.add-btn span{
+	display: none;
+} */
 
 /* device__table */
 
@@ -40,7 +49,10 @@
 	overflow-x: hidden;
 }
 
-
+.table__name{
+	font-size: 14px;
+	text-transform: uppercase;
+}
 
 .device__table-admin button{
 	padding: 8px;

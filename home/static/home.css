@@ -488,6 +488,12 @@
 }
 
 .invalid button{
-	background-color: #ed2635;
+	background-color: red;
 	color: #fff;
+}
+
+.invalid__btn:hover{
+	background-color: red!important;
+	color: #fff!important;
+	cursor: not-allowed!important;
 }
