@@ -156,6 +156,7 @@
         <thead>
           <tr>
             <th>Tên thiết bị</th>
+            <th>Môn</th>
             <th>Mã Thiết bị</th>
             <th>Đơn vị</th>
             <th>Giá nhập (vnd)</th>
@@ -173,6 +174,7 @@
           {% for device in device %}
           <tr>
             <td class="table__name">{{device.name}}</td>
+            <td>{{device.mon}}</td>
             <td>{{device.code}}</td>
             <td>{{device.unit}}</td>
             <td>{{device.price}}</td>
