@@ -123,6 +123,8 @@ def checkLab():
                     borrowReturn.giaovien = str(borrowReturn.giaovien)+"-T"
                     borrowReturn.save()
 
+# def checkGioMuon():
+
 def getLogin(request):
     rl = bool
     name = request.session.get('name') #eeeeeeeeee
