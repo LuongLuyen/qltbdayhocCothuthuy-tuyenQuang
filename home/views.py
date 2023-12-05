@@ -331,14 +331,6 @@ def getAdmin(request):
                     list.append(x)
             listT =thongBao(request)
             return render(request, 'pages/Admin.html',{"device": list,"thongbao":listT,"name":name,"role":rl})
-        if mon!="":
-            device = Device.objects.all()
-            listmon =[]
-            for x in device:
-                if mon in x.code:
-                    listmon.append(x)
-            listT = thongBao(request)
-            return render(request, 'pages/Admin.html',{"device": listmon,"thongbao":listT,"name":name,"role":rl})
         if(xoa!=None):
             device = get_object_or_404(Device, pk=xoa)
             device.delete()
@@ -347,6 +339,15 @@ def getAdmin(request):
             device = Device.objects.get(id =capnhat)
             listT =thongBao(request)
             return render(request, 'pages/Add.html',{"device":device, "role":rl,"name":name, "thongbao":listT})
+        if mon!="" or mon != None:
+            print(mon)
+            device = Device.objects.all()
+            listmon =[]
+            for x in device:
+                if mon in x.code:
+                    listmon.append(x)
+            listT = thongBao(request)
+            return render(request, 'pages/Admin.html',{"device": listmon,"thongbao":listT,"name":name,"role":rl})
     device = Device.objects.all()
     listT = thongBao(request)
     return render(request, 'pages/Admin.html',{"device":device,"role":rl,"name":name, "thongbao":listT})
