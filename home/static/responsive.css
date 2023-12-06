@@ -1,6 +1,10 @@
 /* PC */
 @media (min-width: 1025px){
 
+.app{
+	width: 100%!important;
+}
+
 }
 
 /* ipad */
