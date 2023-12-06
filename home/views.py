@@ -170,9 +170,7 @@ def checkSLM(deviceId,tietm):
         return True
     else:
         return False
-
-
-        
+  
 
 def getLogin(request):
     rl = bool
@@ -241,9 +239,6 @@ def getRegister(request):
     return render(request, 'pages/Register.html', {'form': form})
 
 def getHome(request):
-    checkHSD()
-    checkLab()
-    checkGioMuon()
     name = request.session.get('name') #eeeeeeeeee
     userName = request.session.get('userName') #eeeeeeeeee
     id = request.session.get('id') #eeeeeeeeee
@@ -285,9 +280,6 @@ def getHome(request):
     listT = thongBao(request)
     return render(request, 'pages/Home.html',{"device":listDevice,"role":rl,"name":name,"device0":listDevice0,"thongbao":listT})
 def getThongKe(request):
-    checkHSD()
-    checkLab()
-    checkGioMuon()
     nameUser = request.session.get('name') #eeeeeeeeee
     rl = bool
     role = request.session.get('role') #eeeeeeeeee
@@ -368,9 +360,6 @@ def getThongKe(request):
 
 
 def getAdmin(request):
-    checkHSD()
-    checkLab()
-    checkGioMuon()
     name = request.session.get('name') #eeeeeeeeee
     rl = bool
     role = request.session.get('role') #eeeeeeeeee
@@ -413,9 +402,6 @@ def getAdmin(request):
     listT = thongBao(request)
     return render(request, 'pages/Admin.html',{"device":device,"role":rl,"name":name, "thongbao":listT})
 def getAdd(request):
-    checkHSD()
-    checkLab()
-    checkGioMuon()
     if request.method == 'POST':
         form = DeviceForm(request.POST)
         update = request.POST.get('capnhat')
@@ -432,9 +418,6 @@ def getAdd(request):
     return render(request, 'pages/Add.html',{"id":id})
 
 def getLab(request):
-    checkHSD()
-    checkLab()
-    checkGioMuon()
     userName = request.session.get('userName') #eeeeeeeeee
     name = request.session.get('name') #eeeeeeeeee
     rl = bool
@@ -474,9 +457,6 @@ def getLab(request):
     return render(request, 'pages/Lab.html',{"device0":listDevice0,"device1":listDevice1,"device2":listDevice2,"device3":listDevice3,"device4":listDevice4,"deviceKt":listDeviceKt,"role":rl,"name":name,"tb":True,"thongbao":listT})
 
 def getBorrowLab(request):
-    checkHSD()
-    checkLab()
-    checkGioMuon()
     userName = request.session.get('userName') #eeeeeeeeee
     if request.method == 'POST':
         giaovien = request.POST.get('giaovien')
@@ -498,9 +478,6 @@ def getBorrowLab(request):
     return render(request, 'pages/BorrowLab.html',{"thongbao":listT,"userName":userName})
 
 def getBorrowDevice(request):
-    checkHSD()
-    checkLab()
-    checkGioMuon()
     userName = request.session.get('userName') #eeeeeeeeee
     if request.method == 'POST':
         giaovien = request.POST.get('giaovien')
@@ -521,9 +498,6 @@ def getBorrowDevice(request):
     listT = thongBao(request)
     return render(request, 'pages/BorrowDevice.html',{"thongbao":listT,"userName":userName})
 def getThietBiDangDuocMuon(request):
-    checkHSD()
-    checkLab()
-    checkGioMuon()
     name = request.session.get('name') #eeeeeeeeee
     rl = bool
     role = request.session.get('role') #eeeeeeeeee
@@ -551,7 +525,6 @@ def getThietBiDangDuocMuon(request):
                         listm.append(x)
             listT =thongBao(request)
             return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listm,"device2":listt,"role":rl,"name":name,"thongbao":listT})
-        checkGioMuon()
         if xoa != None and idtra != None:
             device = Device.objects.get(id=xoa)
             device.quantity = int(device.quantity)+1
