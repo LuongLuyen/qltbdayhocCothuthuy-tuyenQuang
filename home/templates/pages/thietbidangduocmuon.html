@@ -154,7 +154,7 @@
         <thead>
           <tr>
             <th class="table__name">Tên thiết bị</th>
-            <th>Người mượn</th>
+            <th>Người mượn (có - mới bấm trả)</th>
             <th>Lớp mượn mượn</th>
             <th>Môn</th>
             <th>Tiết mượn</th>
@@ -183,6 +183,20 @@
           </tr>
           {% endfor %}
           {% for device in device2 %}
+          <tr style="background-color: #f1f148;">
+            <td class="table__name">{{device.deviceId.name}}</td>
+            <td>{{device.giaovien}}</td>
+            <td>{{device.lop}}</td>
+            <td>{{device.deviceId.mon}}</td>
+            <td>Tiết: {{device.tiet}} Ngày: {{device.muon}}</td>
+            <td>
+                <div class= "btn--edit--green">
+                  Lên lịch mượn
+                </div> 
+            </td>
+          </tr>
+          {% endfor %}
+          {% for device in device3 %}
           <tr>
             <td class="table__name">{{device.deviceId.name}}</td>
             <td>{{device.giaovien}}</td>
