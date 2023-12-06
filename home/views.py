@@ -20,7 +20,7 @@ def thongBao(request):
 def excel(list):
     workbook = Workbook()
     worksheet = workbook.active
-    headers = ["ID","Tên thiết bị","Ngày mượn", "Giáo viên mượn cho lớp (-T là Đã trả  )", "Tiết(giờ hết tiết)","code","Đơn vị","Giá","Số lượng(mỗi lần)","Ngày nhập","Xuất sứ","Tên người dùng","role","Hạn sử dụng"] 
+    headers = ["ID","Tên thiết bị","Ngày mượn", "Giáo viên mượn cho lớp (-T là Đã trả  )", "Tiết","code","Đơn vị","Giá","Số lượng(mỗi lần)","Ngày nhập","Xuất sứ","Tên người dùng","role","Hạn sử dụng"] 
     for col_num, header in enumerate(headers, start=1):
         worksheet.cell(row=1, column=col_num, value=header)
     for row_num, device in enumerate(list, start=2):
@@ -109,20 +109,15 @@ def checkHSD():
 def checkLab():
     borrowReturn = BorrowReturn.objects.all()
     for x in borrowReturn:
-        if "-T" in x.giaovien:
-            non=0
-        else:
-            T= str(x.tra) + " "+ str(x.tiet)
-            # dateNow =str(timeVietnam("no"))
-            dateNow = "2023-11-30 07:30:00" # check
-            if(T < dateNow or T == dateNow):
-                device = Device.objects.get(id=x.deviceId_id)
-                borrowReturn = BorrowReturn.objects.get(id=x.id)
-                if device.unit == "phòng":
-                    device.quantity=int(device.quantity) +1
-                    device.save()
-                    borrowReturn.giaovien = str(borrowReturn.giaovien)+"-T"
-                    borrowReturn.save()
+        if "-" in x.giaovien and x.deviceId.unit == "phòng":
+            if "-T" in x.giaovien:
+               non=0
+            else:
+               x.giaovien = x.giaovien +"T"
+               x.save()
+               device = Device.objects.get(id=x.deviceId.id)
+               device.quantity= int(device.quantity)+1
+               device.save()
 
 def checkGioMuon():
     borrowReturn = BorrowReturn.objects.all()
@@ -131,8 +126,8 @@ def checkGioMuon():
         if "-" in x.giaovien:
             non=0
         else:
-            # dateNow =str(timeVietnam("dmy"))
-            dateNow = "2023-11-30" # check
+            dateNow =str(timeVietnam("dmy"))
+            # dateNow = "2023-12-20" # check
             if dateNow in x.muon:
                 listls.append(x)
     for x in listls:
@@ -141,8 +136,8 @@ def checkGioMuon():
         result_time = input_time - timedelta(minutes=45)
         result_time_string = result_time.strftime("%H:%M:%S")
         T= str(x.muon) + " "+ result_time_string #2023-11-30 07:15:00 -> 2023-11-30 08:00:00
-        # dateNow =str(timeVietnam("no"))
-        dateNow = "2023-11-30 07:30:00" # check
+        dateNow =str(timeVietnam("no"))
+        # dateNow = "2023-12-20 08:00:00" # check
         if T== dateNow or dateNow>T or dateNow< x.tiet:
             device = Device.objects.get(id=x.deviceId_id)
             mt= BorrowReturn.objects.get(id=x.id)
@@ -152,11 +147,11 @@ def checkGioMuon():
                 device.quantity=int(device.quantity) -1
                 device.save()
 
-def checkSLM(deviceId,tietm):
-    # dateNow =str(timeVietnam("dmy"))
-    dateNow = "2023-11-30" # check
+
+def checkSLM(deviceId,tietm,ngaym):
+    dateNow = ngaym
     device =Device.objects.get(id=deviceId)
-    mt =BorrowReturn.objects.all()
+    mt =BorrowReturn.objects.filter(deviceId=deviceId)
     slDaMuon =0
     slk = int(device.quantity)
     for x in mt:
@@ -170,7 +165,26 @@ def checkSLM(deviceId,tietm):
         return True
     else:
         return False
-  
+    
+def giosangtiet(list):
+    listmoi=[]
+    for x in list:
+        if x.tiet == "08:00:00":
+            x.tiet= "1"
+            listmoi.append(x)
+        if x.tiet == "09:05:00":
+            x.tiet= "2"
+            listmoi.append(x)
+        if x.tiet == "09:55:00":
+            x.tiet= "3"
+            listmoi.append(x)
+        if x.tiet == "10:45:00":
+            x.tiet= "4"
+            listmoi.append(x)
+        if x.tiet == "11:35:00":
+            x.tiet= "5"
+            listmoi.append(x)
+    return listmoi
 
 def getLogin(request):
     rl = bool
@@ -239,6 +253,9 @@ def getRegister(request):
     return render(request, 'pages/Register.html', {'form': form})
 
 def getHome(request):
+    checkHSD()
+    checkLab()
+    checkGioMuon()
     name = request.session.get('name') #eeeeeeeeee
     userName = request.session.get('userName') #eeeeeeeeee
     id = request.session.get('id') #eeeeeeeeee
@@ -280,6 +297,9 @@ def getHome(request):
     listT = thongBao(request)
     return render(request, 'pages/Home.html',{"device":listDevice,"role":rl,"name":name,"device0":listDevice0,"thongbao":listT})
 def getThongKe(request):
+    checkHSD()
+    checkLab()
+    checkGioMuon()
     nameUser = request.session.get('name') #eeeeeeeeee
     rl = bool
     role = request.session.get('role') #eeeeeeeeee
@@ -314,7 +334,7 @@ def getThongKe(request):
             for x in list:
                 sum =sum+1
             listT =thongBao(request)
-            return render(request, 'pages/Thongke.html',{"device":list, "sum":sum,"name":nameUser,"role":rl,"thongbao":listT})
+            return render(request, 'pages/Thongke.html',{"device":giosangtiet(list), "sum":sum,"name":nameUser,"role":rl,"thongbao":listT})
         if giaovien != None:
             list = []
             for x in device:
@@ -324,24 +344,24 @@ def getThongKe(request):
             for x in list:
                 sum =sum+1
             listT =thongBao(request)
-            return render(request, 'pages/Thongke.html',{"device":list, "sum":sum,"name":nameUser,"role":rl,"thongbao":listT})
+            return render(request, 'pages/Thongke.html',{"device":giosangtiet(list), "sum":sum,"name":nameUser,"role":rl,"thongbao":listT})
         if nams != "" and name != "":
             r = BorrowReturn.objects.filter(muon__gte=f"{nams}-1-1", muon__lte=f"{name}-12-31")
             sum =0
             for x in r:
                 sum =sum+1
             listT =thongBao(request)
-            return render(request, 'pages/Thongke.html',{"device":r, "sum":sum,"name":nameUser,"role":rl, "thongbao":listT})
+            return render(request, 'pages/Thongke.html',{"device":giosangtiet(r), "sum":sum,"name":nameUser,"role":rl, "thongbao":listT})
         if ngays != None and ngaye != None:
             r = BorrowReturn.objects.filter(muon__gte=f"{ngays}", muon__lte=f"{ngaye}")
             sum =0
             for x in r:
                 sum =sum+1
             listT =thongBao(request)
-            return render(request, 'pages/Thongke.html',{"device":r,"sum":sum,"name":nameUser,"role":rl,"thongbao":listT})
+            return render(request, 'pages/Thongke.html',{"device":giosangtiet(r),"sum":sum,"name":nameUser,"role":rl,"thongbao":listT})
         if e != None:
             device = BorrowReturn.objects.select_related('deviceId','userId').all().order_by('id')
-            file = excel(device)
+            file = excel(giosangtiet(device))
             return file
         if end != None:
             user = User.objects.all().order_by('id')
@@ -356,10 +376,13 @@ def getThongKe(request):
             file = excelHsd(listHsd)
             return file
     listT= thongBao(request)
-    return render(request, 'pages/Thongke.html',{"device":device, "sum":sum,"name":nameUser ,"role":rl,"thongbao":listT})
+    return render(request, 'pages/Thongke.html',{"device":giosangtiet(device), "sum":sum,"name":nameUser ,"role":rl,"thongbao":listT})
 
 
 def getAdmin(request):
+    checkHSD()
+    checkLab()
+    checkGioMuon()
     name = request.session.get('name') #eeeeeeeeee
     rl = bool
     role = request.session.get('role') #eeeeeeeeee
@@ -390,7 +413,6 @@ def getAdmin(request):
             listT =thongBao(request)
             return render(request, 'pages/Add.html',{"device":device, "role":rl,"name":name, "thongbao":listT})
         if mon!="" or mon != None:
-            print(mon)
             device = Device.objects.all()
             listmon =[]
             for x in device:
@@ -418,6 +440,9 @@ def getAdd(request):
     return render(request, 'pages/Add.html',{"id":id})
 
 def getLab(request):
+    checkHSD()
+    checkLab()
+    checkGioMuon()
     userName = request.session.get('userName') #eeeeeeeeee
     name = request.session.get('name') #eeeeeeeeee
     rl = bool
@@ -457,6 +482,9 @@ def getLab(request):
     return render(request, 'pages/Lab.html',{"device0":listDevice0,"device1":listDevice1,"device2":listDevice2,"device3":listDevice3,"device4":listDevice4,"deviceKt":listDeviceKt,"role":rl,"name":name,"tb":True,"thongbao":listT})
 
 def getBorrowLab(request):
+    checkHSD()
+    checkLab()
+    checkGioMuon()
     userName = request.session.get('userName') #eeeeeeeeee
     if request.method == 'POST':
         giaovien = request.POST.get('giaovien')
@@ -466,7 +494,7 @@ def getBorrowLab(request):
         tietm = request.POST.get('tietm')
         deviceId = request.POST.get('deviceId')
         id = request.session.get('id') #eeeeeeeeee
-        if checkSLM(deviceId,tietm):
+        if checkSLM(deviceId,tietm,ngaym):
             if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "" :
                 borrowReturn = BorrowReturn(userId_id=int(id),deviceId_id=int(deviceId),muon=ngaym,tra=ngayt,lop=lop, giaovien =giaovien,tiet=tietm)
                 borrowReturn.save()
@@ -478,6 +506,9 @@ def getBorrowLab(request):
     return render(request, 'pages/BorrowLab.html',{"thongbao":listT,"userName":userName})
 
 def getBorrowDevice(request):
+    checkHSD()
+    checkLab()
+    checkGioMuon()
     userName = request.session.get('userName') #eeeeeeeeee
     if request.method == 'POST':
         giaovien = request.POST.get('giaovien')
@@ -487,7 +518,7 @@ def getBorrowDevice(request):
         tietm = request.POST.get('tietm')
         deviceId = request.POST.get('deviceId')
         id = request.session.get('id') #eeeeeeeeee
-        if checkSLM(deviceId,tietm):
+        if checkSLM(deviceId,tietm,ngaym):
             if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "" :
                 borrowReturn = BorrowReturn(userId_id=int(id),deviceId_id=int(deviceId),muon=ngaym,tra=ngayt,lop=lop, giaovien =giaovien,tiet=tietm)
                 borrowReturn.save()
@@ -498,6 +529,9 @@ def getBorrowDevice(request):
     listT = thongBao(request)
     return render(request, 'pages/BorrowDevice.html',{"thongbao":listT,"userName":userName})
 def getThietBiDangDuocMuon(request):
+    checkHSD()
+    checkLab()
+    checkGioMuon()
     name = request.session.get('name') #eeeeeeeeee
     rl = bool
     role = request.session.get('role') #eeeeeeeeee
@@ -536,28 +570,42 @@ def getThietBiDangDuocMuon(request):
         if mon!="":
             idUser = request.session.get('id') #eeeeeeeeee
             device = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=idUser)
-            listm=[]
-            listt=[]
+            listm=[] #admin
+            listtruT=[] #admin-T
+            listTru=[] #admin-
             for x in device:
-                if "-T" in x.giaovien:
+                if "-" in x.giaovien:
                     if mon == x.deviceId.code:
-                        listt.append(x)  
+                        if "T" in x.giaovien:
+                            listtruT.append(x)
+                        else:
+                           listTru.append(x)
                 else:
                     if mon == x.deviceId.code:
                         listm.append(x)
+            listm1 =giosangtiet(listm)
+            listTru1 =giosangtiet(listTru)
+            listtruT1 =giosangtiet(listtruT)
             listT =thongBao(request)
-            return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listm,"device2":listt,"role":rl,"name":name,"thongbao":listT})
+            return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listTru1,"device2":listm1,"device3":listtruT1,"role":rl,"name":name,"thongbao":listT})
     idUser = request.session.get('id') #eeeeeeeeee
     device = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=idUser)
-    listm=[]
-    listt=[]
+    listm=[] #admin
+    listtruT=[] #admin-T
+    listTru=[] #admin-
     for x in device:
-        if "-T" in x.giaovien:
-            listt.append(x)
+        if "-" in x.giaovien:
+            if "T" in x.giaovien:
+                listtruT.append(x)
+            else:
+                listTru.append(x)
         else:
             listm.append(x)
+    listm1 =giosangtiet(listm)
+    listTru1 =giosangtiet(listTru)
+    listtruT1 =giosangtiet(listtruT)
     listT = thongBao(request)
-    return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listm,"device2":listt,"role":rl,"name":name,"thongbao":listT})
+    return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listTru1,"device2":listm1,"device3":listtruT1,"role":rl,"name":name,"thongbao":listT})
 def getBase(request):
     name = request.session.get('name') #eeeeeeeeee
     rl = bool
