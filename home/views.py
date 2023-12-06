@@ -113,7 +113,8 @@ def checkLab():
             non=0
         else:
             T= str(x.tra) + " "+ str(x.tiet)
-            dateNow =str(timeVietnam("no"))
+            # dateNow =str(timeVietnam("no"))
+            dateNow = "2023-11-30 07:30:00" # check
             if(T < dateNow or T == dateNow):
                 device = Device.objects.get(id=x.deviceId_id)
                 borrowReturn = BorrowReturn.objects.get(id=x.id)
@@ -153,7 +154,7 @@ def checkGioMuon():
 
 def checkSLM(deviceId,tietm):
     # dateNow =str(timeVietnam("dmy"))
-    dateNow = "2023-09-30" # check
+    dateNow = "2023-11-30" # check
     device =Device.objects.get(id=deviceId)
     mt =BorrowReturn.objects.all()
     slDaMuon =0
@@ -485,10 +486,11 @@ def getBorrowLab(request):
         tietm = request.POST.get('tietm')
         deviceId = request.POST.get('deviceId')
         id = request.session.get('id') #eeeeeeeeee
-        if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "" :
-            borrowReturn = BorrowReturn(userId_id=int(id),deviceId_id=int(deviceId),muon=ngaym,tra=ngayt,lop=lop, giaovien =giaovien,tiet=tietm)
-            borrowReturn.save()
-            return redirect('/thietbidangduocmuon')
+        if checkSLM(deviceId,tietm):
+            if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "" :
+                borrowReturn = BorrowReturn(userId_id=int(id),deviceId_id=int(deviceId),muon=ngaym,tra=ngayt,lop=lop, giaovien =giaovien,tiet=tietm)
+                borrowReturn.save()
+                return redirect('/thietbidangduocmuon')
         device = Device.objects.get(id = deviceId)
         listT = thongBao(request)
         return render(request, 'pages/BorrowLab.html',{"device": device,"thongbao":listT,"userName":userName})
