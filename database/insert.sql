@@ -4,7 +4,7 @@ Insert into home_user(userName,password,name,role) values('admin','admin','Quan 
 Insert into home_user(userName,password,name,role) values('nguoidung','nguoidung','anh a','USER');
 
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
-values(1,'HOÁ HỌC 1','LABhoahoc1T1','Hóa Học','phòng','#','1','#','#','#','#');
+values(1,'HÓA HỌC 1','LABhoahoc1T1','Hóa Học','phòng','#','1','#','#','#','#');
 
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
 values(1,'VẬT LÍ - CN 1','LABvatli1T2','Vật Lí','phòng','#','1','#','#','#','#');
