@@ -53,14 +53,12 @@
 }
 
 .app{
-	width: 120%;
+	width: fit-content;
 }
 
 .content--edit{
 	width: 95%;
 }
-
-
 
 }
 
@@ -127,11 +125,23 @@
 
 .content__device--admin{
 	width: fit-content;
+	margin-top: 4px;
 }
 
 .content__header{
 	flex-direction: column;
 	align-items: left;
+}
+
+.content__header .search{
+	margin-left: 0px;
+	align-self: start;
+	width: 70%;
+	margin-top: 4px;
+}
+
+.switch__page--green a{
+	margin-left: 0px;
 }
 
 .content__header__note{
@@ -144,6 +154,7 @@
 
 .content-color-box{
 	margin-left: 0;
+	align-self: start;
 }
 
 .content--edit__header{
@@ -166,4 +177,27 @@
 .content--edit{
 	min-width: none;
 }
+
+.refresh{
+	display: none
+}
+
+.content__device--room{
+	margin-top: 4px;
+}
+
+.header__name--home{
+	display: none;
+}
+
+.refresh--none{
+	display: none;
+}
+
+.content__soft{
+	width: 90%;
+}
+
+
+
 }
