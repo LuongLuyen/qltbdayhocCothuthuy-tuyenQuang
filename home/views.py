@@ -113,7 +113,8 @@ def checkLab():
             non=0
         else:
             T= str(x.tra) + " "+ str(x.tiet)
-            dateNow =str(timeVietnam("no"))
+            # dateNow =str(timeVietnam("no"))
+            dateNow = "2023-11-30 07:30:00" # check
             if(T < dateNow or T == dateNow):
                 device = Device.objects.get(id=x.deviceId_id)
                 borrowReturn = BorrowReturn.objects.get(id=x.id)
@@ -141,7 +142,7 @@ def checkGioMuon():
         result_time_string = result_time.strftime("%H:%M:%S")
         T= str(x.muon) + " "+ result_time_string #2023-11-30 07:15:00 -> 2023-11-30 08:00:00
         # dateNow =str(timeVietnam("no"))
-        dateNow = "2023-11-30 05:30:00" # check
+        dateNow = "2023-11-30 07:30:00" # check
         if T== dateNow or dateNow>T or dateNow< x.tiet:
             device = Device.objects.get(id=x.deviceId_id)
             mt= BorrowReturn.objects.get(id=x.id)
@@ -151,28 +152,25 @@ def checkGioMuon():
                 device.quantity=int(device.quantity) -1
                 device.save()
 
-# def test(tammuon,tamtiet,quntitytam,ten):
-#     cnt = 0
-#     input_time_string = tamtiet
-
-#     input_time = datetime.strptime(input_time_string, "%H:%M:%S")
-#     result_time = input_time - timedelta(minutes=45)
-#     result_time_string = result_time.strftime("%H:%M:%S")
-
-#     list = BorrowReturn.objects.all()
-#     for x in list:
-#         print(x.tiet + " " + tamtiet)
-#         print(x.ten)
-#         print(ten)
-
-
-#         if x.muon == tammuon and tamtiet == x.tiet and x.name == ten:
-#             cnt += 1
-#             print('oooo',cnt)
-#     if cnt >= int(quntitytam):
-#         tammuon=""
-
-        
+def checkSLM(deviceId,tietm):
+    # dateNow =str(timeVietnam("dmy"))
+    dateNow = "2023-11-30" # check
+    device =Device.objects.get(id=deviceId)
+    mt =BorrowReturn.objects.all()
+    slDaMuon =0
+    slk = int(device.quantity)
+    for x in mt:
+        if "-" in x.giaovien:
+            non=0
+        else:
+            if dateNow in x.muon:
+               if tietm in x.tiet:
+                   slDaMuon=slDaMuon+1
+    if slk > slDaMuon:
+        return True
+    else:
+        return False
+  
 
 def getLogin(request):
     rl = bool
@@ -468,10 +466,11 @@ def getBorrowLab(request):
         tietm = request.POST.get('tietm')
         deviceId = request.POST.get('deviceId')
         id = request.session.get('id') #eeeeeeeeee
-        if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "" :
-            borrowReturn = BorrowReturn(userId_id=int(id),deviceId_id=int(deviceId),muon=ngaym,tra=ngayt,lop=lop, giaovien =giaovien,tiet=tietm)
-            borrowReturn.save()
-            return redirect('/thietbidangduocmuon')
+        if checkSLM(deviceId,tietm):
+            if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "" :
+                borrowReturn = BorrowReturn(userId_id=int(id),deviceId_id=int(deviceId),muon=ngaym,tra=ngayt,lop=lop, giaovien =giaovien,tiet=tietm)
+                borrowReturn.save()
+                return redirect('/thietbidangduocmuon')
         device = Device.objects.get(id = deviceId)
         listT = thongBao(request)
         return render(request, 'pages/BorrowLab.html',{"device": device,"thongbao":listT,"userName":userName})
@@ -487,15 +486,12 @@ def getBorrowDevice(request):
         ngayt = request.POST.get('ngayt')
         tietm = request.POST.get('tietm')
         deviceId = request.POST.get('deviceId')
-        d = Device.objects.get(id=deviceId)
-        quntitytam= d.quantity
-        ten = d.name
         id = request.session.get('id') #eeeeeeeeee
-        if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "" :
-            borrowReturn = BorrowReturn(userId_id=int(id),deviceId_id=int(deviceId),muon=ngaym,tra=ngayt,lop=lop, giaovien =giaovien,tiet=tietm)
-            # test(ngaym,tietm,quntitytam,ten)
-            borrowReturn.save()
-            return redirect('/thietbidangduocmuon')
+        if checkSLM(deviceId,tietm):
+            if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "" :
+                borrowReturn = BorrowReturn(userId_id=int(id),deviceId_id=int(deviceId),muon=ngaym,tra=ngayt,lop=lop, giaovien =giaovien,tiet=tietm)
+                borrowReturn.save()
+                return redirect('/thietbidangduocmuon')
         device = Device.objects.get(id = deviceId)
         listT = thongBao(request)
         return render(request, 'pages/Borrowdevice.html',{"device": device,"thongbao":listT,"userName":userName})
