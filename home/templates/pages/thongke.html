@@ -76,9 +76,9 @@
         </div>
       </div>
     </li>
-
+    {% if role %}
     <li class="sidebar__item">
-      <a href="/home" class="sidebar__link">
+      <a href="/home" class="sidebar__link sidebar__link--selected">
         <i class="fa-solid fa-business-time"></i>
         <span class="">Mượn/Trả thiết bị</span>
       </a>
@@ -96,13 +96,35 @@
       </a>
     </li>
     <li class="sidebar__item">
-      <a href="/thongke" class="sidebar__link sidebar__link--selected">
+      <a href="/thongke" class="sidebar__link">
         <i class="fa-solid fa-table-list"></i>
         <span class="">Thống kê & báo cáo</span>
       </a>
     </li>
   </ul>
 
+    {% else %}
+    <li class="sidebar__item">
+      <a href="/home" class="sidebar__link sidebar__link--selected">
+        <i class="fa-solid fa-business-time"></i>
+        <span class="">Mượn/Trả thiết bị</span>
+      </a>
+    </li>
+    <li class="sidebar__item">
+      <a href="/lab" class="sidebar__link">
+        <i class="fa-solid fa-house-chimney-user"></i>
+        <span class="">Phòng bộ môn</span>
+      </a>
+    </li>
+    <li class="sidebar__item">
+      <a href="/thongke" class="sidebar__link">
+        <i class="fa-solid fa-table-list"></i>
+        <span class="">Thống kê & báo cáo</span>
+      </a>
+    </li>
+  </ul>
+
+   {% endif %}
   <div class="content--home">
     <div class="content__header">
       <p class="content__header__note">
@@ -173,7 +195,7 @@
       <form class="contetn__soft__option" method="post" action="{% url 'home:thongke' %}">
         {% csrf_token %}
         <span>Lọc theo người mượn:</span>
-        <input name="giaovien" id="giaovien" placeholder="Nhập tên giáo viên" type="text" style="width: 200px; height: 30px;"/>
+        <input name="giaovien" id="giaovien" placeholder="Nhập tên đăng nhập" type="text" style="width: 200px; height: 30px;"/>
           <button type="submit">Lọc</button> 
       </form>
       <form method="post" action="{% url 'home:thongke' %}" class="contetn__soft__option contetn__soft__option--date">

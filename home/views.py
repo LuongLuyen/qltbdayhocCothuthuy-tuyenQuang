@@ -126,8 +126,8 @@ def checkGioMuon():
         if "-" in x.giaovien:
             non=0
         else:
-            dateNow =str(timeVietnam("dmy"))
-            # dateNow = "2023-12-06" # check
+            # dateNow =str(timeVietnam("dmy")) #lấy giờ thực tế
+            dateNow = "2023-12-14" # check theo test
             if dateNow in x.muon:
                 listls.append(x)
     for x in listls:
@@ -137,15 +137,15 @@ def checkGioMuon():
         result_time_string = result_time.strftime("%H:%M:%S")
         T= str(x.muon) + " "+ result_time_string #2023-11-30 07:15:00 -> 2023-11-30 08:00:00
         dateNow =str(timeVietnam("no"))
-        # dateNow = "2023-12-06 07:26:00" # check
+        dateNow = "2023-12-14 09:20:00" # check theo test
         if T== dateNow or dateNow>T or dateNow< x.tiet:
             device = Device.objects.get(id=x.deviceId_id)
             mt= BorrowReturn.objects.get(id=x.id)
             mt.giaovien = mt.giaovien + "-"
             mt.save()
-            if int(device.quantity) > 0:
-                device.quantity=int(device.quantity) -1
-                device.save()
+            # if int(device.quantity) > 0:
+            device.quantity=int(device.quantity) -1
+            device.save()
 
 
 def checkSLM(deviceId,tietm,ngaym):
@@ -221,9 +221,9 @@ def getLogin(request):
         listDevice =[]
         listDevice0 =[]
         for x in device:
-            if x.unit !="phòng" and x.quantity != "0":
+            if x.unit !="phòng" and int(x.quantity) > 0:
                 listDevice.append(x)
-            if x.unit !="phòng" and x.quantity == "0":
+            if x.unit !="phòng" and int(x.quantity) <= 0:
                 listDevice0.append(x)
         id = request.session.get('id') #eeeeeeeeee
         thongbao = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=id).order_by('-id')[0:5]
@@ -290,9 +290,9 @@ def getHome(request):
     listDevice =[]
     listDevice0 =[]
     for x in device:
-        if x.unit !="phòng" and x.quantity != "0":
+        if x.unit !="phòng" and int(x.quantity) > 0:
             listDevice.append(x)
-        if x.unit !="phòng" and x.quantity == "0":
+        if x.unit !="phòng" and int(x.quantity) <= 0:
             listDevice0.append(x)
     listT = thongBao(request)
     return render(request, 'pages/Home.html',{"device":listDevice,"role":rl,"name":name,"device0":listDevice0,"thongbao":listT})
@@ -476,7 +476,7 @@ def getLab(request):
                 listDevice4.append(x)
             if "KT" in x.code :
                 listDeviceKt.append(x)
-        if x.unit =="phòng" and x.quantity == "0":
+        if x.unit =="phòng" and int(x.quantity) <=0:
             listDevice0.append(x)
     listT = thongBao(request)
     return render(request, 'pages/Lab.html',{"device0":listDevice0,"device1":listDevice1,"device2":listDevice2,"device3":listDevice3,"device4":listDevice4,"deviceKt":listDeviceKt,"role":rl,"name":name,"tb":True,"thongbao":listT})
@@ -615,4 +615,3 @@ def getBase(request):
     else:
         rl =False
     return render(request, 'pages/Thongbao.html',{"role": rl,"name":name})
-
