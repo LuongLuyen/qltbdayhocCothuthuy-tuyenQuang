@@ -8,7 +8,7 @@ class User(models.Model):
 
 class Device(models.Model):
   userId = models.ForeignKey(User, on_delete=models.CASCADE)
-  name = models.CharField(max_length=255)
+  name = models.CharField(max_length=1000)
   mon = models.CharField(max_length=255)
   code = models.CharField(max_length=255)
   unit = models.CharField(max_length=255)

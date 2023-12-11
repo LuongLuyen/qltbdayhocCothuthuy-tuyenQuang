@@ -190,9 +190,13 @@
             <td>{{device.deviceId.mon}}</td>
             <td>Tiết: {{device.tiet}} Ngày: {{device.muon}}</td>
             <td>
-                <div class= "btn--edit--green">
+              <form method="post" action="{% url 'home:thietbidangduocmuon' %}">
+                {% csrf_token %}
+                <input type="hidden" name="idxoalich" id="idxoalich" value="{{device.id}}">
+                <button type="submit" class= "btn--edit--green">
                   Đã lên lịch
-                </div> 
+                </button> 
+              </form>
             </td>
           </tr>
           {% endfor %}
