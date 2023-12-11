@@ -109,6 +109,23 @@
 	text-align: center;
 }
 
+.delete-button:hover{
+	background-color: #ff0000;
+	color: #fff;
+}
+
+.delete-button:hover .span1{
+	display: none;
+}
+
+.delete-button .span2{
+	display: none;
+}
+
+.delete-button:hover .span2{
+	display: block;
+}
+
 .btn--delete{
 	padding: 8px;
 	background-color: #ff3232;

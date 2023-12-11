@@ -113,8 +113,8 @@ def checkGioMuon():
         if "-" in x.giaovien:
             non=0
         else:
-            # dateNow =str(timeVietnam("dmy")) #lấy giờ thực tế
-            dateNow = "2023-12-14" # check theo test
+            dateNow =str(timeVietnam("dmy")) #lấy giờ thực tế
+            # dateNow = "2023-12-12" # check theo test
             if dateNow in x.muon:
                 listls.append(x)
     for x in listls:
@@ -124,7 +124,7 @@ def checkGioMuon():
         result_time_string = result_time.strftime("%H:%M:%S")
         T= str(x.muon) + " "+ result_time_string #2023-11-30 07:15:00 -> 2023-11-30 08:00:00
         dateNow =str(timeVietnam("no"))
-        dateNow = "2023-12-14 09:20:00" # check theo test
+        # dateNow = "2023-12-12 09:20:00" # check theo test
         if T== dateNow or dateNow>T or dateNow< x.tiet:
             device = Device.objects.get(id=x.deviceId_id)
             mt= BorrowReturn.objects.get(id=x.id)

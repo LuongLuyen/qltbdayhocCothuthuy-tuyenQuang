@@ -193,8 +193,9 @@
               <form method="post" action="{% url 'home:thietbidangduocmuon' %}">
                 {% csrf_token %}
                 <input type="hidden" name="idxoalich" id="idxoalich" value="{{device.id}}">
-                <button type="submit" class= "btn--edit--green">
-                  Đã lên lịch
+                <button type="submit" class= "btn--edit--green delete-button">
+                  <span class="span1">Đã lên lịch</span>
+                  <span class="span2">Xóa</span>
                 </button> 
               </form>
             </td>
