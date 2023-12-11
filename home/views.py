@@ -106,18 +106,23 @@ def checkHSD():
         if(hsd < dateNow or hsd == dateNow):
             x.status = 'Hết hạn'
             x.save()
-def checkLab():
-    borrowReturn = BorrowReturn.objects.all()
-    for x in borrowReturn:
-        if "-" in x.giaovien and x.deviceId.unit == "phòng":
-            if "-T" in x.giaovien:
-               non=0
-            else:
-               x.giaovien = x.giaovien +"T"
-               x.save()
-               device = Device.objects.get(id=x.deviceId.id)
-               device.quantity= int(device.quantity)+1
-               device.save()
+# def checkLab():
+#     borrowReturn = BorrowReturn.objects.all()
+#     for x in borrowReturn:
+#         if "-" in x.giaovien and x.deviceId.unit == "phòng":
+#             if "-T" in x.giaovien:
+#                non=0
+#             else:
+#             #    dateNow =str(timeVietnam("no"))
+#                dateNow = "2023-12-20 08:00:00" # check
+#             #    T= timeVietnam("dmy") + " " + str(x.muon) 
+#                T= "2023-12-20" + " " + str(x.muon) 
+#                if T==dateNow and T<dateNow:
+#                     x.giaovien = x.giaovien +"T"
+#                     x.save()
+#                     device = Device.objects.get(id=x.deviceId.id)
+#                     device.quantity= int(device.quantity)+1
+#                     device.save()
 
 def checkGioMuon():
     borrowReturn = BorrowReturn.objects.all()
@@ -126,8 +131,8 @@ def checkGioMuon():
         if "-" in x.giaovien:
             non=0
         else:
-            dateNow =str(timeVietnam("dmy"))
-            # dateNow = "2023-12-20" # check
+            # dateNow =str(timeVietnam("dmy"))
+            dateNow = "2023-12-20" # check
             if dateNow in x.muon:
                 listls.append(x)
     for x in listls:
@@ -136,8 +141,8 @@ def checkGioMuon():
         result_time = input_time - timedelta(minutes=45)
         result_time_string = result_time.strftime("%H:%M:%S")
         T= str(x.muon) + " "+ result_time_string #2023-11-30 07:15:00 -> 2023-11-30 08:00:00
-        dateNow =str(timeVietnam("no"))
-        # dateNow = "2023-12-20 08:00:00" # check
+        # dateNow =str(timeVietnam("no"))
+        dateNow = "2023-12-20 08:00:00" # check
         if T== dateNow or dateNow>T or dateNow< x.tiet:
             device = Device.objects.get(id=x.deviceId_id)
             mt= BorrowReturn.objects.get(id=x.id)
@@ -214,7 +219,7 @@ def getLogin(request):
             request.session['name'] = str(user.name)
             request.session['userName'] = str(user.userName)
             checkHSD()
-            checkLab()
+            # checkLab()
             checkGioMuon()
         except:
             return render(request, 'pages/Login.html')
@@ -254,7 +259,7 @@ def getRegister(request):
 
 def getHome(request):
     checkHSD()
-    checkLab()
+    # checkLab()
     checkGioMuon()
     name = request.session.get('name') #eeeeeeeeee
     userName = request.session.get('userName') #eeeeeeeeee
@@ -298,7 +303,7 @@ def getHome(request):
     return render(request, 'pages/Home.html',{"device":listDevice,"role":rl,"name":name,"device0":listDevice0,"thongbao":listT})
 def getThongKe(request):
     checkHSD()
-    checkLab()
+    # checkLab()
     checkGioMuon()
     nameUser = request.session.get('name') #eeeeeeeeee
     rl = bool
@@ -381,7 +386,7 @@ def getThongKe(request):
 
 def getAdmin(request):
     checkHSD()
-    checkLab()
+    # checkLab()
     checkGioMuon()
     name = request.session.get('name') #eeeeeeeeee
     rl = bool
@@ -441,7 +446,7 @@ def getAdd(request):
 
 def getLab(request):
     checkHSD()
-    checkLab()
+    # checkLab()
     checkGioMuon()
     userName = request.session.get('userName') #eeeeeeeeee
     name = request.session.get('name') #eeeeeeeeee
@@ -483,7 +488,7 @@ def getLab(request):
 
 def getBorrowLab(request):
     checkHSD()
-    checkLab()
+    # checkLab()
     checkGioMuon()
     userName = request.session.get('userName') #eeeeeeeeee
     if request.method == 'POST':
@@ -507,7 +512,7 @@ def getBorrowLab(request):
 
 def getBorrowDevice(request):
     checkHSD()
-    checkLab()
+    # checkLab()
     checkGioMuon()
     userName = request.session.get('userName') #eeeeeeeeee
     if request.method == 'POST':
@@ -530,7 +535,7 @@ def getBorrowDevice(request):
     return render(request, 'pages/BorrowDevice.html',{"thongbao":listT,"userName":userName})
 def getThietBiDangDuocMuon(request):
     checkHSD()
-    checkLab()
+    # checkLab()
     checkGioMuon()
     name = request.session.get('name') #eeeeeeeeee
     rl = bool
