@@ -32,3 +32,6 @@ Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,
 values(1,'VIDEO/CLIP/ PHIM TƯ LIỆU VỀ TRUYỆN CỔ DÂN GIAN VIỆT NAM','nguvan','Ngữ văn','Bộ','202.500','5','mới','21-11-2023','việt nam','#');
 Insert into home_device(userId_id,name,code,mon,unit,price,quantity,status,date,location,hansudung) 
 values(1,'BARIUM CHLORIDE (BACL2)','hoahoc','Hóa học','g','202.500','5','mới','2023-11-21','việt nam','2023-12-30');
+
+-- Insert into home_device(userId_id,name,code,location,unit,price,quantity,date,hansudung,mon,status) 
+-- values(1,'BARIUM CHLORIDE (BACL2)','hoahoc','Việt Nam','g','202.500','5','g','202.500','2023-11-21','2023-12-30','Hóa học','mới','việt nam',);

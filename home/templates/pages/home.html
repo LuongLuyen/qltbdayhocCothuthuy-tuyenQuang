@@ -76,7 +76,7 @@
         </div>
       </div>
     </li>
-
+    {% if role %}
     <li class="sidebar__item">
       <a href="/home" class="sidebar__link sidebar__link--selected">
         <i class="fa-solid fa-business-time"></i>
@@ -103,6 +103,30 @@
     </li>
   </ul>
 
+    {% else %}
+    <li class="sidebar__item">
+      <a href="/home" class="sidebar__link sidebar__link--selected">
+        <i class="fa-solid fa-business-time"></i>
+        <span class="">Mượn/Trả thiết bị</span>
+      </a>
+    </li>
+    <li class="sidebar__item">
+      <a href="/lab" class="sidebar__link">
+        <i class="fa-solid fa-house-chimney-user"></i>
+        <span class="">Phòng bộ môn</span>
+      </a>
+    </li>
+    <li class="sidebar__item">
+      <a href="/thongke" class="sidebar__link">
+        <i class="fa-solid fa-table-list"></i>
+        <span class="">Thống kê & báo cáo</span>
+      </a>
+    </li>
+  </ul>
+
+   {% endif %}
+
+   
 
   <div class="content--home">
     <div class="content__header">
@@ -112,7 +136,7 @@
     <div class="search">
       <form class="search_section" method="post" action="{% url 'home:home' %}">
         {% csrf_token %}
-        <input class="search_input" type="search" name="search" value="" placeholder="Tìm kiếm thiết bị theo tên hoặc mã thiết bị">
+        <input class="search_input" type="search" name="search" value="" placeholder="Tìm kiếm thiết bị theo tên">
         <button class="search_icon" type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
@@ -199,13 +223,4 @@
     </table>
   </div>
 </div>
-<!-- <script>
-  var idS = "{{id}}"
-  document.getElementById("idUser").value = `${idS}`
-  if(ids === null){
-    sessionStorage.setItem('id', idS)
-  }
-  var id = localStorage.getItem('id')
-  console.log(id) 
-</script> -->
 {% endblock %}

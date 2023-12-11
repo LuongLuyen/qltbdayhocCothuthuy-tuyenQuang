@@ -111,7 +111,7 @@
     <div class="search">
       <form class="search_section" method="post" action="{% url 'home:thietbidangduocmuon' %}">
         {% csrf_token %}
-        <input class="search_input" type="search" name="search" value="" placeholder="Tìm kiếm thiết bị theo tên hoặc mã thiết bị">
+        <input class="search_input" type="search" name="search" value="" placeholder="Tìm kiếm thiết bị theo tên">
         <button class="search_icon" type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
@@ -191,7 +191,7 @@
             <td>Tiết: {{device.tiet}} Ngày: {{device.muon}}</td>
             <td>
                 <div class= "btn--edit--green">
-                  Lên lịch mượn
+                  Đã lên lịch
                 </div> 
             </td>
           </tr>
