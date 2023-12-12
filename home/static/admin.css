@@ -109,20 +109,20 @@
 	text-align: center;
 }
 
-.delete-button:hover{
-	background-color: #ff0000;
+.fix-button:hover{
+	background-color: #ffcc00ea;
 	color: #fff;
 }
 
-.delete-button:hover .span1{
+.fix-button:hover .span1{
 	display: none;
 }
 
-.delete-button .span2{
+.fix-button .span2{
 	display: none;
 }
 
-.delete-button:hover .span2{
+.fix-button:hover .span2{
 	display: block;
 }
 

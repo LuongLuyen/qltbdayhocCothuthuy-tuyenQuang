@@ -139,6 +139,7 @@
             Xuất excel tất cả</button> 
         </form>
       </div>
+      {% if role %}
       <div class="content-color-box">
         <form method="post" action="{% url 'home:thongke' %}">
           {% csrf_token %}
@@ -148,6 +149,7 @@
             Xuất excel người dùng</button> 
         </form>
       </div>
+      {% endif %}
       <div class="content-color-box">
         <form method="post" action="{% url 'home:thongke' %}">
           {% csrf_token %}

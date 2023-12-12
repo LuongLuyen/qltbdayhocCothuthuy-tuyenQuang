@@ -89,12 +89,14 @@
         <span class="">Phòng bộ môn</span>
       </a>
     </li>
+    {% if role %}
     <li class="sidebar__item">
       <a href="/admins" class="sidebar__link">
         <i class="fa-solid fa-pen-to-square"></i>
         <span class="">Quản lý chung (QTV)</span>
       </a>
     </li>
+    {% endif %}
     <li class="sidebar__item">
       <a href="/thongke" class="sidebar__link">
         <i class="fa-solid fa-table-list"></i>
@@ -193,9 +195,9 @@
               <form method="post" action="{% url 'home:thietbidangduocmuon' %}">
                 {% csrf_token %}
                 <input type="hidden" name="idxoalich" id="idxoalich" value="{{device.id}}">
-                <button type="submit" class= "btn--edit--green delete-button">
+                <button type="submit" class= "btn--edit--green fix-button">
                   <span class="span1">Đã lên lịch</span>
-                  <span class="span2">Xóa</span>
+                  <span class="span2">Sửa</span>
                 </button> 
               </form>
             </td>
