@@ -6,7 +6,7 @@ from openpyxl import Workbook
 
 
 from .models import User, Device,BorrowReturn
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import logout
 from .forms import UserForm,DeviceForm,mtForm
 
 def thongBao(request):
@@ -17,10 +17,10 @@ def thongBao(request):
         if "-T" in x.giaovien:
             listT.append(x)
     return listT
-def excel(list):
+def excel(list): # xuat tat ca
     workbook = Workbook()
     worksheet = workbook.active
-    headers = ["ID","Tên thiết bị","Ngày mượn", "Giáo viên mượn cho lớp (-T là Đã trả  )", "Tiết","code","Đơn vị","Giá","Số lượng(mỗi lần)","Ngày nhập","Xuất sứ","Tên người dùng","role","Hạn sử dụng"] 
+    headers = ["ID","Tên thiết bị","Ngày mượn", "Giáo viên mượn cho lớp (-T là Đã trả  )", "Tiết","code","Đơn vị","Giá","Số lượng(mỗi lần)","Ngày nhập","Xuất sứ","Tên người dùng","role","Hạn sử dụng","Trạng thái"] 
     for col_num, header in enumerate(headers, start=1):
         worksheet.cell(row=1, column=col_num, value=header)
     for row_num, device in enumerate(list, start=2):
@@ -38,13 +38,14 @@ def excel(list):
         worksheet.cell(row=row_num, column=12, value=device.userId.name)
         worksheet.cell(row=row_num, column=13, value=device.userId.role)
         worksheet.cell(row=row_num, column=14, value=device.deviceId.hansudung)
+        worksheet.cell(row=row_num, column=15, value=device.deviceId.status)
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename=device_data.xlsx'
     workbook.save(response)
     return response
 
-def excelHsd(list):
+def excelHsd(list): # xuat thiet bi het han
     workbook = Workbook()
     worksheet = workbook.active
     headers = ["ID","Tên thiết bị", "Môn","code","Đơn vị","Giá","Số lượng","Ngày nhập","Xuất sứ","Hạn sử dụng"] 
@@ -67,7 +68,7 @@ def excelHsd(list):
     workbook.save(response)
     return response
 
-def excelNd(list):
+def excelNd(list): # xuat nguoi dung
     workbook = Workbook()
     worksheet = workbook.active
     headers = ["ID","Tên", "Tài khoản","mật khẩu","role"] 
@@ -114,7 +115,7 @@ def checkGioMuon():
             non=0
         else:
             dateNow =str(timeVietnam("dmy")) #lấy giờ thực tế
-            # dateNow = "2023-12-14" # check theo test
+            # dateNow = "2023-12-30" # check theo test
             if dateNow in x.muon:
                 listls.append(x) # thêm vào
     for x in listls:
@@ -124,7 +125,7 @@ def checkGioMuon():
         result_time_string = result_time.strftime("%H:%M:%S")
         T= str(x.muon) + " "+ result_time_string #2023-11-30 07:15:00 -> 2023-11-30 08:00:00
         dateNow =str(timeVietnam("no"))
-        # dateNow = "2023-12-14 09:20:00" # check theo test
+       # dateNow = "2023-12-30 09:20:00" # check theo test
         if T== dateNow or dateNow>T or dateNow< x.tiet:
             device = Device.objects.get(id=x.deviceId_id)
             mt= BorrowReturn.objects.get(id=x.id)
@@ -133,6 +134,7 @@ def checkGioMuon():
             # if int(device.quantity) > 0:
             device.quantity=int(device.quantity) -1
             device.save() # thõa mãn giờ bắt đầu thì trừ thiết bị trong kho lưu lại
+
 
 
 def checkSLM(deviceId,tietm,ngaym): #lấy lúc mình bấm mượn
@@ -191,7 +193,11 @@ def getLogin(request): # hàm phụ trách  view đăng nhập
         userName = request.POST.get('userName') # lấy thông tin đăng nhập từ form
         password = request.POST.get('password')
         out = request.POST.get('out') # kiểm tra đăng xuất
-        device = Device.objects.all()
+        l = Device.objects.all()
+        device=[]
+        for x in l:
+            if x.status != "Hết hạn":
+                device.append(x)
         if(out=="out"): # nếu là đăng xuất  xóa session ,cho về  đăng nhập
             if 'id' in request.session:
                 del request.session['id']
@@ -261,7 +267,11 @@ def getHome(request):
             search = request.POST.get('search')
             if search != None and search != '': # thanh tìm kiếm  input thuộc tên thiết bị lưu vào mảng mới và trả về
                 search = search.upper()
-                device = Device.objects.all()
+                l = Device.objects.all()
+                device=[]
+                for x in l:
+                    if x.status != "Hết hạn":
+                        device.append(x)
                 list = []
                 for x in device:
                     if search in x.name and x.unit != 'phòng':
@@ -273,14 +283,22 @@ def getHome(request):
                 listT = thongBao(request)
                 return render(request, 'pages/Borrowdevice.html',{"device": device,"thongbao":listT,"name":name,"role":rl,"userName":userName})
             if mon!="": #tìm kiếm theo môn
-                device = Device.objects.all()
+                l = Device.objects.all()
+                device=[]
+                for x in l:
+                    if x.status != "Hết hạn":
+                        device.append(x)
                 list = []
                 for x in device:
                     if mon in x.code and x.unit != 'phòng':
                         list.append(x)
                 listT = thongBao(request)
                 return render(request, 'pages/Home.html',{"device": list,"thongbao":listT,"name":name,"role":rl})
-        device = Device.objects.all()
+        l = Device.objects.all()
+        device=[]
+        for x in l:
+            if x.status != "Hết hạn":
+                device.append(x)
         listDevice =[] # như trên
         listDevice0 =[]
         for x in device:
@@ -303,7 +321,11 @@ def getThongKe(request):
             rl = True
         else:
             rl =False
-        device = BorrowReturn.objects.select_related('deviceId','userId').all()
+        l = BorrowReturn.objects.select_related('deviceId','userId').all()
+        device =[]
+        for x in l:
+            if x.deviceId.status != "Hết hạn":
+                device.append(x)
         sum =0
         for x in device:
             sum =sum+1
@@ -482,9 +504,16 @@ def getLab(request):
                 if "KT" in x.code :
                     listDeviceKt.append(x)
             if x.unit =="phòng" and int(x.quantity) <=0:
-                listDevice0.append(x)
+                mt = BorrowReturn.objects.filter(deviceId=x.id)
+                for x in mt:
+                    if "-" in x.giaovien:
+                        if "T" in x.giaovien:
+                            non=0
+                        else:
+                            listDevice0.append(x)
+        
         listT = thongBao(request)
-        return render(request, 'pages/Lab.html',{"device0":listDevice0,"device1":listDevice1,"device2":listDevice2,"device3":listDevice3,"device4":listDevice4,"deviceKt":listDeviceKt,"role":rl,"name":name,"tb":True,"thongbao":listT})
+        return render(request, 'pages/Lab.html',{"device0":giosangtiet(listDevice0),"device1":listDevice1,"device2":listDevice2,"device3":listDevice3,"device4":listDevice4,"deviceKt":listDeviceKt,"role":rl,"name":name,"tb":True,"thongbao":listT})
     else:
         return redirect('/')
 def getBorrowLab(request):
@@ -563,6 +592,11 @@ def getThietBiDangDuocMuon(request):
             idtra = request.POST.get('idtra')
             search = request.POST.get('search')
             idxoalich = request.POST.get('idxoalich')
+            xoalichsu = request.POST.get('xoalichsu')
+            if(xoalichsu!=None): # xóa thiết bị
+                device = get_object_or_404(BorrowReturn, pk=xoalichsu)
+                device.delete()
+                return redirect('/thietbidangduocmuon')
             if search != None and search != '': # tìm kiếm
                 search=search.upper()
                 idUser = request.session.get('id') #eeeeeeeeee

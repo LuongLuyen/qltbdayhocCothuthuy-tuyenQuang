@@ -203,7 +203,7 @@
       <form method="post" action="{% url 'home:thongke' %}" class="contetn__soft__option contetn__soft__option--date">
         {% csrf_token %}
         <span>Lọc từ ngày:</span>
-        <input type="date" name="ngays" id="ngays" placeholder="">
+        <input type="date" name="ngays" id="ngays" placeholder="dd/mm/yyyy">
         đến:<input type="date" name="ngaye" id="ngaye" placeholder="">
         <button type="submit">Lọc</button>
       </form>

@@ -156,18 +156,18 @@
                     {% for device in device0 %}
                     
                     <div class="grade__room__item grade__room__item--runout">
-                        <div class="room__item-name">{{device.name}}</div>
+                        <div class="room__item-name">{{device.deviceId.name}}</div>
                         <div class="room__item-info">
                             <div class="hidden-box1">
                                 <div class="select-box">
-                                    <span>Tiết: 1</span>
+                                    <span>Tiết: {{device.tiet}}</span>
                                 </div>
                                 <div class="select-box">
-                                    <span>Lớp: 11a</span>
+                                    <span>Lớp: {{device.lop}}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="hidden-box1 select-box">GV: {{name}}</div> 
+                        <div class="hidden-box1 select-box">GV: {{device.userId.userName}}</div> 
                         <button type="submit" class="hidden-box2">Đăng ký</button> 
                     </div>
                     {% endfor %}
