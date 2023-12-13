@@ -127,14 +127,14 @@
    {% endif %}
   <div class="content--home">
     <div class="content__header">
-      <p class="content__header__note">
-        Lịch sử mượn thiết bị/phòng học
+      <p class="content__header__note content__header__note--history">
+        Lịch sử mượn
       </p>
       <div class="content-color-box">
         <form method="post" action="{% url 'home:thongke' %}">
           {% csrf_token %}
           <input type="hidden" name="e" id="e">
-          <button class="btn add-btn" type="submit">
+          <button class="btn add-btn export-btn" type="submit">
             <i class="fa-solid fa-file-export"></i>
             Xuất excel tất cả</button> 
         </form>
@@ -144,7 +144,7 @@
         <form method="post" action="{% url 'home:thongke' %}">
           {% csrf_token %}
           <input type="hidden" name="end" id="end">
-          <button class="btn add-btn" type="submit">
+          <button class="btn add-btn export-btn" type="submit">
             <i class="fa-solid fa-file-export"></i>
             Xuất excel người dùng</button> 
         </form>
@@ -154,7 +154,7 @@
         <form method="post" action="{% url 'home:thongke' %}">
           {% csrf_token %}
           <input type="hidden" name="ehsd" id="ehsd">
-          <button class="btn add-btn" type="submit">
+          <button class="btn add-btn export-btn" type="submit">
             <i class="fa-solid fa-file-export"></i>
             Xuất excel hóa chất hết hạn</button> 
         </form>

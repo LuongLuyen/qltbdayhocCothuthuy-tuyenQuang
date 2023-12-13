@@ -32,3 +32,7 @@
 .contetn__soft__option--date span{
 	width: 100px;
 }
+
+.export-btn{
+	text-wrap: nowrap;
+}

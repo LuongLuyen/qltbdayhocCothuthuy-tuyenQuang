@@ -92,6 +92,18 @@
 	text-align: center;
 }
 
+.btn--edit--red--delete{
+	padding: 8px;
+	background-color: red;
+	border: none;
+	font-size: 16px;
+	color: #fff;
+	border-radius: 5px;
+	width: 100%;
+	margin: 0px 0px 0px 5px;
+	text-align: center;
+}
+
 .btn--edit--red:hover {
 	cursor: pointer;
 	background-color: #3ad43a;
@@ -99,6 +111,7 @@
 }
 
 .btn--edit--green {
+	margin-left: 5px;
 	padding: 8px;
 	background-color: #3ad43a;
 	border: none;
@@ -109,20 +122,33 @@
 	text-align: center;
 }
 
-.fix-button:hover{
-	background-color: #ffcc00ea;
+.fix-button{
+	background-color: #fdd648ea;
 	color: #fff;
 }
 
+.fix-button .span1{
+	text-wrap: nowrap;
+}
+
 .fix-button:hover .span1{
-	display: none;
+	/* display: none; */
 }
 
 .fix-button .span2{
 	display: none;
-}
+	width: 75px;
+	}
 
 .fix-button:hover .span2{
+	display: block;
+}
+
+.fix-button .span3{
+	display: none;
+}
+
+.fix-button:hover .span3{
 	display: block;
 }
 
