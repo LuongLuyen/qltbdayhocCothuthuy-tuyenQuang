@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-urlpatterns = [
+urlpatterns = [ # các điều hướng trang
     path('', views.getLogin, name='login'),
     path('home/', views.getHome, name='home'),
     path('register/', views.getRegister, name='register'),

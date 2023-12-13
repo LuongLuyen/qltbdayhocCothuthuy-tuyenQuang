@@ -17,6 +17,51 @@
     </div>
   </div>
   <div class="contain">
+    {% if devicemt %}
+    <form method="post" action="{% url 'home:borrowdevice' %}" class="content--edit">
+      {% csrf_token %}
+      <p class="content--edit__header">Thông tin thiết bị/phòng học</p>
+      <div class="content--edit__info">
+        <div class="info__item">
+          <span>Tên thiết bị : </span>
+          <span>{{ devicemt.deviceId.name|safe }}</span>
+        </div>
+        <div class="info__item">
+          <span>Giáo viên: </span>
+          <span>{{ userName}}</span>
+          <input type="hidden" name="giaovien" id="giaovien" value="{{userName}}">
+        </div>
+        <div class="info__item">
+          <span>Nhập lớp học: </span>
+          <input type="text" name="lop" id="lop" placeholder="Lớp mượn" value="{{ devicemt.lop|safe }}">
+        </div>
+
+        <div class="info__item">
+          <span>Ngày mượn: </span>
+          <input type="text" name="muon" id="muon" placeholder="YYYY-mm-dd (điền cả số 0 trước ngày tháng nếu có) VD: 2023-01-01" value="{{ devicemt.muon|safe }}">
+        </div>
+
+        <input type="hidden" name="tra" id="tra" placeholder="YYYY-mm-dd (điền cả số 0 trước ngày tháng nếu có) VD: 2023-01-01" value="1">
+
+        <div class="info__item">
+          <span>Tiết sẽ mượn : </span>
+          <select name="tiet" id="tiet">
+            <option value="{{ devicemt.tiet|safe }}">Tiết đang chọn: {{ devicemt.tiet|safe }}</option>
+            <option value="08:00:00">Tiết 1</option>
+            <option value="09:05:00">Tiết 2</option>
+            <option value="09:55:00">Tiết 3</option>
+            <option value="10:45:00">Tiết 4</option>
+            <option value="11:35:00">Tiết 5</option>
+          </select>
+          <input type="hidden" name="update" id="update" value="{{ devicemt.id|safe }}">
+          <input type="hidden" name="deviceId" id="deviceId" value="{{ devicemt.deviceId.id|safe }}">
+          <input type="hidden" name="userId" id="userId" value="{{ devicemt.userId.id|safe }}">
+        </div>
+        <button class="btn" type="submit">Mượn</button>
+      </div>
+    </form>
+
+    {% else %}
     <form method="post" action="{% url 'home:borrowdevice' %}" class="content--edit">
       {% csrf_token %}
       <p class="content--edit__header">Thông tin thiết bị/phòng học</p>
@@ -56,6 +101,7 @@
         <button class="btn" type="submit">Mượn</button>
       </div>
     </form>
+   {% endif %}
   </div>
   <script>
     var button = document.querySelector(".btn");

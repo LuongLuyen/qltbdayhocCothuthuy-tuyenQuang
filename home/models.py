@@ -1,12 +1,12 @@
 from django.db import models
 
-class User(models.Model):
+class User(models.Model): # bảng người dùng
   userName = models.CharField(max_length=255)
   password = models.CharField(max_length=255)
   name = models.CharField(max_length=255)
   role = models.CharField(max_length=10)
 
-class Device(models.Model):
+class Device(models.Model): # bảng thiết bị
   userId = models.ForeignKey(User, on_delete=models.CASCADE)
   name = models.CharField(max_length=1000)
   mon = models.CharField(max_length=255)
@@ -20,7 +20,7 @@ class Device(models.Model):
   hansudung =models.CharField(max_length=255)
 
 
-class BorrowReturn(models.Model):
+class BorrowReturn(models.Model): # bảng lịch sử
   userId = models.ForeignKey(User, on_delete=models.CASCADE)
   deviceId = models.ForeignKey(Device, on_delete=models.CASCADE)
   muon = models.CharField(max_length=255)
