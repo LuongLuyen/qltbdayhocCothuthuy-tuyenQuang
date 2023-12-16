@@ -196,10 +196,17 @@
                 {% csrf_token %}
                 <input type="hidden" name="idxoalich" id="idxoalich" value="{{device.id}}">
                 <button type="submit" class= "btn--edit--green fix-button">
-                  <span class="span1">Đã lên lịch</span>
-                  <span class="span2">Sửa</span>
+                  <!-- <span class="span2">Đã lên lịch</span> -->
+                  <span class="span1">Sửa</span>
                 </button> 
               </form>
+              <form method="post" action="{% url 'home:thietbidangduocmuon' %}">
+                {% csrf_token %}
+                <input type="hidden" name="xoalichsu" id="xoalichsu" value="{{device.id}}">
+                <button type="submit" class= "btn--edit--red--delete">
+                  Xóa
+                </button>
+              </form> 
             </td>
           </tr>
           {% endfor %}

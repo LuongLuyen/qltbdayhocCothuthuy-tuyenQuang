@@ -158,7 +158,7 @@
     </div>
     <form class="contetn__soft__option--home" method="post" action="{% url 'home:admins' %}">
       {% csrf_token %}
-      <span>hiển thị theo môn:</span>
+      <span>Hiển thị theo Môn/Hết hạn sử dụng:</span>
       <select name="mon" id="mon">
         <option value="">Chọn môn</option>
         <option value="">Tất cả các môn</option>
@@ -171,7 +171,7 @@
         <option value="sinhhoc">Sinh Học</option>
         <option value="hoahoc">Hóa Học</option>
         <option value="theduc">Thể Dục</option>
-        <option value="hsd">Hết hạn</option>
+        <option value="hsd">Các thiết bị đã hết Hạn</option>
       </select>
         <button type="submit">Lọc</button> 
     </form>

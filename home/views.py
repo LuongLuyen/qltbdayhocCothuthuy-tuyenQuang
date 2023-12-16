@@ -1,3 +1,4 @@
+# lấy dữ liệu từ form chuyển về python xử lý qua django
 from django.shortcuts import render,redirect,get_object_or_404
 from datetime import datetime,timedelta
 import pytz
@@ -6,21 +7,22 @@ from openpyxl import Workbook
 
 
 from .models import User, Device,BorrowReturn
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import logout
 from .forms import UserForm,DeviceForm,mtForm
 
-def thongBao(request):
-    id = request.session.get('id') #eeeeeeeeee
+def thongBao(request): #thông báo
+    id = request.session.get('id')
     thongbao = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=id).order_by('-id')[0:5]
     listT = []
     for x in thongbao:
         if "-T" in x.giaovien:
             listT.append(x)
     return listT
-def excel(list):
+
+def excel(list): # xuat tat ca
     workbook = Workbook()
     worksheet = workbook.active
-    headers = ["ID","Tên thiết bị","Ngày mượn", "Giáo viên mượn cho lớp (-T là Đã trả  )", "Tiết","code","Đơn vị","Giá","Số lượng(mỗi lần)","Ngày nhập","Xuất sứ","Tên người dùng","role","Hạn sử dụng"] 
+    headers = ["ID","Tên thiết bị","Ngày mượn", "Giáo viên mượn cho lớp (-T là Đã trả  )", "Tiết","code","Đơn vị","Giá","Số lượng(mỗi lần)","Ngày nhập","Xuất sứ","Tên người dùng","role","Hạn sử dụng","Trạng thái"] 
     for col_num, header in enumerate(headers, start=1):
         worksheet.cell(row=1, column=col_num, value=header)
     for row_num, device in enumerate(list, start=2):
@@ -38,13 +40,14 @@ def excel(list):
         worksheet.cell(row=row_num, column=12, value=device.userId.name)
         worksheet.cell(row=row_num, column=13, value=device.userId.role)
         worksheet.cell(row=row_num, column=14, value=device.deviceId.hansudung)
+        worksheet.cell(row=row_num, column=15, value=device.deviceId.status)
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename=device_data.xlsx'
     workbook.save(response)
     return response
 
-def excelHsd(list):
+def excelHsd(list): # xuat thiet bi het han
     workbook = Workbook()
     worksheet = workbook.active
     headers = ["ID","Tên thiết bị", "Môn","code","Đơn vị","Giá","Số lượng","Ngày nhập","Xuất sứ","Hạn sử dụng"] 
@@ -67,7 +70,7 @@ def excelHsd(list):
     workbook.save(response)
     return response
 
-def excelNd(list):
+def excelNd(list): # xuat nguoi dung
     workbook = Workbook()
     worksheet = workbook.active
     headers = ["ID","Tên", "Tài khoản","mật khẩu","role"] 
@@ -106,7 +109,8 @@ def checkHSD(): # kiểm tra hạn sử dụng
         if(hsd < dateNow or hsd == dateNow):
             x.status = 'Hết hạn'
             x.save() # lặp qua mảng trên kiểm tra cái nào đã quá hạn set nó = Hết hạn
-def checkGioMuon(): 
+
+def checkGioMuon(): #check xem giờ
     borrowReturn = BorrowReturn.objects.all() #lấy ra bảng lsm ds các thiết bị đã đc đky
     listls=[] #tạo ds mới  những thiết bị mượn ngay hôm đó
     for x in borrowReturn:
@@ -114,7 +118,7 @@ def checkGioMuon():
             non=0
         else:
             dateNow =str(timeVietnam("dmy")) #lấy giờ thực tế
-            # dateNow = "2023-12-14" # check theo test
+            # dateNow = "2023-12-13" # check theo test
             if dateNow in x.muon:
                 listls.append(x) # thêm vào
     for x in listls:
@@ -124,7 +128,7 @@ def checkGioMuon():
         result_time_string = result_time.strftime("%H:%M:%S")
         T= str(x.muon) + " "+ result_time_string #2023-11-30 07:15:00 -> 2023-11-30 08:00:00
         dateNow =str(timeVietnam("no"))
-        # dateNow = "2023-12-14 09:20:00" # check theo test
+        # dateNow = "2023-12-13 09a:20:00" # check theo test
         if T== dateNow or dateNow>T or dateNow< x.tiet:
             device = Device.objects.get(id=x.deviceId_id)
             mt= BorrowReturn.objects.get(id=x.id)
@@ -133,7 +137,6 @@ def checkGioMuon():
             # if int(device.quantity) > 0:
             device.quantity=int(device.quantity) -1
             device.save() # thõa mãn giờ bắt đầu thì trừ thiết bị trong kho lưu lại
-
 
 def checkSLM(deviceId,tietm,ngaym): #lấy lúc mình bấm mượn
     dateNow = ngaym
@@ -172,17 +175,19 @@ def giosangtiet(list): # chuyển đổi giừo sang tiết lặp qua xem nó th
             x.tiet= "5"
             listmoi.append(x)
     return listmoi
+
 def checkLogin(request): # kiểm tra người đùng đã đăng nhập hay chưa
-    id = request.session.get('id') #eeeeeeeeee
+    id = request.session.get('id')
     if id != None:
         return True
     else:
         return False
+
 def getLogin(request): # hàm phụ trách  view đăng nhập
     rl = bool
-    name = request.session.get('name') #eeeeeeeeee   lấy ra từ lưu trữ phiên khi đăng nhập thành công (session)
-    role = request.session.get('role') #eeeeeeeeee
-    id = request.session.get('id') #eeeeeeeeee
+    name = request.session.get('name')   #lấy ra từ lưu trữ phiên khi đăng nhập thành công (session)
+    role = request.session.get('role')
+    id = request.session.get('id')
     if role == "ADMIN": # kiểm tra quyền người dùng
         rl = True
     else:
@@ -191,7 +196,11 @@ def getLogin(request): # hàm phụ trách  view đăng nhập
         userName = request.POST.get('userName') # lấy thông tin đăng nhập từ form
         password = request.POST.get('password')
         out = request.POST.get('out') # kiểm tra đăng xuất
-        device = Device.objects.all()
+        l = Device.objects.all()
+        device=[]
+        for x in l:
+            if x.status != "Hết hạn":
+                device.append(x)
         if(out=="out"): # nếu là đăng xuất  xóa session ,cho về  đăng nhập
             if 'id' in request.session:
                 del request.session['id']
@@ -216,16 +225,16 @@ def getLogin(request): # hàm phụ trách  view đăng nhập
                 listDevice.append(x)
             if x.unit !="phòng" and int(x.quantity) <= 0:
                 listDevice0.append(x)
-        id = request.session.get('id') #eeeeeeeeee
+        id = request.session.get('id')
         thongbao = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=id).order_by('-id')[0:5] # lấy 5 lịch sử mới nhất để hiển thị thông báo
         listT = [] # những thiết bị đã trả vào mảng này
         for x in thongbao:
             if "-T" in x.giaovien:
                 listT.append(x)
         rl = bool
-        name = request.session.get('name') #eeeeeeeeee
-        role = request.session.get('role') #eeeeeeeeee
-        id = request.session.get('id') #eeeeeeeeee
+        name = request.session.get('name')
+        role = request.session.get('role')
+        id = request.session.get('id')
         if role == "ADMIN":
             rl = True
         else:
@@ -242,15 +251,186 @@ def getRegister(request): # đăng ký
     else:
         form = UserForm()
     return render(request, 'pages/Register.html', {'form': form})
-def getHome(request):
+
+def getAdd(request): #trang thêm (sửa) thiết bị mới
+    if checkLogin(request):
+        if request.method == 'POST':
+            form = DeviceForm(request.POST)
+            update = request.POST.get('capnhat')
+            if(update!=None): # cập nhật thiết bị
+                device = get_object_or_404(Device, pk=update)
+                form = DeviceForm(request.POST, instance=device)
+                if form.is_valid():
+                    form.save()
+                    return redirect('/admins')
+            if form.is_valid(): # thêm mới
+                form.save()
+                return redirect('/admins')
+        id = request.session.get('id')
+        return render(request, 'pages/Add.html',{"id":id})
+    else:
+        return redirect('/')
+        
+def getBorrowLab(request): #hàm trang mượn phòng học
     if checkLogin(request):
         checkHSD()
         checkGioMuon()
-        name = request.session.get('name') #eeeeeeeeee
-        userName = request.session.get('userName') #eeeeeeeeee
-        id = request.session.get('id') #eeeeeeeeee
+        userName = request.session.get('userName')
+        if request.method == 'POST':
+            giaovien = request.POST.get('giaovien')
+            lop = request.POST.get('lop')
+            ngaym = request.POST.get('ngaym')
+            ngayt = request.POST.get('ngayt')
+            tietm = request.POST.get('tietm')
+            deviceId = request.POST.get('deviceId')
+            id = request.session.get('id')
+            if checkSLM(deviceId,tietm,ngaym): # kiểm tra xem quá số lượng cho mượn chưa, chưa hết tiết bị thì vẫn mượn được
+                if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "" :
+                    borrowReturn = BorrowReturn(userId_id=int(id),deviceId_id=int(deviceId),muon=ngaym,tra=ngayt,lop=lop, giaovien =giaovien,tiet=tietm)
+                    borrowReturn.save()
+                    return redirect('/thietbidangduocmuon')
+            device = Device.objects.get(id = deviceId)
+            listT = thongBao(request)
+            return render(request, 'pages/BorrowLab.html',{"device": device,"thongbao":listT,"userName":userName}) # mấy cái return này trả về view , data tương ứng để hiển thị
+        listT = thongBao(request)
+        return render(request, 'pages/BorrowLab.html',{"thongbao":listT,"userName":userName})
+    else:
+        return redirect('/')
+    
+def getBorrowDevice(request): #Hàm trang mượn thiết bị
+    if checkLogin(request):
+        checkHSD()
+        checkGioMuon()
+        userName = request.session.get('userName')
+        if request.method == 'POST':
+            giaovien = request.POST.get('giaovien')
+            lop = request.POST.get('lop')
+            ngaym = request.POST.get('ngaym')
+            ngayt = request.POST.get('ngayt')
+            tietm = request.POST.get('tietm')
+            deviceId = request.POST.get('deviceId')
+            update = request.POST.get('update')
+            id = request.session.get('id')
+            if update == None: # tương tự
+                if checkSLM(deviceId,tietm,ngaym):
+                    if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "" :
+                        borrowReturn = BorrowReturn(userId_id=int(id),deviceId_id=int(deviceId),muon=ngaym,tra=ngayt,lop=lop, giaovien =giaovien,tiet=tietm)
+                        borrowReturn.save()
+                        return redirect('/thietbidangduocmuon')
+            else: # nếu trường hợp cập nhật lại lịch sử lên lịch mượn
+                mt = get_object_or_404(BorrowReturn, pk=update)
+                form = mtForm(request.POST, instance=mt)
+                if form.is_valid():
+                    form.save()
+                    return redirect('/thietbidangduocmuon')
+            device = Device.objects.get(id = deviceId)
+            listT = thongBao(request)
+            return render(request, 'pages/Borrowdevice.html',{"device": device,"thongbao":listT,"userName":userName})
+        listT = thongBao(request)
+        return render(request, 'pages/BorrowDevice.html',{"thongbao":listT,"userName":userName})
+    else:
+        return redirect('/')
+    
+def getThietBiDangDuocMuon(request): # xem trang lịch sử mượn 
+    if checkLogin(request):
+        checkHSD()
+        checkGioMuon()
+        userName = request.session.get('userName')
+        name = request.session.get('name')
         rl = bool
-        role = request.session.get('role') #eeeeeeeeee
+        role = request.session.get('role')
+        if role == "ADMIN":
+            rl = True
+        else:
+            rl =False
+        if request.method == 'POST':
+            mon = request.POST.get('mon')
+            xoa = request.POST.get('xoa')
+            idtra = request.POST.get('idtra')
+            search = request.POST.get('search')
+            idxoalich = request.POST.get('idxoalich')
+            xoalichsu = request.POST.get('xoalichsu')
+            if(xoalichsu!=None): # xóa thiết bị
+                device = get_object_or_404(BorrowReturn, pk=xoalichsu)
+                device.delete()
+                return redirect('/thietbidangduocmuon')
+            if search != None and search != '': # tìm kiếm
+                search=search.upper()
+                idUser = request.session.get('id')
+                device = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=idUser)
+                listm=[]
+                listt=[]
+                for x in device:
+                    if "-T" in x.giaovien:
+                        if search in x.deviceId.name:
+                            listt.append(x)  
+                    else:
+                        if search in x.deviceId.name:
+                            listm.append(x)
+                listT =thongBao(request)
+                return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listm,"device2":listt,"role":rl,"name":name,"thongbao":listT})
+            if xoa != None and idtra != None: # xác nhận trả
+                device = Device.objects.get(id=xoa)
+                device.quantity = int(device.quantity)+1
+                device.save()
+                borrowReturn = BorrowReturn.objects.get(id=idtra)
+                borrowReturn.giaovien = str(borrowReturn.giaovien)+"T"
+                borrowReturn.save()
+                return redirect('/thietbidangduocmuon')
+            if idxoalich != None: # cập nhânt lại lịch sử mượn
+                mt = BorrowReturn.objects.filter(id=idxoalich)
+                return render(request, 'pages/Borrowdevice.html',{"devicemt": giosangtiet(mt)[0],"userName":userName})
+            if mon!="": # hiển thị những thiét bị lên lịch,đã trả, chưa trả
+                idUser = request.session.get('id')
+                device = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=idUser)
+                listm=[] #admin
+                listtruT=[] #admin-T
+                listTru=[] #admin-
+                for x in device:
+                    if "-" in x.giaovien:
+                        if mon == x.deviceId.code:
+                            if "T" in x.giaovien:
+                                listtruT.append(x)
+                            else:
+                                listTru.append(x)
+                    else:
+                        if mon == x.deviceId.code:
+                            listm.append(x)
+                listm1 =giosangtiet(listm)
+                listTru1 =giosangtiet(listTru)
+                listtruT1 =giosangtiet(listtruT)
+                listT =thongBao(request)
+                return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listTru1,"device2":listm1,"device3":listtruT1,"role":rl,"name":name,"thongbao":listT})
+        idUser = request.session.get('id')
+        device = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=idUser)
+        listm=[] #admin
+        listtruT=[] #admin-T
+        listTru=[] #admin-
+        for x in device:# tương tự như trên
+            if "-" in x.giaovien:
+                if "T" in x.giaovien:
+                    listtruT.append(x)
+                else:
+                    listTru.append(x)
+            else:
+                listm.append(x)
+        listm1 =giosangtiet(listm)
+        listTru1 =giosangtiet(listTru)
+        listtruT1 =giosangtiet(listtruT)
+        listT = thongBao(request)
+        return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listTru1,"device2":listm1,"device3":listtruT1,"role":rl,"name":name,"thongbao":listT})
+    else:
+        return redirect('/')
+
+def getHome(request): #xử lý trong trang home (trang mượn/trả thiết bị)
+    if checkLogin(request):
+        checkHSD()
+        checkGioMuon()
+        name = request.session.get('name')
+        userName = request.session.get('userName')
+        id = request.session.get('id')
+        rl = bool
+        role = request.session.get('role')
         if role == "ADMIN":
             rl = True
         else:
@@ -261,7 +441,11 @@ def getHome(request):
             search = request.POST.get('search')
             if search != None and search != '': # thanh tìm kiếm  input thuộc tên thiết bị lưu vào mảng mới và trả về
                 search = search.upper()
-                device = Device.objects.all()
+                l = Device.objects.all()
+                device=[]
+                for x in l:
+                    if x.status != "Hết hạn":
+                        device.append(x)
                 list = []
                 for x in device:
                     if search in x.name and x.unit != 'phòng':
@@ -273,14 +457,22 @@ def getHome(request):
                 listT = thongBao(request)
                 return render(request, 'pages/Borrowdevice.html',{"device": device,"thongbao":listT,"name":name,"role":rl,"userName":userName})
             if mon!="": #tìm kiếm theo môn
-                device = Device.objects.all()
+                l = Device.objects.all()
+                device=[]
+                for x in l:
+                    if x.status != "Hết hạn":
+                        device.append(x)
                 list = []
                 for x in device:
                     if mon in x.code and x.unit != 'phòng':
                         list.append(x)
                 listT = thongBao(request)
                 return render(request, 'pages/Home.html',{"device": list,"thongbao":listT,"name":name,"role":rl})
-        device = Device.objects.all()
+        l = Device.objects.all()
+        device=[]
+        for x in l:
+            if x.status != "Hết hạn":
+                device.append(x)
         listDevice =[] # như trên
         listDevice0 =[]
         for x in device:
@@ -292,18 +484,126 @@ def getHome(request):
         return render(request, 'pages/Home.html',{"device":listDevice,"role":rl,"name":name,"device0":listDevice0,"thongbao":listT})
     else:
         return redirect('/') # chưa đăng nhạp cho về trang đăng nhập
-def getThongKe(request):
-    if checkLogin(request): # tương tự
+
+def getLab(request): #xử lý trong trang mượn phòng học
+    if checkLogin(request):
         checkHSD()
         checkGioMuon()
-        nameUser = request.session.get('name') #eeeeeeeeee
+        userName = request.session.get('userName')
+        name = request.session.get('name')
         rl = bool
-        role = request.session.get('role') #eeeeeeeeee
+        role = request.session.get('role')
         if role == "ADMIN":
             rl = True
         else:
             rl =False
-        device = BorrowReturn.objects.select_related('deviceId','userId').all()
+        if request.method == 'POST':
+            deviceId = request.POST.get('deviceId')
+            if deviceId != None: # đăng ký phòng bộ môn
+                device = Device.objects.get(id=deviceId)
+                listT = thongBao(request)
+                return render(request,'pages/Borrowlab.html',{"device": device,"name":name,"role":rl,"userName":userName})
+        device = Device.objects.all()
+        listDevice1 =[]
+        listDevice2 =[]
+        listDevice3 =[]
+        listDevice4 =[]
+        listDeviceKt =[]
+        listDevice0 =[]
+        for x in device: # lặp qua xem nó ở tầng nào
+            if x.unit =="phòng" and x.quantity != "0":
+                if "T1" in x.code :
+                    listDevice1.append(x)
+                if "T2" in x.code :
+                    listDevice2.append(x)
+                if "T3" in x.code :
+                    listDevice3.append(x)
+                if "T4" in x.code :
+                    listDevice4.append(x)
+                if "KT" in x.code :
+                    listDeviceKt.append(x)
+            if x.unit =="phòng" and int(x.quantity) <=0:
+                mt = BorrowReturn.objects.filter(deviceId=x.id)
+                for x in mt:
+                    if "-" in x.giaovien:
+                        if "T" in x.giaovien:
+                            non=0
+                        else:
+                            listDevice0.append(x)
+        
+        listT = thongBao(request)
+        return render(request, 'pages/Lab.html',{"device0":giosangtiet(listDevice0),"device1":listDevice1,"device2":listDevice2,"device3":listDevice3,"device4":listDevice4,"deviceKt":listDeviceKt,"role":rl,"name":name,"tb":True,"thongbao":listT})
+    else:
+        return redirect('/')
+
+def getAdmin(request): # xử lý trong trang admin(trang quản lý chung)
+    if checkLogin(request):
+        checkHSD()
+        checkGioMuon()
+        name = request.session.get('name')
+        rl = bool
+        role = request.session.get('role')
+        if role == "ADMIN":
+            rl = True
+        else:
+            rl =False
+        if request.method == 'POST':
+            xoa = request.POST.get('xoa')
+            capnhat = request.POST.get('capnhat')
+            mon = request.POST.get('mon')
+            search = request.POST.get('search')
+            if search != None and search != '': # tìm kiếm
+                search=search.upper()
+                device = Device.objects.all()
+                list = []
+                for x in device:
+                    if search in x.name:
+                        list.append(x)
+                listT =thongBao(request)
+                return render(request, 'pages/Admin.html',{"device": list,"thongbao":listT,"name":name,"role":rl})
+            if(xoa!=None): # xóa thiết bị
+                device = get_object_or_404(Device, pk=xoa)
+                device.delete()
+                return redirect('/admins')
+            if capnhat != None: # cập nhật
+                device = Device.objects.get(id =capnhat)
+                listT =thongBao(request)
+                return render(request, 'pages/Add.html',{"device":device, "role":rl,"name":name, "thongbao":listT})
+            if mon!="" or mon != None: # lọc môn hết hạn
+                device = Device.objects.all()
+                listmon =[]
+                if mon == "hsd":
+                    for x in device:
+                        if "Hết hạn" == x.status:
+                            listmon.append(x)
+                else:
+                    for x in device:
+                        if mon in x.code:
+                            listmon.append(x)
+                listT = thongBao(request)
+                return render(request, 'pages/Admin.html',{"device": listmon,"thongbao":listT,"name":name,"role":rl})
+        device = Device.objects.all()
+        listT = thongBao(request)
+        return render(request, 'pages/Admin.html',{"device":device,"role":rl,"name":name, "thongbao":listT})
+    else:
+        return redirect('/')
+
+def getThongKe(request): #xử lý trang thống kê
+    if checkLogin(request): # tương tự
+        checkHSD()
+        checkGioMuon()
+        nameUser = request.session.get('name')
+        rl = bool
+        role = request.session.get('role')
+        if role == "ADMIN":
+            rl = True
+        else:
+            rl =False
+        l = BorrowReturn.objects.select_related('deviceId','userId').all()
+        device =[]
+        for x in l:
+            if x.deviceId.status != "Hết hạn":
+                device.append(x)
         sum =0
         for x in device:
             sum =sum+1
@@ -375,265 +675,11 @@ def getThongKe(request):
         return render(request, 'pages/Thongke.html',{"device":giosangtiet(device), "sum":sum,"name":nameUser ,"role":rl,"thongbao":listT})
     else:
         return redirect('/')
-def getAdmin(request):
-    if checkLogin(request):
-        checkHSD()
-        checkGioMuon()
-        name = request.session.get('name') #eeeeeeeeee
-        rl = bool
-        role = request.session.get('role') #eeeeeeeeee
-        if role == "ADMIN":
-            rl = True
-        else:
-            rl =False
-        if request.method == 'POST':
-            xoa = request.POST.get('xoa')
-            capnhat = request.POST.get('capnhat')
-            mon = request.POST.get('mon')
-            search = request.POST.get('search')
-            if search != None and search != '': # tìm kiếm
-                search=search.upper()
-                device = Device.objects.all()
-                list = []
-                for x in device:
-                    if search in x.name:
-                        list.append(x)
-                listT =thongBao(request)
-                return render(request, 'pages/Admin.html',{"device": list,"thongbao":listT,"name":name,"role":rl})
-            if(xoa!=None): # xóa thiết bị
-                device = get_object_or_404(Device, pk=xoa)
-                device.delete()
-                return redirect('/admins')
-            if capnhat != None: # cập nhật
-                device = Device.objects.get(id =capnhat)
-                listT =thongBao(request)
-                return render(request, 'pages/Add.html',{"device":device, "role":rl,"name":name, "thongbao":listT})
-            if mon!="" or mon != None: # lọc môn hết hạn
-                device = Device.objects.all()
-                listmon =[]
-                if mon == "hsd":
-                    for x in device:
-                        if "Hết hạn" == x.status:
-                            listmon.append(x)
-                else:
-                    for x in device:
-                        if mon in x.code:
-                            listmon.append(x)
-                listT = thongBao(request)
-                return render(request, 'pages/Admin.html',{"device": listmon,"thongbao":listT,"name":name,"role":rl})
-        device = Device.objects.all()
-        listT = thongBao(request)
-        return render(request, 'pages/Admin.html',{"device":device,"role":rl,"name":name, "thongbao":listT})
-    else:
-        return redirect('/')
-def getAdd(request):
-    if checkLogin(request):
-        if request.method == 'POST':
-            form = DeviceForm(request.POST)
-            update = request.POST.get('capnhat')
-            if(update!=None): # cập nhật thiết bị
-                device = get_object_or_404(Device, pk=update)
-                form = DeviceForm(request.POST, instance=device)
-                if form.is_valid():
-                    form.save()
-                    return redirect('/admins')
-            if form.is_valid(): # thêm mới
-                form.save()
-                return redirect('/admins')
-        id = request.session.get('id') #eeeeeeeeee
-        return render(request, 'pages/Add.html',{"id":id})
-    else:
-        return redirect('/')
-def getLab(request):
-    if checkLogin(request):
-        checkHSD()
-        checkGioMuon()
-        userName = request.session.get('userName') #eeeeeeeeee
-        name = request.session.get('name') #eeeeeeeeee
-        rl = bool
-        role = request.session.get('role') #eeeeeeeeee
-        if role == "ADMIN":
-            rl = True
-        else:
-            rl =False
-        if request.method == 'POST':
-            deviceId = request.POST.get('deviceId')
-            if deviceId != None: # đăng ký phòng bộ môn
-                device = Device.objects.get(id=deviceId)
-                listT = thongBao(request)
-                return render(request,'pages/Borrowlab.html',{"device": device,"name":name,"role":rl,"userName":userName})
-        device = Device.objects.all()
-        listDevice1 =[]
-        listDevice2 =[]
-        listDevice3 =[]
-        listDevice4 =[]
-        listDeviceKt =[]
-        listDevice0 =[]
-        for x in device: # lặp qua xem nó ở tầng nào
-            if x.unit =="phòng" and x.quantity != "0":
-                if "T1" in x.code :
-                    listDevice1.append(x)
-                if "T2" in x.code :
-                    listDevice2.append(x)
-                if "T3" in x.code :
-                    listDevice3.append(x)
-                if "T4" in x.code :
-                    listDevice4.append(x)
-                if "KT" in x.code :
-                    listDeviceKt.append(x)
-            if x.unit =="phòng" and int(x.quantity) <=0:
-                listDevice0.append(x)
-        listT = thongBao(request)
-        return render(request, 'pages/Lab.html',{"device0":listDevice0,"device1":listDevice1,"device2":listDevice2,"device3":listDevice3,"device4":listDevice4,"deviceKt":listDeviceKt,"role":rl,"name":name,"tb":True,"thongbao":listT})
-    else:
-        return redirect('/')
-def getBorrowLab(request):
-    if checkLogin(request):
-        checkHSD()
-        checkGioMuon()
-        userName = request.session.get('userName') #eeeeeeeeee
-        if request.method == 'POST':
-            giaovien = request.POST.get('giaovien')
-            lop = request.POST.get('lop')
-            ngaym = request.POST.get('ngaym')
-            ngayt = request.POST.get('ngayt')
-            tietm = request.POST.get('tietm')
-            deviceId = request.POST.get('deviceId')
-            id = request.session.get('id') #eeeeeeeeee
-            if checkSLM(deviceId,tietm,ngaym): # kiểm tra xem quá số lượng cho mượn chưa, chưa hết tiết bị thì vẫn mượn được
-                if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "" :
-                    borrowReturn = BorrowReturn(userId_id=int(id),deviceId_id=int(deviceId),muon=ngaym,tra=ngayt,lop=lop, giaovien =giaovien,tiet=tietm)
-                    borrowReturn.save()
-                    return redirect('/thietbidangduocmuon')
-            device = Device.objects.get(id = deviceId)
-            listT = thongBao(request)
-            return render(request, 'pages/BorrowLab.html',{"device": device,"thongbao":listT,"userName":userName}) # mấy cái return này trả về view , data tương ứng để hiển thị
-        listT = thongBao(request)
-        return render(request, 'pages/BorrowLab.html',{"thongbao":listT,"userName":userName})
-    else:
-        return redirect('/')
-def getBorrowDevice(request):
-    if checkLogin(request):
-        checkHSD()
-        checkGioMuon()
-        userName = request.session.get('userName') #eeeeeeeeee
-        if request.method == 'POST':
-            giaovien = request.POST.get('giaovien')
-            lop = request.POST.get('lop')
-            ngaym = request.POST.get('ngaym')
-            ngayt = request.POST.get('ngayt')
-            tietm = request.POST.get('tietm')
-            deviceId = request.POST.get('deviceId')
-            update = request.POST.get('update')
-            id = request.session.get('id') #eeeeeeeeee
-            if update == None: # tương tự
-                if checkSLM(deviceId,tietm,ngaym):
-                    if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "" :
-                        borrowReturn = BorrowReturn(userId_id=int(id),deviceId_id=int(deviceId),muon=ngaym,tra=ngayt,lop=lop, giaovien =giaovien,tiet=tietm)
-                        borrowReturn.save()
-                        return redirect('/thietbidangduocmuon')
-            else: # nếu trường hợp cập nhật lại lịch sử lên lịch mượn
-                mt = get_object_or_404(BorrowReturn, pk=update)
-                form = mtForm(request.POST, instance=mt)
-                if form.is_valid():
-                    form.save()
-                    return redirect('/thietbidangduocmuon')
-            device = Device.objects.get(id = deviceId)
-            listT = thongBao(request)
-            return render(request, 'pages/Borrowdevice.html',{"device": device,"thongbao":listT,"userName":userName})
-        listT = thongBao(request)
-        return render(request, 'pages/BorrowDevice.html',{"thongbao":listT,"userName":userName})
-    else:
-        return redirect('/')
-def getThietBiDangDuocMuon(request):
-    if checkLogin(request):
-        checkHSD()
-        checkGioMuon()
-        userName = request.session.get('userName') #eeeeeeeeee
-        name = request.session.get('name') #eeeeeeeeee
-        rl = bool
-        role = request.session.get('role') #eeeeeeeeee
-        if role == "ADMIN":
-            rl = True
-        else:
-            rl =False
-        if request.method == 'POST':
-            mon = request.POST.get('mon')
-            xoa = request.POST.get('xoa')
-            idtra = request.POST.get('idtra')
-            search = request.POST.get('search')
-            idxoalich = request.POST.get('idxoalich')
-            if search != None and search != '': # tìm kiếm
-                search=search.upper()
-                idUser = request.session.get('id') #eeeeeeeeee
-                device = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=idUser)
-                listm=[]
-                listt=[]
-                for x in device:
-                    if "-T" in x.giaovien:
-                        if search in x.deviceId.name:
-                            listt.append(x)  
-                    else:
-                        if search in x.deviceId.name:
-                            listm.append(x)
-                listT =thongBao(request)
-                return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listm,"device2":listt,"role":rl,"name":name,"thongbao":listT})
-            if xoa != None and idtra != None: # xác nhận trả
-                device = Device.objects.get(id=xoa)
-                device.quantity = int(device.quantity)+1
-                device.save()
-                borrowReturn = BorrowReturn.objects.get(id=idtra)
-                borrowReturn.giaovien = str(borrowReturn.giaovien)+"T"
-                borrowReturn.save()
-                return redirect('/thietbidangduocmuon')
-            if idxoalich != None: # cập nhânt lại lịch sử mượn
-                mt = BorrowReturn.objects.filter(id=idxoalich)
-                return render(request, 'pages/Borrowdevice.html',{"devicemt": giosangtiet(mt)[0],"userName":userName})
-            if mon!="": # hiển thị những thiét bị lên lịch,đã trả, chưa trả
-                idUser = request.session.get('id') #eeeeeeeeee
-                device = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=idUser)
-                listm=[] #admin
-                listtruT=[] #admin-T
-                listTru=[] #admin-
-                for x in device:
-                    if "-" in x.giaovien:
-                        if mon == x.deviceId.code:
-                            if "T" in x.giaovien:
-                                listtruT.append(x)
-                            else:
-                                listTru.append(x)
-                    else:
-                        if mon == x.deviceId.code:
-                            listm.append(x)
-                listm1 =giosangtiet(listm)
-                listTru1 =giosangtiet(listTru)
-                listtruT1 =giosangtiet(listtruT)
-                listT =thongBao(request)
-                return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listTru1,"device2":listm1,"device3":listtruT1,"role":rl,"name":name,"thongbao":listT})
-        idUser = request.session.get('id') #eeeeeeeeee
-        device = BorrowReturn.objects.select_related('deviceId','userId').filter(userId=idUser)
-        listm=[] #admin
-        listtruT=[] #admin-T
-        listTru=[] #admin-
-        for x in device:# tương tự như trên
-            if "-" in x.giaovien:
-                if "T" in x.giaovien:
-                    listtruT.append(x)
-                else:
-                    listTru.append(x)
-            else:
-                listm.append(x)
-        listm1 =giosangtiet(listm)
-        listTru1 =giosangtiet(listTru)
-        listtruT1 =giosangtiet(listtruT)
-        listT = thongBao(request)
-        return render(request, 'pages/Thietbidangduocmuon.html',{"device1": listTru1,"device2":listm1,"device3":listtruT1,"role":rl,"name":name,"thongbao":listT})
-    else:
-        return redirect('/')
-def getBase(request): # lấy base maecj địch 
-    name = request.session.get('name') #eeeeeeeeee
+
+def getBase(request): # lấy base mặc định 
+    name = request.session.get('name')
     rl = bool
-    role = request.session.get('role') #eeeeeeeeee
+    role = request.session.get('role')
     if role == "ADMIN":
         rl = True
     else:

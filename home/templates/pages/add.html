@@ -2,9 +2,9 @@
 {% block title %} Add {% endblock %}
 {% block content %}
 {% if device%}
-<div class="header--home">
+<div class="header--home header--home--line">
   <div class="header__logo-section">
-       <a href="/home" style="color: #333;">
+       <a href="/admins" style="color: #333;">
       <i class="fa-solid fa-house-laptop header__logo--home"></i>
     </a>
     <span class="header__name--home">
@@ -15,6 +15,9 @@
       </span>
     </span>
   </div>
+  <a href="/admins" class="header__exit">
+    <i class="fa-solid fa-xmark"></i>
+  </a>
 </div>
 <div class="contain">
   <form method="post" action="{% url 'home:add' %}" class="content--edit">
@@ -70,12 +73,12 @@
         <input type="text" name="hansudung" id="hansudung" value="{{ device.hansudung|safe }}" placeholder="Hạn sử dụng VD: (2023-01-01),Phòng để #">
       </div>
       <input type="hidden" name="capnhat" id="capnhat" value="{{ device.id}}">
-      <button class="btn" type="submit">Cập nhật</button>
+      <button class="btn btn--green" type="submit">Cập nhật</button>
     </div>
   </form>
 </div>
 {% else %}
-  <div class="header--home">
+  <div class="header--home header--home--line">
     <div class="header__logo-section">
          <a href="/home" style="color: #333;">
       <i class="fa-solid fa-house-laptop header__logo--home"></i>
@@ -88,6 +91,9 @@
         </span>
       </span>
     </div>
+    <a href="/admins" class="header__exit">
+      <i class="fa-solid fa-xmark"></i>
+    </a>
   </div>
   <div class="contain">
     <form method="post" action="{% url 'home:add' %}" class="content--edit">
@@ -142,7 +148,7 @@
           <input type="text" name="hansudung" id="hansudung"  placeholder="Hạn sử dụng VD: (2023-01-01),Phòng để #">
         </div>
         <input type="hidden" name="userId" id="userId" value="{{id}}">
-        <button class="btn" type="submit">Thêm mới</button>
+        <button class="btn btn--green" type="submit">Thêm mới</button>
       </div>
     </form>
   </div>

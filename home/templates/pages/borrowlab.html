@@ -2,20 +2,44 @@
 {% block title %} Device {% endblock %}
 {% block content %}
 {% load static %}
-<div class="header--home">
-    <div class="header__logo-section">
-         <a href="/home" style="color: #333;">
+
+<div class="header--home header--home--line">
+  {% if devicemt %}
+  <div class="header__logo-section">
+    <a href="/home" style="color: #333;">
       <i class="fa-solid fa-house-laptop header__logo--home"></i>
     </a>
+    <span class="header__name--home">
+      Teaching Equipment Management
       <span class="header__name--home">
-        Teaching Equipment Management
-        <span class="header__name--home">
-          <i class="fa-solid fa-chevron-right"></i>
-          Mượn thiết bị
-        </span>
+        <i class="fa-solid fa-chevron-right"></i>
+        Sửa thông tin đăng ký
       </span>
-    </div>
+    </span>
   </div>
+  <a href="/thietbidangduocmuon" class="header__exit">
+    <i class="fa-solid fa-xmark"></i>
+  </a>
+  {% else %}
+  <div class="header__logo-section">
+    <a href="/home" style="color: #333;">
+      <i class="fa-solid fa-house-laptop header__logo--home"></i>
+    </a>
+    <span class="header__name--home">
+      Teaching Equipment Management
+      <span class="header__name--home">
+        <i class="fa-solid fa-chevron-right"></i>
+        Mượn phòng học
+      </span>
+    </span>
+  </div>
+  <a href="/lab" class="header__exit">
+    <i class="fa-solid fa-xmark"></i>
+  </a>
+   </div>
+ {% endif %}
+
+
   <div class="contain">
     {% if devicemt %}
     <form method="post" action="{% url 'home:borrowlab' %}" class="content--edit">
@@ -57,7 +81,7 @@
           <input type="hidden" name="deviceId" id="deviceId" value="{{ devicemt.deviceId.id|safe }}">
           <input type="hidden" name="userId" id="userId" value="{{ devicemt.userId.id|safe }}">
         </div>
-        <button class="btn" type="submit">Mượn</button>
+        <button class="btn btn--green" type="submit">Mượn</button>
       </div>
     </form>
 
@@ -98,7 +122,7 @@
           </select>
           <input type="hidden" name="deviceId" id="deviceId" value="{{ device.id|safe }}">
         </div>
-        <button class="btn" type="submit">Mượn</button>
+        <button class="btn btn--green" type="submit">Mượn</button>
       </div>
     </form>
    {% endif %}

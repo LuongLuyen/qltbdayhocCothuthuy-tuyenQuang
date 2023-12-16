@@ -17,6 +17,21 @@
 	background-color: #f6f7fb;
 }
 
+.header--home .header__exit{
+	line-height: 45px;
+    font-size: 30px;
+	color: #37a0f0;
+}
+
+.header--home .header__exit:hover{
+	color: red;
+}
+
+.header--home--line{
+	border-bottom-color: #02fd01;
+    border-block-width: 4px;
+}
+
 .header__logo-section{
 	display: flex;
 	font-size: 20px;
