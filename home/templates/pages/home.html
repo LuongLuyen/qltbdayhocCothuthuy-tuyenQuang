@@ -180,7 +180,6 @@
         <tr>
           <th>Tên thiết bị</th>
           <th>Bộ môn</th>
-          <th>Còn</th>
           <th>Đơn vị</th>
           <th>Đăng ký mượn thiết bị</th>
         </tr>
@@ -188,13 +187,16 @@
 
       <tbody>
         {% for device in device0 %}
-        <tr class="invalid">
+        <tr class="valid">
           <td class="table__name">{{device.name}}</td>
           <td>{{device.mon}}</td>
-          <td>{{device.quantity}}</td>
           <td>{{device.unit}}</td>
           <td>
-              <button type="text" class="invalid__btn">Hết</button> 
+            <form method="post" action="{% url 'home:home' %}">
+              {% csrf_token %}
+              <input type="hidden" name="deviceId" id="deviceId" value="{{device.id}}">
+                <button type="submit">Đăng ký</button> 
+            </form>
           </td>
         </tr>
         {% endfor %}
@@ -202,7 +204,6 @@
         <tr class="valid">
           <td class="table__name">{{device.name}}</td>
           <td>{{device.mon}}</td>
-          <td>{{device.quantity}}</td>
           <td>{{device.unit}}</td>
           <td>
             <form method="post" action="{% url 'home:home' %}">
