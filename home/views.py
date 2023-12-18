@@ -107,6 +107,7 @@ def checkHSD(): # kiểm tra hạn sử dụng
         if(hsd < dateNow or hsd == dateNow):
             x.status = 'Hết hạn'
             x.save() # lặp qua mảng trên kiểm tra cái nào đã quá hạn set nó = Hết hạn
+
 def checkGioMuon(): 
     borrowReturn = BorrowReturn.objects.all() #lấy ra bảng lsm ds các thiết bị đã đc đky
     listls=[] #tạo ds mới  những thiết bị mượn ngay hôm đó
@@ -115,7 +116,7 @@ def checkGioMuon():
             non=0
         else:
             dateNow =str(timeVietnam("dmy")) #lấy giờ thực tế
-            # dateNow = "2023-12-13" # check theo test
+            dateNow = "2023-12-01" # test thời gian
             if dateNow in x.muon:
                 listls.append(x) # thêm vào
     for x in listls:
@@ -123,9 +124,9 @@ def checkGioMuon():
         input_time = datetime.strptime(input_time_string, "%H:%M:%S")
         result_time = input_time - timedelta(minutes=45)
         result_time_string = result_time.strftime("%H:%M:%S")
-        T= str(x.muon) + " "+ result_time_string #2023-11-30 07:15:00 -> 2023-11-30 08:00:00
+        T= str(x.muon) + " "+ result_time_string #2023-11-30 08:00:00  2023-11-30 07:15:00
         dateNow =str(timeVietnam("no"))
-        # dateNow = "2023-12-13 09a:20:00" # check theo test
+        dateNow = "2023-12-01 07:20:00" # test thời gian
         if T== dateNow or dateNow>T or dateNow< x.tiet:
             device = Device.objects.get(id=x.deviceId_id)
             mt= BorrowReturn.objects.get(id=x.id)
@@ -135,22 +136,38 @@ def checkGioMuon():
             device.quantity=int(device.quantity) -1
             device.save() # thõa mãn giờ bắt đầu thì trừ thiết bị trong kho lưu lại
 
-
-
 def checkSLM(deviceId,tietm,ngaym): #lấy lúc mình bấm mượn
-    dateNow = ngaym
+    dateNow =str(timeVietnam("no"))
+    dateNow = "2023-12-01 07:20:00" #test thời gian
+    input_time_string = tietm
+    input_time = datetime.strptime(input_time_string, "%H:%M:%S")
+    result_time = input_time - timedelta(minutes=45)
+    result_time_string = result_time.strftime("%H:%M:%S")
+    T= str(ngaym) + " "+ result_time_string #  
+    if T < dateNow:
+        return False
     device =Device.objects.get(id=deviceId)
     mt =BorrowReturn.objects.filter(deviceId=deviceId) 
     slDaMuon =0
     slk = int(device.quantity)
+    cnt = 1
+    slkbd = int(device.quantity)
+    borrowReturn = BorrowReturn.objects.all() #lấy ra bảng lsm ds các thiết bị đã đc đky
+    listls=[] #tạo ds mới  những thiết bị mượn ngay hôm đó
     for x in mt:
-        if "-" in x.giaovien:
+        if "T" in x.giaovien:
             non=0
         else:
-            if dateNow in x.muon:
-               if tietm in x.tiet:
-                   slDaMuon=slDaMuon+1
-    if slk > slDaMuon: # số lượng vượt quá trong kho không cho họ mượn nữa
+            if "-" in x.giaovien:
+                slkbd = int(slkbd) + 1
+            datedky= ngaym + " " + tietm
+            datex = x.muon + " " + x.tiet
+            print("datedky:",datedky, " datex:", datex)
+            if datedky == datex :
+                cnt = int(cnt) + 1
+    print(dateNow, T)
+    print(cnt, slkbd, device.quantity)
+    if cnt <= slkbd:
         return True
     else:
         return False
@@ -492,7 +509,7 @@ def getLab(request):
         listDeviceKt =[]
         listDevice0 =[]
         for x in device: # lặp qua xem nó ở tầng nào
-            if x.unit =="phòng" and x.quantity != "0":
+            if x.unit =="phòng":
                 if "T1" in x.code :
                     listDevice1.append(x)
                 if "T2" in x.code :
@@ -555,18 +572,24 @@ def getBorrowDevice(request):
             deviceId = request.POST.get('deviceId')
             update = request.POST.get('update')
             id = request.session.get('id') #eeeeeeeeee
-            if update == None: # tương tự
+            print(str(ngaym), str(tietm))
+
+            if update == None: # them moi
                 if checkSLM(deviceId,tietm,ngaym):
-                    if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "" :
+                    if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "":
+                        # print(ngaym, tietm)
                         borrowReturn = BorrowReturn(userId_id=int(id),deviceId_id=int(deviceId),muon=ngaym,tra=ngayt,lop=lop, giaovien =giaovien,tiet=tietm)
                         borrowReturn.save()
                         return redirect('/thietbidangduocmuon')
             else: # nếu trường hợp cập nhật lại lịch sử lên lịch mượn
                 mt = get_object_or_404(BorrowReturn, pk=update)
                 form = mtForm(request.POST, instance=mt)
-                if form.is_valid():
+                if checkSLM(deviceId,form.data['tiet'],form.data['muon']):
                     form.save()
                     return redirect('/thietbidangduocmuon')
+                else:
+                    mt = BorrowReturn.objects.filter(id=update)
+                    return render(request, 'pages/Borrowdevice.html',{"devicemt": giosangtiet(mt)[0],"userName":userName})
             device = Device.objects.get(id = deviceId)
             listT = thongBao(request)
             return render(request, 'pages/Borrowdevice.html',{"device": device,"thongbao":listT,"userName":userName})
@@ -620,7 +643,7 @@ def getThietBiDangDuocMuon(request):
                 borrowReturn.giaovien = str(borrowReturn.giaovien)+"T"
                 borrowReturn.save()
                 return redirect('/thietbidangduocmuon')
-            if idxoalich != None: # cập nhânt lại lịch sử mượn
+            if idxoalich != None: # cập nhật lại lịch sử mượn
                 mt = BorrowReturn.objects.filter(id=idxoalich)
                 return render(request, 'pages/Borrowdevice.html',{"devicemt": giosangtiet(mt)[0],"userName":userName})
             if mon!="": # hiển thị những thiét bị lên lịch,đã trả, chưa trả
