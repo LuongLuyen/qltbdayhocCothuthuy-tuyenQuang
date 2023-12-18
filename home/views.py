@@ -572,19 +572,24 @@ def getBorrowDevice(request):
             deviceId = request.POST.get('deviceId')
             update = request.POST.get('update')
             id = request.session.get('id') #eeeeeeeeee
-            if update == None: # tương tự
+            print(str(ngaym), str(tietm))
+
+            if update == None: # them moi
                 if checkSLM(deviceId,tietm,ngaym):
                     if giaovien != "" and lop != "" and ngaym != "" and ngayt !="" and tietm != "" and deviceId != "":
+                        # print(ngaym, tietm)
                         borrowReturn = BorrowReturn(userId_id=int(id),deviceId_id=int(deviceId),muon=ngaym,tra=ngayt,lop=lop, giaovien =giaovien,tiet=tietm)
                         borrowReturn.save()
                         return redirect('/thietbidangduocmuon')
             else: # nếu trường hợp cập nhật lại lịch sử lên lịch mượn
                 mt = get_object_or_404(BorrowReturn, pk=update)
                 form = mtForm(request.POST, instance=mt)
-                # print(muon, tiet)
-                if form.is_valid():
+                if checkSLM(deviceId,form.data['tiet'],form.data['muon']):
                     form.save()
                     return redirect('/thietbidangduocmuon')
+                else:
+                    mt = BorrowReturn.objects.filter(id=update)
+                    return render(request, 'pages/Borrowdevice.html',{"devicemt": giosangtiet(mt)[0],"userName":userName})
             device = Device.objects.get(id = deviceId)
             listT = thongBao(request)
             return render(request, 'pages/Borrowdevice.html',{"device": device,"thongbao":listT,"userName":userName})
