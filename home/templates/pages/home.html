@@ -52,6 +52,11 @@
             <input type="hidden" name="out" id="out" value="out">
             <button type="submit">Đăng xuất</button> 
           </form>
+          <form method="post" action="{% url 'home:login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="xtk" id="xtk" value="{{id}}">
+            <button type="submit">Xóa Tài khoản</button> 
+          </form>
         </li>
       </ul>
     </div>
