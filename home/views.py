@@ -116,7 +116,7 @@ def checkGioMuon():
             non=0
         else:
             dateNow =str(timeVietnam("dmy")) #lấy giờ thực tế
-            dateNow = "2023-12-02" # test thời gian timetest
+            # dateNow = "2023-12-02" # test thời gian timetest
             if dateNow in x.muon:
                 listls.append(x) # thêm vào
     for x in listls:
