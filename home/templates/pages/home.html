@@ -52,6 +52,11 @@
             <input type="hidden" name="out" id="out" value="out">
             <button type="submit">Đăng xuất</button> 
           </form>
+          <form method="post" action="{% url 'home:login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="xtk" id="xtk" value="{{id}}">
+            <button type="submit">Xóa Tài khoản</button> 
+          </form>
         </li>
       </ul>
     </div>
@@ -196,7 +201,11 @@
             <form method="post" action="{% url 'home:home' %}">
               {% csrf_token %}
               <input type="hidden" name="deviceId" id="deviceId" value="{{device.id}}">
+<<<<<<< HEAD
                 <button type="submit ">Đăng ký</button> 
+=======
+                <button type="submit">Đăng ký</button> 
+>>>>>>> 12cf3922881b30c9887a3952878cdee59ea15f42
             </form>
           </td>
         </tr>
