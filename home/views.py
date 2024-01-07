@@ -116,13 +116,8 @@ def checkGioMuon():
             non=0
         else:
             dateNow =str(timeVietnam("dmy")) #lấy giờ thực tế
-<<<<<<< HEAD
             dateNow = "2023-12-04" # test thời gian timetest
             if dateNow > x.muon or dateNow == x.muon:
-=======
-            # dateNow = "2023-12-02" # test thời gian timetest
-            if dateNow in x.muon:
->>>>>>> 12cf3922881b30c9887a3952878cdee59ea15f42
                 listls.append(x) # thêm vào
     for x in listls:
         input_time_string = x.tiet
@@ -131,13 +126,8 @@ def checkGioMuon():
         result_time_string = result_time.strftime("%H:%M:%S")
         T= str(x.muon) + " "+ result_time_string #2023-11-30 08:00:00  2023-11-30 07:15:00
         dateNow =str(timeVietnam("no"))
-<<<<<<< HEAD
         dateNow = "2023-12-04 07:20:00" # test thời gian timetest
         if T== dateNow or T<dateNow or dateNow>result_time:
-=======
-        # dateNow = "2023-12-02 09:20:00" # test thời gian timetest
-        if T== dateNow or dateNow>T or dateNow< x.tiet:
->>>>>>> 12cf3922881b30c9887a3952878cdee59ea15f42
             device = Device.objects.get(id=x.deviceId_id)
             mt= BorrowReturn.objects.get(id=x.id)
             mt.giaovien = mt.giaovien + "-"
@@ -166,13 +156,11 @@ def checkGioMuon():
                     device.save()
                     print(mt.giaovien)
 
+
+
 def checkSLM(deviceId,tietm,ngaym): #lấy lúc mình bấm mượn
     dateNow =str(timeVietnam("no"))
-<<<<<<< HEAD
     dateNow = "2023-12-04 07:20:00" #test thời gian timetest
-=======
-    # dateNow = "2023-12-02 09:20:00" #test thời gian timetest
->>>>>>> 12cf3922881b30c9887a3952878cdee59ea15f42
     input_time_string = tietm
     input_time = datetime.strptime(input_time_string, "%H:%M:%S")
     result_time = input_time - timedelta(minutes=45)
