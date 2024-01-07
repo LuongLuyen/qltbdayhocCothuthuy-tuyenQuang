@@ -93,7 +93,7 @@
     <li class="sidebar__item">
       <a href="/admins" class="sidebar__link sidebar__link--selected">
         <i class="fa-solid fa-pen-to-square"></i>
-        <span class="">Quản lý chung (QTV)</span>
+        <span class="">Quản lí chung (QTV)</span>
       </a>
     </li>
     <li class="sidebar__item">
@@ -151,7 +151,7 @@
         {% csrf_token %}
         <span style="min-width:fit-content; align-self: center; margin-right: 42px">Tìm kiếm thiết bị:</span>
         <input class="search_input" type="search" name="search" value="" placeholder="Tìm kiếm thiết bị theo tên">
-        <button class="search_icon" type="submit">
+        <button class="search_icon sort__btn" type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>
@@ -171,9 +171,10 @@
         <option value="sinhhoc">Sinh Học</option>
         <option value="hoahoc">Hóa Học</option>
         <option value="theduc">Thể Dục</option>
+        <option value="tinhoc">Tin Học</option>
         <option value="hsd">Các thiết bị đã hết Hạn</option>
       </select>
-        <button type="submit">Lọc</button> 
+        <button type="submit" class="soft__btn">Lọc</button> 
     </form>
     
     <div class="content__device--admin">

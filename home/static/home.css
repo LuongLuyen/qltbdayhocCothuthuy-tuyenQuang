@@ -360,6 +360,7 @@
 }
 
 .search_section button{
+	background-color: #f7f76b;
     padding: 14px;
     border-radius: 50%;
     align-self: center;
@@ -414,6 +415,7 @@
 }
 
 .contetn__soft__option--home button{
+	background-color: #f7f76b;
 	width: 50px;
 	padding: 4px;
 }
@@ -511,4 +513,8 @@
 	background-color: red!important;
 	color: #fff!important;
 	cursor: not-allowed!important;
+}
+
+.soft__btn{
+	background-color: #f7f74a;
 }

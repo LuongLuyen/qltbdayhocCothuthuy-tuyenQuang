@@ -1,12 +1,16 @@
 install python 3.9.10
-python manage.py runserver (noi bo)
-python manage.py runserver 0.0.0.0:8000  đồng ý tất cả 
+python manage.py runserver (dev)
+python3 manage.py runserver 0.0.0.0:8000  đồng ý tất cả 
 "lưu ý: không đăng nhập 2 tài khoản trên cùng một trình duyệt đối với máy chủ, (máy chủ chỉ chạy không đăng nhập web)"
 
 pip install django
 pip install mysqlclient
 pip install pytz // gio vietnam
 pip install openpyxl // xuat file excel
+lưu ý
+python3
+sudo apt-get install python3-dev default-libmysqlclient-dev build-essential pkg-config
+pip install mysqlclient
 
 debuger form print(form.data) check fields object
 
@@ -31,3 +35,6 @@ ipconfig
 Wireless LAN adapter Wi-Fi:
 IPv4 Address. . . . . . . . . . . : 192.168.1.8 
 trình duyệt: IPv4:port
+
+ssh -i "ec2-luyen.pem" ubuntu@ec2-18-117-10-190.us-east-2.compute.amazonaws.com
+pkill -f 8000

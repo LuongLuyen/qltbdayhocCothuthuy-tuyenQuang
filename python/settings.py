@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'qltb',
         'USER': 'root',
-        'PASSWORD': '01658562466ls',
+        'PASSWORD': 'luyen123',
         'HOST': 'localhost',  
         'PORT': '3306',   
     }
