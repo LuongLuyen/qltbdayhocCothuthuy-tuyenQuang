@@ -1,7 +1,7 @@
 from django import forms
 from .models import User,Device,BorrowReturn
 
-class UserForm(forms.ModelForm): # chuyển form sang model tương ứng
+class UserForm(forms.ModelForm): 
     class Meta:
         model = User
         fields = ['userName', 'password','name', 'role']

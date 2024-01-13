@@ -4,8 +4,8 @@
 {% load static %}
 <div class="header--home">
   <div class="header__logo-section">
-       <a href="/home" style="color: #333;">
-      <i class="fa-solid fa-house-laptop header__logo--home"></i>
+    <a href="/home" style="color: #333;" class="header__logo--home">
+      <img src="{% static 'logo_nvh.png' %}" alt="logo_nvh" class="header__logo--home">
     </a>
     <span class="header__name--home">Teaching Equipment Management</span>
   </div>
@@ -51,11 +51,6 @@
             {% csrf_token %}
             <input type="hidden" name="out" id="out">
             <button type="submit">Đăng xuất</button> 
-          </form>
-          <form method="post" action="{% url 'home:login' %}">
-            {% csrf_token %}
-            <input type="hidden" name="xtk" id="xtk" value="{{id}}">
-            <button type="submit">Xóa Tài khoản</button> 
           </form>
         </li>
       </ul>
@@ -121,12 +116,6 @@
       <a href="/lab" class="sidebar__link sidebar__link--selected">
         <i class="fa-solid fa-house-chimney-user "></i>
         <span class="">Phòng bộ môn</span>
-      </a>
-    </li>
-    <li class="sidebar__item">
-      <a href="/thongke" class="sidebar__link">
-        <i class="fa-solid fa-table-list"></i>
-        <span class="">Thống kê & báo cáo</span>
       </a>
     </li>
   </ul>

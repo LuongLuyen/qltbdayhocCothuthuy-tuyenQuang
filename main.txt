@@ -38,3 +38,4 @@ trình duyệt: IPv4:port
 
 ssh -i "ec2-luyen.pem" ubuntu@ec2-18-117-10-190.us-east-2.compute.amazonaws.com
 pkill -f 8000
+ALLOWED_HOSTS = ['*']

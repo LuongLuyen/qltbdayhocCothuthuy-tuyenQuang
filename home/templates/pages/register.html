@@ -19,17 +19,17 @@
             <span>trong nhà trường</span>
           </p>
         </div>
-        <form action="{% url 'home:register' %}" method="post"  class="signIn">
-          {% csrf_token %}
+          <form action="{% url 'home:register' %}" method="post" class="signIn">
+            {% csrf_token %}
           <span class="signIn-header">Đăng ký</span>
           <input type="text" name="userName" id="userName" class="signIn-name input-form" placeholder="Số điện thoại/Email" required title="Vui lòng nhập tên đăng nhập">
-          <input type="password" name="password" id="password" class="signIn-pass input-form" placeholder="Chọn mật khẩu" required title="Vui lòng nhập mật khẩu">
-          <input type="password"  class="signIn-pass input-form" placeholder="Điền lại mật khẩu" required title="Vui lòng nhập mật khẩu">
+          <input type="password" name="password" id="password" class="signIn-pass input-form" placeholder="Chọn mật khẩu" required title="Vui lòng nhập mật khẩu" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?])[a-zA-Z0-9!@#$%^&*?]{8,}$" oninvalid="this.setCustomValidity('Đảm bảo mật khẩu có đủ chữ thường, chữ hoa, chữ số, ký tự đặc biệt và có ít nhất 8 ký tự')" oninput="this.setCustomValidity('')">
+          <input type="password" name = "l" id="l" class="signIn-pass input-form" placeholder="Điền lại mật khẩu" required title="Vui lòng nhập mật khẩu" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?])[a-zA-Z0-9!@#$%^&*?]{8,}$" oninvalid="this.setCustomValidity('Đảm bảo mật khẩu có đủ chữ thường, chữ hoa, chữ số, ký tự đặc biệt và có ít nhất 8 ký tự')" oninput="this.setCustomValidity('')">
           <input type="text" name="name" id="name" class="signIn-pass input-form" placeholder="Nhập họ và tên" required title="Vui lòng nhập họ và tên">
           <select name="role" id="role" class="signIn-select input-form">
             <option value="">--- Bạn là? ---</option>
             <option value="ADMIN">Nhân viên quản lí thiết bị</option>
-            <option value="USER">Giáo viên giảng dạy</option>
+            <option value="USER">Người dùng cơ bản</option>
           </select>
           <button type="submit" class="signIn-button btn">Đăng ký</button>
           <div class="sprit-line">
@@ -42,5 +42,13 @@
           </a>
         </form>
       </div>		
+    </div>
+    <div class="bqw">
+      <div class="bq">Copyright © 2024 THPT Nguyễn Văn Huyên</div>
+      <input type="hidden" name="bq" id="bq" value="bq"/>
+      <div class="bq">Tổ 9, phường An Tường, TP. Tuyên Quang, tỉnh Tuyên Quang</div>
+      <a class="bq" href="https://github.com/LuongLuyen">
+        <div>Design by Luyen & Hai</div>
+      </a>
     </div>
 {% endblock %}
