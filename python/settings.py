@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'python.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'qltb',
+        'NAME': 'qltbp',
         'USER': 'root',
         'PASSWORD': 'luyen123',
         'HOST': 'localhost',  

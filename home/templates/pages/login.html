@@ -1,6 +1,7 @@
 {% extends "pages/base.html" %}
 {% block title %} Login {% endblock %}
 {% block content %}
+{% load static %}
   <!-- signIn -->
   <div class="header">
     <div class="header__logo-section">
@@ -12,7 +13,7 @@
   <div class="content">
     <div class="content-max-width">
       <div class="slogan">
-        <i class="fa-solid fa-house-laptop slogan__icon"></i>
+        <img src="{% static 'logo_nvh.png' %}" alt="logo_nvh" style="width: 100%; ">
         <span class="slogan__name">Teaching Equipment Management</span>
         <p class="slogan__text">
           <span>Website quản lí Thiết bị dạy học</span> 
