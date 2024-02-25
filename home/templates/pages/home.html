@@ -182,7 +182,7 @@
 
       <tbody>
         {% for device in device0 %}
-        <tr class="valid">
+        <tr class="valid" style="background-color: #f14848;">
           <td class="table__name">{{device.name}}</td>
           <td>{{device.mon}}</td>
           <td>{{device.unit}}</td>
@@ -190,7 +190,7 @@
             <form method="post" action="{% url 'home:home' %}">
               {% csrf_token %}
               <input type="hidden" name="deviceId" id="deviceId" value="{{device.id}}">
-                <button type="submit ">Đăng ký</button> 
+                <button type="submit ">Đăng ký (Hết)</button> 
             </form>
           </td>
         </tr>
